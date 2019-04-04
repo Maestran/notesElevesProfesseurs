@@ -14,6 +14,7 @@ public class Main {
         e2.add(eval2);
         System.out.println(e2.getId());
         e2.calculMedianne();
+        System.out.print(156);//test
         //System.out.println(e2.getCorrecteurs());
     }
 }
