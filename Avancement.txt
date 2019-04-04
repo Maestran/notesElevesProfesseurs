@@ -1,0 +1,22 @@
+Question 1:
+- FAIT 
+Question 2: 
+- FAIT
+Question 3:
+- FAIT
+Question 4 :
+- Manque le hashset
+Question 5 : 
+ -Fait mais conteneur generique a verifier 
+Question 6 : 
+ - En continuation par Francois
+Question 7 : 
+- Plus ou moins fait par francois (A modifier un peu dans le code)
+
+
+Question 8:
+- A FAIRE
+Question 9:
+- A FAIRE
+Question 10;
+- A FAIRE
