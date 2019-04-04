@@ -1,9 +1,9 @@
 package notesElevesProfesseurs;
 
-public class Matière {
+public class Matiere {
     private String nom;
-    public Matière(){};
-    public Matière(String n){
+    public Matiere(){};
+    public Matiere(String n){
         this.nom = n;
     }
 

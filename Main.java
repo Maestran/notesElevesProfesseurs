@@ -7,7 +7,7 @@ public class Main {
         Professeur p = new Professeur();
         p.setNom("nn");
         p.setPrenom("dd");
-        Matière math = new Matière("maths");
+        Matiere math = new Matiere("maths");
         Evaluation eval = new Evaluation(12,math,e2,p);
         e2.add(eval);
         Evaluation eval2 = new Evaluation(14,math,e2,p);

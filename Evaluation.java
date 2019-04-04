@@ -5,13 +5,13 @@ import java.util.HashSet;
 
 public class Evaluation implements Comparable<Evaluation>{
     private float note;
-    private Matière mat = new Matière();
+    private Matiere mat = new Matiere();
     private Eleve eleve = new Eleve();
     private Professeur prof = new Professeur();
 
     public Evaluation(){};
 
-    public Evaluation(float n, Matière m, Eleve e, Professeur p){
+    public Evaluation(float n, Matiere m, Eleve e, Professeur p){
         this.note = n;
         this.mat = m;
         this.eleve = e;
@@ -31,7 +31,7 @@ public class Evaluation implements Comparable<Evaluation>{
         return note;
     }
 
-    public Matière getMat() {
+    public Matiere getMat() {
         return mat;
     }
 
@@ -47,7 +47,7 @@ public class Evaluation implements Comparable<Evaluation>{
         this.note = note;
     }
 
-    public void setMat(Matière mat) {
+    public void setMat(Matiere mat) {
         this.mat = mat;
     }
 
