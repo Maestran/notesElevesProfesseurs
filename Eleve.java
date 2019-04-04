@@ -14,9 +14,7 @@ public class Eleve extends Personne implements Iterable<Evaluation> {
     private Promotion promotion;
     
 
-    public Eleve() {
-        
-    
+    public Eleve() {    
         this.id = this.registre;
         this.evaluations = new ArrayList<Evaluation>(NB_EVALUATION);
         this.registre++;
@@ -28,11 +26,16 @@ public class Eleve extends Personne implements Iterable<Evaluation> {
         this.setNom(nom);
         this.naissance = new Date(annee,mois,jour);
 
-
         this.id = this.registre;
         this.evaluations = new ArrayList<>(NB_EVALUATION);
         this.registre++;
     }
+    
+        public Eleve(String prenom, String nom, int annee, int mois, int jour, Promotion promo){
+            this( prenom,  nom,  annee,  mois,  jour);
+            this.promotion = promo;
+    }
+
 
     @Override
     public Iterator<Evaluation> iterator() {
@@ -85,7 +88,7 @@ public class Eleve extends Personne implements Iterable<Evaluation> {
     @Override
     public String toString()
     {
-        return "( ID : " + this.getId()+ "|"+this.getNom()+", "+this.getPrenom()+")";
+        return "( ID : " + this.getId()+ "|"+this.getNom()+", "+this.getPrenom()+", Promotion : "+ this.getPromotion().getNom()+")";
     }
 
     /**
@@ -104,5 +107,17 @@ public class Eleve extends Personne implements Iterable<Evaluation> {
         }
         return s;
 
+    }
+
+    /**
+     * @return the promotion
+     */
+    public Promotion getPromotion() {
+        return promotion;
+    }
+    
+    public void setPromotion(Promotion p)
+    {
+        promotion = p;
     }
 }

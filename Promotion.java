@@ -7,10 +7,16 @@ public class Promotion {
         
     private String nom;
     private ArrayList<Eleve> eleves;
-    public Promotion(    ArrayList<Eleve> eleves)
+    public Promotion(String nom)
     {
-        this.eleves = eleves;
+       this.nom = nom;
     }
+    
+    public void AjouterEleve(Eleve e) {
+        eleves.add(e);
+        e.setPromotion(this);
+    }
+
     
     Eleve RechercherEleve(int identifiant)
     {
