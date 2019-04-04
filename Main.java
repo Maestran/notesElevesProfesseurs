@@ -13,8 +13,14 @@ public class Main {
         Evaluation eval2 = new Evaluation(14,math,e2,p);
         e2.add(eval2);
         System.out.println(e2.getId());
+
         e2.calculMedianne();
+        
+        Promotion promo = new Promotion("2021");
+        promo.ajouterEleve(e2);
         System.out.print(156);//test
+        
+        p.setNote(e2.getPromotion(), e2.getId(), 0, 0);
         //System.out.println(e2.getCorrecteurs());
     }
 }

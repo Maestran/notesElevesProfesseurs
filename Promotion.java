@@ -6,13 +6,13 @@ public class Promotion {
 
         
     private String nom;
-    private ArrayList<Eleve> eleves;
+    private ArrayList<Eleve> eleves= new ArrayList<>();
     public Promotion(String nom)
     {
        this.nom = nom;
     }
     
-    public void AjouterEleve(Eleve e) {
+    public void ajouterEleve(Eleve e) {
         eleves.add(e);
         e.setPromotion(this);
     }
