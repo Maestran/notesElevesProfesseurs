@@ -1,9 +1,6 @@
 package notesElevesProfesseurs;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Eleve extends Personne implements Iterable<Evaluation> {
     private static int registre = 1;
@@ -50,24 +47,24 @@ public class Eleve extends Personne implements Iterable<Evaluation> {
         }
     }
 
-    public void calculMoyenne() {
+    public String calculMoyenne() {
         float result = 0;
 
         for (int i = 0; i < evaluations.size(); i++) {
             result += evaluations.get(i).getNote();
         }
-        System.out.println("Votre moyenne est de : " + result / evaluations.size());
+        return "Moyenne =" + result / evaluations.size();
 
     }
 
-    public void calculMedianne() {
+    public String calculMedianne() {
         this.triNote();
         float result = 0;
           if (evaluations.size() % 2 == 0) {
             result = evaluations.get((int) (evaluations.size() / 2)).getNote() + evaluations.get((int) (evaluations.size() / 2) - 1).getNote();
-            System.out.println("Medianne = " + result / 2);
+            return "Mediane = " + result / 2;
         } else {
-            System.out.println("Medianne = " + evaluations.get((int) (evaluations.size() / 2)).getNote());
+            return "Mediane = " + evaluations.get((int) (evaluations.size() / 2)).getNote();
         }
     }
 
@@ -76,19 +73,30 @@ public class Eleve extends Personne implements Iterable<Evaluation> {
 
     }
 
-    public String getCorrecteurs() {
-        return "f";
+    public Set<Professeur> getCorrecteurs()
+
+    {
+        HashSet<Professeur> h = new HashSet<Professeur>();
+        for (int i = 0; i < evaluations.size(); i++){
+            h.add(evaluations.get(i).getProf());
+        }
+        return h;
     }
 
     public int getId() {
         return id;
     }
 
-    
+
     @Override
     public String toString()
     {
-        return "( ID : " + this.getId()+ "|"+this.getNom()+", "+this.getPrenom()+", Promotion : "+ this.getPromotion().getNom()+")";
+        String s = super.toString()+"id: " + this.getId()+"\n" +  this.getPromotion().getNom()+"\n";
+        s+= this.affNotes()+"\n";
+        s+= this.calculMoyenne()+"\n";
+        s+= this.calculMedianne()+"\n";
+        s+= "Correcteur(s): "+this.getCorrecteurs()+"\n";
+        return s;
     }
 
     /**
@@ -99,11 +107,10 @@ public class Eleve extends Personne implements Iterable<Evaluation> {
 
     }
     
-    public String affnotes() {
-        String s = "Affichage notes\n";
+    public String affNotes() {
+        String s = "notes: ";
         for (int i = 0; i < evaluations.size(); i++) {
-            s += evaluations.get(i).toString();
-            s += "\n";
+            s += evaluations.get(i).getMat().getNom()+" "+evaluations.get(i).getNote()+" ";
         }
         return s;
 
