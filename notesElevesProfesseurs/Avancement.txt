@@ -1,0 +1,40 @@
+-------------------- Version 1 ------------------------
+
+Question 1:
+- FAIT 
+Question 2: 
+- FAIT
+Question 3:
+- FAIT
+Question 4 :
+- Manque le hashset
+Question 5 : 
+ -FAIT 
+Question 6 : 
+ - En continuation par Francois 
+Question 7 : 
+- Plus ou moins fait par francois (A modifier un peu dans le code)
+Question 8:
+- FAIT
+Question 9:
+- FAIT
+Question 10;
+- FAIT
+
+-------------------- Version 2 ------------------------
+
+                     Avancement     Message
+Système de fichiers   OK
+Bases de l'affichage  OK
+Tri                   BASIQUE        Il manque des options de Tri
+Modif Notes           RIEN
+
+
+Les deux fichiers CSV ci-dessous se trouvent dans le dossier data: 
+FICHIER 1  : Résultats élèves.csv
+FICHIER 2  : élèves.csv
+
+INSTALLATION : 
+1) créer un dossier "data" dans le dossier principal 
+2) déplacer les deux fichiers csv dedans
+3) lancer le programme, il va automatiquement charger les fichiers (voir Main)
