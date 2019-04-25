@@ -34,17 +34,17 @@ Question 10;
 
 -------------------- Version 2 ------------------------
 
-                     Avancement     Message
+                     Avancement     Message                              Assigné
 Système de fichiers   OK
 Bases de l'affichage  OK
-Tri                   BASIQUE        Il manque des options de Tri
-Modif Notes           RIEN
-
+Tri                   BASIQUE        Il manque des options de Tri        Nicolas
+Modif Notes           RIEN                                               François
+Ajout/Suppr Eleve     RIEN                                               //
+Ajout/Suppr Note      RIEN                                               //
 
 Les deux fichiers CSV ci-dessous se trouvent dans le dossier data: 
 FICHIER 1  : Résultats élèves.csv
 FICHIER 2  : élèves.csv
-
 
 ------------------- Version 3 -----------------------------
 
