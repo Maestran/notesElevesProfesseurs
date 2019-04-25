@@ -39,7 +39,7 @@ Système de fichiers   OK
 Bases de l'affichage  OK
 Tri                   BASIQUE        Il manque des options de Tri        Nicolas
 Login & Modif Notes   RIEN                                               François
-Ajout/Suppr Eleve     RIEN                                               //
+Ajout/Suppr Eleve     OK                                                 //
 Ajout/Suppr Note      RIEN                                               //
 
 Les deux fichiers CSV ci-dessous se trouvent dans le dossier data: 
