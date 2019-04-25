@@ -7,7 +7,7 @@ Question 2:
 Question 3:
 - FAIT
 Question 4 :
-- Manque le hashset
+- FAIT
 Question 5 : 
  -FAIT 
 Question 6 : 
