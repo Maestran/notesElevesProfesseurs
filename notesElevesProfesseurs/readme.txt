@@ -38,9 +38,9 @@ Question 10;
 Système de fichiers   OK
 Bases de l'affichage  OK
 Tri                   BASIQUE        Il manque des options de Tri        Nicolas
-Login & Modif Notes   RIEN                                               François
+Login & Modif Notes   OK modif notes                                     François
 Ajout/Suppr Eleve     OK                                                 //
-Ajout/Suppr Note      RIEN                                               //
+Ajout/Suppr Note      OK                                                 //
 Editer Eleve          OK                                                 //
 
 Les deux fichiers CSV ci-dessous se trouvent dans le dossier data: 
