@@ -41,6 +41,7 @@ Tri                   BASIQUE        Il manque des options de Tri        Nicolas
 Login & Modif Notes   RIEN                                               François
 Ajout/Suppr Eleve     OK                                                 //
 Ajout/Suppr Note      RIEN                                               //
+Editer Eleve          RIEN                                               //
 
 Les deux fichiers CSV ci-dessous se trouvent dans le dossier data: 
 FICHIER 1  : Résultats élèves.csv
