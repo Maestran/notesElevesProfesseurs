@@ -6,32 +6,13 @@ import java.util.HashSet;
 public class Professeur extends Personne 
 {
 
-    /**
-     * @return the listeProfesseurs
-     */
-    public static HashSet<Professeur> getListeProfesseurs() {
-        return listeProfesseurs;
-    }
-
     private static HashSet<Professeur> listeProfesseurs = new HashSet<>();
+    
+    public Professeur() {}
     public Professeur(String prenom, String nom) 
     {
         setPrenom(prenom);
         setNom(nom);
-    }
-
-    public Professeur() {}
-
-    public static Professeur trouverProfesseur(String nom, String prenom)
-    {
-        System.out.println("Recherche : " + prenom + " " + nom);
-        HashSet<Professeur> profs = getListeProfesseurs();
-        for(Professeur p : profs )
-        {
-            if(p.getNom().equals(nom) && p.getPrenom().equals(prenom))
-            return p;
-        }
-        return null;
     }
 
      Eleve Rechercher(Promotion promo, int identifiantEleve)
@@ -53,4 +34,22 @@ public class Professeur extends Personne
          System.out.println("Echec, note non trouvée à l'index :" +indexNote );
      }
      
+     /**
+     * @return the listeProfesseurs
+     */
+    public static HashSet<Professeur> getListeProfesseurs() {
+        return listeProfesseurs;
+    }
+     
+    public static Professeur trouverProfesseur(String nom, String prenom)
+    {
+        System.out.println("Recherche : " + prenom + " " + nom);
+        HashSet<Professeur> profs = getListeProfesseurs();
+        for(Professeur p : profs )
+        {
+            if(p.getNom().equals(nom) && p.getPrenom().equals(prenom))
+            return p;
+        }
+        return null;
+    }
 }

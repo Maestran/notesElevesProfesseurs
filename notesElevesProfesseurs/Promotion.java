@@ -5,33 +5,21 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Promotion {
-
-    public static Eleve rechercherElevePartout(int identifiant) {
-        
-        Eleve e;
-         for(Promotion promoActuelle : Promotion.getListePromos() )
-        {
-           e = promoActuelle.rechercherEleve(identifiant);
-           if(e!=null) return e;
-        }
-         return null;
-    }
-
-        
+          
     private String nom;
     private ArrayList<Eleve> eleves= new ArrayList<>();
     private static ArrayList<Promotion> listePromos = new ArrayList<>();
+    
     public Promotion(String nom)
     {
        this.nom = nom;
     }
-    
+
     public void ajouterEleve(Eleve e) {
         eleves.add(e);
         e.setPromotion(this);
     }
 
-    
     Eleve RechercherEleve(int identifiant)
     {
         for(Eleve e : eleves)
@@ -41,6 +29,29 @@ public class Promotion {
         }
         return null;
     }
+    
+    public Eleve rechercherEleve(int searchId) 
+    {
+        for(Eleve e : getEleves())
+            if(e.getId()==searchId) return e;
+        return null;
+    }
+
+    
+    public void listerEleves(boolean detailler)
+    {
+        System.out.println("Affichage des élèves pour la promotion : " + getNom());   
+        System.out.println("----------------------------");
+        for(Eleve e : getEleves())
+       {
+           if(detailler)
+               System.out.println(e);
+           else
+               System.out.println( "ID : "+ e.getId()+ "|"+ e.getNom()+ "|" + e.getPrenom() );
+           System.out.println("---------------------------------");
+       }
+    }
+
     /**
      * @return the nom
      */
@@ -62,19 +73,6 @@ public class Promotion {
         return eleves;
     }
     
-    public void listerEleves(boolean detailler)
-    {
-        System.out.println("Affichage des élèves pour la promotion : " + getNom());   
-        System.out.println("----------------------------");
-        for(Eleve e : getEleves())
-       {
-           if(detailler)
-               System.out.println(e);
-           else
-               System.out.println( "ID : "+ e.getId()+ "|"+ e.getNom()+ "|" + e.getPrenom() );
-           System.out.println("---------------------------------");
-       }
-    }
 
     /**
      * @return the listePromos
@@ -88,13 +86,6 @@ public class Promotion {
      */
     public static void setListePromos(ArrayList<Promotion> aListePromos) {
         listePromos = aListePromos;
-    }
-
-    public Eleve rechercherEleve(int searchId) 
-    {
-        for(Eleve e : getEleves())
-            if(e.getId()==searchId) return e;
-        return null;
     }
     
     public class MoyenneComparator implements Comparator<Eleve>
@@ -138,6 +129,14 @@ public class Promotion {
         return null;
     }
     
-    
-    
+    public static Eleve rechercherElevePartout(int identifiant) {
+        
+        Eleve e;
+         for(Promotion promoActuelle : Promotion.getListePromos() )
+        {
+           e = promoActuelle.rechercherEleve(identifiant);
+           if(e!=null) return e;
+        }
+         return null;
+    }
 }

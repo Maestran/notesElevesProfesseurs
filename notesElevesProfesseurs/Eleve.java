@@ -29,7 +29,7 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
 
     }
     
-        public Eleve(String prenom, String nom, Date dateNaissance){
+    public Eleve(String prenom, String nom, Date dateNaissance){
         // Le this() permet d'appeler le premier constructeur, celui sans arguments
         this();
         this.setPrenom(prenom);
@@ -38,7 +38,7 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
 
     }
     
-        public Eleve(String prenom, String nom, int annee, int mois, int jour, Promotion promo){
+    public Eleve(String prenom, String nom, int annee, int mois, int jour, Promotion promo){
             this( prenom,  nom,  annee,  mois,  jour);
             this.promotion = promo;
     }

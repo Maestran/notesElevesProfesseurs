@@ -20,6 +20,7 @@ public final class Menu {
     boolean ordreCroissantParDefaut = false; // Si à false, l'ordre affiché est décroissant au lancement du programme
     Eleve eleveSelectionne = null;
     
+    
     public Menu()
     {
     }
