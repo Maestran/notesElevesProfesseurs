@@ -1,3 +1,14 @@
+﻿Projet de Java par Gilioen Francois, Guibert Nicolas, Gorlin Tristan
+
+Ce fichier détaille les différentes manipulations à effectuer et notre avancement
+Sur le projet.
+
+-------------------- INSTALLATION --------------------
+INSTALLATION : 
+1) créer un dossier "data" dans le dossier principal 
+2) déplacer les deux fichiers csv (Resultat Eleves/Eleves) dedans
+3) lancer le programme, il va automatiquement charger les fichiers (voir Main)
+
 -------------------- Version 1 ------------------------
 
 Question 1:
@@ -7,13 +18,13 @@ Question 2:
 Question 3:
 - FAIT
 Question 4 :
-- Manque le hashset
+- FAIT
 Question 5 : 
  -FAIT 
 Question 6 : 
- - En continuation par Francois 
+ - FAIT
 Question 7 : 
-- Plus ou moins fait par francois (A modifier un peu dans le code)
+- FAIT
 Question 8:
 - FAIT
 Question 9:
@@ -34,7 +45,9 @@ Les deux fichiers CSV ci-dessous se trouvent dans le dossier data:
 FICHIER 1  : Résultats élèves.csv
 FICHIER 2  : élèves.csv
 
-INSTALLATION : 
-1) créer un dossier "data" dans le dossier principal 
-2) déplacer les deux fichiers csv dedans
-3) lancer le programme, il va automatiquement charger les fichiers (voir Main)
+
+------------------- Version 3 -----------------------------
+
+
+
+------------------- Version 4 ----------------------------
