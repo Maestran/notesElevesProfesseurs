@@ -48,6 +48,13 @@ FICHIER 2  : élèves.csv
 
 ------------------- Version 3 -----------------------------
 
-
+                    Avancement   Assigné 
+Bulletin             RIEN         Tristan
+JFreeCharts          RIEN         Tristan
+PDF                  RIEN         Tristan
 
 ------------------- Version 4 ----------------------------
+
+                    Avancement   Assigné 
+Affichage de base    RIEN         François
+
