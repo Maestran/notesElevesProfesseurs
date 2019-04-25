@@ -11,7 +11,7 @@ Question 4 :
 Question 5 : 
  -FAIT 
 Question 6 : 
- - En continuation par Francois 
+ - FAIT
 Question 7 : 
 - Plus ou moins fait par francois (A modifier un peu dans le code)
 Question 8:
