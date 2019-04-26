@@ -8,12 +8,9 @@ package notesElevesProfesseurs.GUI;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Eleve;
-import notesElevesProfesseurs.Main;
 import notesElevesProfesseurs.Promotion;
 
 /**
@@ -27,12 +24,7 @@ public class gestionnairePromos extends javax.swing.JFrame {
      */
     public gestionnairePromos() {
         initComponents();
-        try {
-            CSV_Loader.start("Data\\élèves.csv", "Data\\Résultats élèves.csv");
-            System.out.println("Chargement réussi !");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(gestionnairePromos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         if(Globals.promoActuelle == null)
             Globals.promoActuelle = Promotion.getListePromos().get(0);
         
@@ -42,9 +34,13 @@ public class gestionnairePromos extends javax.swing.JFrame {
            operations.afficherElevesPromo(Globals.promoActuelle,elevesTable);
            operations.genererComboboxPromotions(promotionCombobox, elevesTable);
            operations.activerLaBarreDeRecherche(barreDeRecherche, elevesTable);
+           operations.genererComboboxTri(triCombobox, elevesTable);
         }
-        
-    
+        int total = 0;
+        for(Promotion p : Promotion.getListePromos())
+            total+=p.getEleves().size();
+                
+        setTitle("Liste des élèves (" + total + " au total ) ");
     }
 
    
@@ -66,6 +62,10 @@ public class gestionnairePromos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         retourB = new javax.swing.JButton();
         creerEleve = new javax.swing.JButton();
+        triCombobox = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        toggleSensTriB = new javax.swing.JToggleButton();
+        supprEleveB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Liste des élèves");
@@ -85,7 +85,7 @@ public class gestionnairePromos extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Short.class, java.lang.Short.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -100,7 +100,7 @@ public class gestionnairePromos extends javax.swing.JFrame {
         elevesTable.setRowHeight(30);
         jScrollPane1.setViewportView(elevesTable);
 
-        jLabel1.setText("Promotion Sélectionnée  ");
+        jLabel1.setText("Mode de Tri");
 
         promotionCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         promotionCombobox.addActionListener(new java.awt.event.ActionListener() {
@@ -132,29 +132,55 @@ public class gestionnairePromos extends javax.swing.JFrame {
             }
         });
 
+        triCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel3.setText("Promotion Sélectionnée  ");
+
+        toggleSensTriB.setText("Ordre : croissant ");
+        toggleSensTriB.setToolTipText("");
+        toggleSensTriB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleSensTriBActionPerformed(evt);
+            }
+        });
+
+        supprEleveB.setText("Supprimer un élève");
+        supprEleveB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supprEleveBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(supprEleveB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(creerEleve, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(promotionCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(creerEleve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(171, 171, 171)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(triCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(promotionCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toggleSensTriB)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(barreDeRecherche, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
                 .addComponent(retourB, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 854, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,11 +195,18 @@ public class gestionnairePromos extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(promotionCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(promotionCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(creerEleve)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(triCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(toggleSensTriB))))
+                .addGap(18, 18, 18)
+                .addComponent(creerEleve)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(supprEleveB)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
@@ -208,6 +241,31 @@ public class gestionnairePromos extends javax.swing.JFrame {
             generateurEleve.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_creerEleveActionPerformed
+
+    private void toggleSensTriBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleSensTriBActionPerformed
+        // isSelected() permet de voir si le bouton est enfoncé
+        if( toggleSensTriB.isSelected() ) 
+        {
+           toggleSensTriB.setText("Ordre : décroissant");
+           Globals.triCroissant=false;
+        }
+        else 
+        {
+       toggleSensTriB.setText("Ordre : croissant");
+        Globals.triCroissant=true;
+        }
+       PromotionOperations operations = new PromotionOperations();
+       operations.trierAfficherPromotionActuelle(elevesTable);
+    }//GEN-LAST:event_toggleSensTriBActionPerformed
+
+    private void supprEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprEleveBActionPerformed
+        // TODO add your handling code here:
+         int id = (Integer)elevesTable.getValueAt(elevesTable.getSelectedRow(), 0);
+         Eleve e = Globals.promoActuelle.rechercherEleve(id);
+         Globals.promoActuelle.getEleves().remove(e);
+         CSV_Loader.supprimerEleveDansFichier(e, CSV_Loader.ELEVES_PATH);
+        ((DefaultTableModel)elevesTable.getModel()).removeRow(elevesTable.getSelectedRow());
+    }//GEN-LAST:event_supprEleveBActionPerformed
 
 
     
@@ -255,8 +313,12 @@ public class gestionnairePromos extends javax.swing.JFrame {
     private javax.swing.JTable elevesTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> promotionCombobox;
     private javax.swing.JButton retourB;
+    private javax.swing.JButton supprEleveB;
+    private javax.swing.JToggleButton toggleSensTriB;
+    private javax.swing.JComboBox<String> triCombobox;
     // End of variables declaration//GEN-END:variables
 }

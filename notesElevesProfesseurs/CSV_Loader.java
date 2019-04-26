@@ -67,7 +67,9 @@ public class CSV_Loader
                      
                     Promotion recherchePromo = Promotion.trouverPromotion(lineStrings[3]);
                     if( recherchePromo !=null)
-                        Promotion.trouverPromotion(lineStrings[3]).ajouterEleve(e);
+                    {
+                       Promotion.trouverPromotion(lineStrings[3]).ajouterEleve(e);
+                    }
                     else 
                     {
                         Promotion nouvellePromo = new Promotion(lineStrings[3]);
@@ -395,8 +397,4 @@ public class CSV_Loader
             }
         }
     }
-    
-    
-    
-    
 }

@@ -8,6 +8,7 @@ package notesElevesProfesseurs.GUI;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Promotion;
@@ -250,9 +251,12 @@ public class GenerateurEleve extends javax.swing.JFrame {
 
     private void ajouterEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
+        majEleveRapide();
         Promotion promo = Promotion.trouverPromotion(eleveEnCreation.getPromotion().getNom());
         if(!promo.getEleves().contains(eleveEnCreation))promo.ajouterEleve(eleveEnCreation);
+        CSV_Loader.ajouterEleveDansFichier(eleveEnCreation, CSV_Loader.ELEVES_PATH);
         dispose();
+        
     }//GEN-LAST:event_ajouterEleveBActionPerformed
 
     /**

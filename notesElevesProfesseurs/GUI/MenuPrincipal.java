@@ -5,7 +5,11 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import notesElevesProfesseurs.CSV_Loader;
 
 /**
  *
@@ -20,6 +24,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal() {
         initComponents();
         menu = this;
+                try {
+            CSV_Loader.start("Data\\élèves.csv", "Data\\Résultats élèves.csv");
+            System.out.println("Chargement réussi !");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(gestionnairePromos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -11,6 +11,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Evaluation;
 import notesElevesProfesseurs.Matiere;
@@ -21,12 +22,13 @@ import notesElevesProfesseurs.Promotion;
  *
  * @author franc
  */
-public class GenerateurEvaluations extends javax.swing.JFrame {
-
+public class GenerateurEvaluations extends javax.swing.JFrame 
+{
     /**
      * Creates new form GenerateurEvaluations
      */
-    public GenerateurEvaluations() {
+    public GenerateurEvaluations() 
+    {
         initComponents();
     }
     
@@ -259,7 +261,14 @@ public class GenerateurEvaluations extends javax.swing.JFrame {
 
     private void suppEvalBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suppEvalBActionPerformed
         suppEvalB.setEnabled(false);
-        // TODO add your handling code here:
+        ((DefaultTableModel) evalsTable.getModel()).removeRow(evalsTable.getSelectedRow());
+        evalsTable.clearSelection();
+        for(Evaluation eval : Globals.eleveSelectionne.getEvaluations())
+            if(eval == Globals.evaluationSelectionnee)
+                Globals.eleveSelectionne.getEvaluations().remove(eval);
+                
+    CSV_Loader.supprimerEvaluationDansFichier(Globals.evaluationSelectionnee, CSV_Loader.EVALUATIONS_PATH);
+                // A TERMINER (ACTUALISATION EN TEMPS REEL)
     }//GEN-LAST:event_suppEvalBActionPerformed
 
     private void ajouterEvalBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEvalBActionPerformed
@@ -283,6 +292,7 @@ public class GenerateurEvaluations extends javax.swing.JFrame {
         Globals.eleveSelectionne.getEvaluations().add(eval);
         eval.setEvalType(typeTF.getText());
         ((DefaultTableModel) evalsTable.getModel()).addRow(new Object[]{eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom(),eval.getEvalType()});
+        CSV_Loader.ajouterEvaluationDansFichier(eval,CSV_Loader.EVALUATIONS_PATH);
         System.out.println("Evaluation ajoutée dans la JTABLE !");
     }//GEN-LAST:event_ajouterEvalBActionPerformed
 
