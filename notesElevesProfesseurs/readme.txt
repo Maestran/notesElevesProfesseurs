@@ -34,20 +34,28 @@ Question 10;
 
 -------------------- Version 2 ------------------------
 
-                     Avancement     Message
+                     Avancement     Message                              Assigné
 Système de fichiers   OK
 Bases de l'affichage  OK
-Tri                   BASIQUE        Il manque des options de Tri
-Modif Notes           RIEN
-
+Tri                   BASIQUE        Il manque des options de Tri        Nicolas
+Login & Modif Notes   OK modif notes                                     François
+Ajout/Suppr Eleve     OK                                                 //
+Ajout/Suppr Note      OK                                                 //
+Editer Eleve          OK                                                 //
 
 Les deux fichiers CSV ci-dessous se trouvent dans le dossier data: 
 FICHIER 1  : Résultats élèves.csv
 FICHIER 2  : élèves.csv
 
-
 ------------------- Version 3 -----------------------------
 
-
+                    Avancement   Assigné 
+Bulletin             RIEN         Tristan
+JFreeCharts          RIEN         Tristan
+PDF                  RIEN         Tristan
 
 ------------------- Version 4 ----------------------------
+
+                    Avancement   Assigné 
+Affichage de base    RIEN         François
+
