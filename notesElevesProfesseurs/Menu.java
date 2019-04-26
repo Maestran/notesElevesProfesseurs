@@ -92,10 +92,10 @@ public final class Menu {
     do{
                System.out.println("Dans quel ordre souhaitez vous trier ?"+System.lineSeparator()+" ► Croissant (1) "+System.lineSeparator()+" ► Décroissant (2)");
                choix =  secureIntInput();
-    }while(choix !=0 && choix != 1);
+    }while(choix !=2 && choix != 1);
     
     boolean choixCroissance;
-    if(choix == 0)
+    if(choix == 2)
         choixCroissance = false;
     else 
         choixCroissance = true;
@@ -205,6 +205,12 @@ public final class Menu {
             promoActuelle.triMoyenne(croissant);
         else if (modeDeTri==TriEleves.mediane)
             promoActuelle.triMediane(croissant);
+        else if (modeDeTri==TriEleves.identifiant)
+            promoActuelle.triId(croissant);
+        else if (modeDeTri==TriEleves.nom)
+            promoActuelle.triNom(croissant);
+        else if (modeDeTri==TriEleves.prenom)
+            promoActuelle.triPrenom(croissant);
         
         promoActuelle.listerEleves(croissant);
         proposerOptionsConsultationEleves();

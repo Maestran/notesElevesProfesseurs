@@ -115,6 +115,48 @@ public class Promotion {
             return (int)(e1.calculMoyenne() - e2.calculMoyenne());
         }
     }
+
+    public class idComparator implements  Comparator<Eleve>
+    {
+        @Override
+        public int compare(Eleve e1, Eleve e2) { return (int)(e1.getId() - e2.getId());}
+    }
+
+    public class nomComparator implements  Comparator<Eleve>
+    {
+        @Override
+        public int compare(Eleve e1, Eleve e2) { return e1.getNom().compareTo(e2.getNom());}
+    }
+
+    public class prenomComparator implements  Comparator<Eleve>
+    {
+        @Override
+        public int compare(Eleve e1, Eleve e2) { return e1.getPrenom().compareTo(e2.getPrenom());}
+    }
+
+    // Classer les élèves par le prénom
+    public void triPrenom(boolean croissant)
+    {
+        Collections.sort(getEleves(),new prenomComparator());
+        if(!croissant)
+            Collections.reverse(getEleves());
+    }
+
+    // Classer les élèves par le nom
+    public void triNom(boolean croissant)
+    {
+        Collections.sort(getEleves(),new nomComparator());
+        if(!croissant)
+            Collections.reverse(getEleves());
+    }
+
+    // Classer les élèves par la id
+    public void triId(boolean croissant)
+    {
+        Collections.sort(getEleves(),new idComparator());
+        if(!croissant)
+            Collections.reverse(getEleves());
+    }
     
     // Classer les élèves par la médiane
     public void triMediane(boolean croissant)
@@ -131,6 +173,7 @@ public class Promotion {
            if(!croissant)
             Collections.reverse(getEleves());
     }
+
     
     public static Promotion trouverPromotion(String nom)
     {
