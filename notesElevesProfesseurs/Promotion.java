@@ -184,6 +184,45 @@ public class Promotion {
         return null;
     }
     
+     public float obtenirMoyennePromotion()
+    {
+        float moy = 0;
+        for(int i = 0; i < this.getEleves().size();i++)
+        {
+            System.out.println(i + "  "  + moy);
+            moy += this.getEleves().get(i).calculMoyenne();
+        }
+        
+        System.out.println("TESSSSSTTTTTT : " + moy);
+        return (float)(moy/this.getEleves().size());
+    }
+        
+    public float obtenirMinimumPromotion()
+    {
+        float value = 20;
+        for(Eleve a : this.getEleves())
+        {
+            if(a.calculMoyenne() < value)
+            {
+                value = a.calculMoyenne();
+            }
+        }
+        
+        return value;
+    }
     
-    
+            
+    public float obtenirMaximumPromotion()
+    {
+        float value = 0;
+        for(Eleve a : this.getEleves())
+        {
+            if(a.calculMoyenne() > value)
+            {
+                value = a.calculMoyenne();
+            }
+        }
+        
+        return value;
+    }
 }
