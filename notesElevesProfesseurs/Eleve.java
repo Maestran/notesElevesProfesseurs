@@ -1,3 +1,4 @@
+
 package notesElevesProfesseurs;
 
 import java.util.*;
@@ -9,10 +10,9 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
     final int NB_EVALUATION = 10;
     private int id;
     private Date dateNaissance;
-    private List<Evaluation> evaluations;
+    private ArrayList<Evaluation> evaluations;
     private Promotion promotion;
-
-
+    
     public Eleve() {    
         this.id = Eleve.registre;
         this.evaluations = new ArrayList<>(NB_EVALUATION);
@@ -26,10 +26,9 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
         this.setPrenom(prenom);
         this.setNom(nom);
         this.dateNaissance = new Date(anneeNaissance,moisNaissance,jourNaissance);
-
     }
     
-    public Eleve(String prenom, String nom, Date dateNaissance){
+        public Eleve(String prenom, String nom, Date dateNaissance){
         // Le this() permet d'appeler le premier constructeur, celui sans arguments
         this();
         this.setPrenom(prenom);
@@ -38,7 +37,7 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
 
     }
     
-    public Eleve(String prenom, String nom, int annee, int mois, int jour, Promotion promo){
+        public Eleve(String prenom, String nom, int annee, int mois, int jour, Promotion promo){
             this( prenom,  nom,  annee,  mois,  jour);
             this.promotion = promo;
     }
@@ -63,7 +62,8 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
     }
 
     public void add(Evaluation e) {
-        if (evaluations.size() < NB_EVALUATION) {
+        if (evaluations.size() < NB_EVALUATION) 
+        {
             this.evaluations.add(e);
         } else {
             System.out.println("vous ne pouvez plus ajouter de notes (limite : " + NB_EVALUATION + " notes)");
@@ -96,7 +96,6 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
     }
 
     public Set<Professeur> getCorrecteurs()
-
     {
         HashSet<Professeur> h = new HashSet<>();
         for (int i = 0; i < evaluations.size(); i++){
@@ -108,8 +107,7 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
     public int getId() {
         return id;
     }
-
-
+    
     @Override
     public String toString()
     {
@@ -119,6 +117,7 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
         s+= this.affNotes()+"\n";
         s+= "Moyenne : " + this.calculMoyenne()+"\n";
         s+= "Mediane : " + this.calculMedianne()+"\n";
+        s+= "Date de naissance " + this.dateNaissance+"\n";
         s+= "Correcteur(s): "+this.getCorrecteurs()+"\n";
         }
         return s;
@@ -127,9 +126,8 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
     /**
      * @return the evaluations
      */
-    public List<Evaluation> getEvaluations() {
+    public ArrayList<Evaluation> getEvaluations() {
         return evaluations;
-
     }
     
     public String affNotes() {

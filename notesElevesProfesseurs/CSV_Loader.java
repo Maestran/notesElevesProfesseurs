@@ -7,8 +7,15 @@ package notesElevesProfesseurs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +32,7 @@ public class CSV_Loader
         }
         else 
         {
+            ELEVES_PATH = chemin;
             Scanner scanner = new Scanner(new File(chemin));
             boolean firstLineDone = false;
             while(scanner.hasNext())
@@ -37,7 +45,10 @@ public class CSV_Loader
                 }
                 else
                 {
-                       String[] lineStrings = scanner.nextLine().split(";");
+                    String line = scanner.nextLine();
+                    if(!"".equals(line.trim()))
+                    {
+                             String[] lineStrings = line.split(";");
                     Eleve e = new Eleve();
                     e.setNom(lineStrings[1]);
                     e.setPrenom(lineStrings[2]);
@@ -59,6 +70,8 @@ public class CSV_Loader
                     }
                    
                 }
+                    }
+                  
             }
             System.out.println("\nTerminé!");
         }
@@ -70,6 +83,8 @@ public class CSV_Loader
     final static int COL_CORRECTEUR = 3;
     final static int COL_TYPE = 4;
     
+    public static String ELEVES_PATH;
+    public static String EVALUATIONS_PATH;
     
     // Nécéssite au préalable d'avoir chargé les élèves
     public static void chargerEvaluations(String chemin) throws FileNotFoundException
@@ -80,6 +95,7 @@ public class CSV_Loader
         }
         else 
         {
+            EVALUATIONS_PATH = chemin;
             Scanner scanner = new Scanner(new File(chemin));
             ArrayList<Evaluation> evals = new ArrayList<>();
             Professeur nouveauProf = null;
@@ -112,7 +128,7 @@ public class CSV_Loader
                 }
 
             
-                float note = Float.parseFloat(lineStrings[COL_NOTES]);
+                float note = Float.parseFloat(lineStrings[COL_NOTES].replace(',','.'));
                 Matiere mat = Matiere.trouverMatiere(lineStrings[COL_MATIERE]);
                 Eleve eleveNote = Promotion.rechercherElevePartout( Integer.parseInt(lineStrings[COL_IDENTIFIANT]));
                 Evaluation e = new Evaluation(note,mat,eleveNote ,nouveauProf);
@@ -128,6 +144,177 @@ public class CSV_Loader
         }
     }
     
+    public static void supprimerEleveDansFichier(Eleve e, String chemin) 
+    {
+          File f = new File(chemin);
+        if(e!=null)
+        if(!f.exists())
+        {
+            System.out.println("Impossible d'ajouter l'élève, le fichier n'existe pas au chemin : " + chemin);
+        }
+        else
+        {
+              try {
+                  List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
+                  ArrayList<String> linesNew = new ArrayList<String>();
+                  for(String line : lines)
+                      linesNew.add(line);
+                  
+                  for(String line : lines)
+                  {
+                      if(line.contains(e.getNom()) && line.contains(e.getPrenom()) && line.contains(e.getPromotion().getNom()))
+                      {
+                          linesNew.remove(line);
+                          System.out.println("Eleve supprimé du fichier CSV");
+                          break;
+                      }
+                  } 
+                Files.write(f.toPath(), linesNew, StandardCharsets.UTF_8);
+              } 
+              catch (IOException ex) {
+                  Logger.getLogger(CSV_Loader.class.getName()).log(Level.SEVERE, null, ex);
+              }
+        }
+    }
+    
+      public static void supprimerEvaluationDansFichier(Evaluation eval, String chemin) 
+    {
+          File f = new File(chemin);
+        if(eval!=null)
+        if(!f.exists())
+        {
+            System.out.println("Impossible de supprimer l'évaluation, le fichier n'existe pas au chemin : " + chemin);
+        }
+        else
+        {
+              try {
+                  List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
+                  ArrayList<String> linesNew = new ArrayList<>();
+                  for(String line : lines)
+                      linesNew.add(line);
+                  
+                  for(String line : lines)
+                  {
+                      if(line == lines.get(0)) continue;
+                      String[] lineParts = line.split(";");
+                      for(String part : lineParts)
+                      {
+                          System.out.print(part ); 
+                      if(part!=lineParts[lineParts.length-1])
+                         System.out.print(";");
+                      }
+                      System.out.println(System.lineSeparator()+ eval.getEleve().getId()+";" +eval.getNote()+";"+eval.getMat().getNom()+";"+eval.getProf().getPrenom() +";"+ eval.getProf().getNom() );
+                      System.out.println("");
+                      if(lineParts[0].equals(String.valueOf(eval.getEleve().getId())) && eval.getNote() == Float.parseFloat(lineParts[1].replace(',', '.')) && lineParts[2].equals(eval.getMat().getNom()) && lineParts[3].equals(eval.getProf().getPrenom() + " " + eval.getProf().getNom() ) )
+                      {
+                          linesNew.remove(line);
+                          System.out.println("Note supprimée du fichier CSV");
+                          break;
+                      }
+                  }
+                Files.write(f.toPath(), linesNew, StandardCharsets.UTF_8);
+              } catch (IOException ex) {
+                  Logger.getLogger(CSV_Loader.class.getName()).log(Level.SEVERE, null, ex);
+              }
+        }
+    }
+    
+    public static void ajouterEleveDansFichier(Eleve e,String path)
+    {
+        File f = new File(path);
+        if(e!=null)
+        if(!f.exists())
+        {
+            System.out.println("Impossible d'ajouter l'élève, le fichier n'existe pas au chemin : " + path);
+        }
+        else 
+        {
+            try {
+                Date d = e.getDateNaissance();
+                List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
+                String csvEleveFormat = String.format("%d;%s;%s;%s;%d/%d/%d",lines.size()-1,e.getNom(),e.getPrenom(),e.getPromotion().getNom(),d.getJour(),d.getMois(),d.getAnnee());
+                lines.add(lines.size()-1, csvEleveFormat);
+                Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
+            } catch (IOException ex) {
+                System.out.println("(!) Erreur ajout élève, vérifiez que le fichier n'est pas déjà ouvert");
+                System.out.println(System.lineSeparator()+"Que souhaitez vous faire ?");
+                System.out.println(" - Réessayer (1)");
+                System.out.println(" - Quitter (2)");
+                Scanner s = new Scanner(System.in);
+                try {
+                      s.nextInt();
+                } catch (Exception exception) {
+                    System.out.println(" (!) Erreur");
+                    ajouterEleveDansFichier(e, path);
+                }
+            }
+        }
+    }
+    
+    public static void ajouterEleveDansFichier(Eleve e,String path, int pos)
+    {
+        File f = new File(path);
+        if(e!=null)
+        if(!f.exists())
+        {
+            System.out.println("Impossible d'ajouter l'élève, le fichier n'existe pas au chemin : " + path);
+        }
+        else 
+        {
+            try {
+                Date d = e.getDateNaissance();
+                List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
+                String csvEleveFormat = String.format("%d;%s;%s;%s;%d/%d/%d",lines.size()-1,e.getNom(),e.getPrenom(),e.getPromotion().getNom(),d.getJour(),d.getMois(),d.getAnnee());
+                lines.set(pos, csvEleveFormat);
+                Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
+            } catch (IOException ex) {
+                System.out.println("(!) Erreur modif élève, vérifiez que le fichier n'est pas déjà ouvert");
+                System.out.println(System.lineSeparator()+"Que souhaitez vous faire ?");
+                System.out.println(" - Réessayer (1)");
+                System.out.println(" - Quitter (2)");
+                Scanner s = new Scanner(System.in);
+                try {
+                      s.nextInt();
+                } catch (Exception exception) {
+                    System.out.println(" (!) Erreur");
+                    ajouterEleveDansFichier(e, path,pos);
+                }
+            }
+        }
+    }
+    
+    public static void ajouterEvaluationDansFichier(Evaluation eval,String path)
+    {
+        File f = new File(path);
+        if(eval!=null)
+        if(!f.exists())
+        {
+            System.out.println("Impossible d'ajouter l'élève, le fichier n'existe pas au chemin : " + path);
+        }
+        else 
+        {
+             List<String> lines = null;
+            try {
+                lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
+                String csvEvalFormat = String.format("%d;%f;%s;%s;%s",eval.getEleve().getId(),eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom() + " " + eval.getProf().getNom(), eval.getEvalType());
+                lines.add(csvEvalFormat);
+                Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
+            } catch (IOException ex) {
+                System.out.println("(!) Erreur modif évaluation, vérifiez que le fichier n'est pas déjà ouvert");
+                System.out.println(System.lineSeparator()+"Que souhaitez vous faire ?");
+                System.out.println(" - Réessayer (1)");
+                System.out.println(" - Quitter (2)");
+                Scanner s = new Scanner(System.in);
+                try {
+                      s.nextInt();
+                } catch (Exception exception) {
+                    System.out.println(" (!) Erreur");
+                    ajouterEvaluationDansFichier(eval, path);
+                }
+            }
+        }
+    }
+    
     private static void attribuerEvaluationsAuxEleves(ArrayList<Evaluation> evals)
     {
         for(Promotion p : Promotion.getListePromos())
@@ -138,6 +325,66 @@ public class CSV_Loader
                 {
                     if(eval.getEleve() == e && !e.getEvaluations().contains(eval))
                         e.getEvaluations().add(eval);
+                }
+            }
+        }
+    }
+
+    // Met à jour toutes les caracteristiques de l'élève sauf les évaluations
+    static void majEleve(Eleve e, String chemin) 
+    {
+        File f = new File(chemin);
+        if(e!=null)
+        if(!f.exists())
+        {
+            System.out.println("Impossible de mettre à jour l'élève, le fichier n'existe pas au chemin : " + chemin);
+        }
+        else 
+        {
+            ajouterEleveDansFichier(e, chemin, e.getId());
+        }
+    }
+    
+    // Met à jour toutes les caracteristiques de l'élève sauf les évaluations
+    static void majEvaluations(Evaluation eval, String chemin) 
+    {
+        File f = new File(chemin);
+        if(eval!=null)
+        if(!f.exists())
+        {
+            System.out.println("Impossible de mettre à jour l'évaluation, le fichier n'existe pas au chemin : " + chemin);
+        }
+        else 
+        {
+               try {
+                List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
+                String csvEvalFormat = String.format("%d;%.1f;%s;%s;%s",eval.getEleve().getId(),eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom() + " " + eval.getProf().getNom(), eval.getEvalType());
+                csvEvalFormat = csvEvalFormat.replace(',', '.');
+                System.out.println(csvEvalFormat);
+                for(int i = 0; i < lines.size() ; i++ )
+                {
+                    String[] lineParts = lines.get(i).split(";");
+                    if(lineParts[0].equals(String.valueOf(eval.getEleve().getId())) && Float.parseFloat(lineParts[1].replace(',', '.')) == eval.getNote() && lineParts[2].equals(eval.getMat().getNom()) && lineParts[3].equals(eval.getProf().getPrenom() + " " + eval.getProf().getNom()) )
+                    {
+                        lines.set(i, csvEvalFormat);
+                        System.out.println("Ligne changée!");
+                        break;
+                    }
+                }
+                Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
+            } catch (IOException ex) {
+                System.out.println("(!) Erreur modif élève, vérifiez que le fichier n'est pas déjà ouvert");
+                System.out.println(System.lineSeparator()+"Que souhaitez vous faire ?");
+                System.out.println(" - Réessayer (1)");
+                System.out.println(" - Quitter (2)");
+                Scanner s = new Scanner(System.in);
+                try {
+                    int choixErreur =  s.nextInt();
+                    if(choixErreur != 1 )
+                        System.exit(0);
+                } catch (Exception exception) {
+                    System.out.println(" (!) Erreur");
+                    majEvaluations(eval, chemin);
                 }
             }
         }

@@ -1,3 +1,4 @@
+
 package notesElevesProfesseurs;
 
 import java.util.Comparator;
@@ -5,6 +6,19 @@ import java.util.HashSet;
 
 public class Evaluation implements Comparable<Evaluation>{
 
+    /**
+     * @return the evalType
+     */
+    public String getEvalType() {
+        return evalType;
+    }
+
+    /**
+     * @param evalType the evalType to set
+     */
+    public void setEvalType(String evalType) {
+        this.evalType = evalType;
+    }
     private float note;
     private Matiere mat = new Matiere();
     private Eleve eleve = new Eleve();
@@ -14,7 +28,6 @@ public class Evaluation implements Comparable<Evaluation>{
     private String evalType = "CE"; 
     private int coeff = 1;
 
-    
     public Evaluation(){};
 
     public Evaluation(float n, Matiere m, Eleve e, Professeur p){
@@ -23,23 +36,10 @@ public class Evaluation implements Comparable<Evaluation>{
         this.eleve = e;
         this.prof = p;
     }
-    
-    /**
-     * @return the evalType
-     */
-    public String getEvalType() {
-        return evalType;
-    }
-    /**
-     * @param evalType the evalType to set
-     */
-    public void setEvalType(String evalType) {
-        this.evalType = evalType;
-    }
 
     @Override
     public String toString() {
-        return "(("+eleve.toString()+" "+prof.toString()+" "+mat.getNom()+" "+note+")";
+        return "(("+eleve.getNom() +" Professeur: "+prof.toString()+" Matière : "+mat.getNom()+" "+note+"/20)";
     }
 
     public Eleve getEleve() {
