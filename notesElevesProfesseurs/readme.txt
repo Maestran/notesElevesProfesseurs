@@ -60,12 +60,13 @@ FICHIER 2  : élèves.csv
 ------------------- Version 3 -----------------------------
 
                     Avancement   Assigné 
-Bulletin             RIEN         OK
-JFreeCharts          RIEN         En commencement
-PDF                  RIEN         OK
+Bulletin             OK          Tristan
+JFreeCharts          RIEN        En commencement
+PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
 
-                    Avancement   Assigné 
-Affichage de base    RIEN         François
-
+                    Avancement      Message           Assigné 
+Affichage de base     BON            Manque V3         François
+Sauvegarde            RIEN                             François
+TRI                   RIEN                             François
