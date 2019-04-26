@@ -69,4 +69,4 @@ PDF                  OK          Tristan
                     Avancement      Message           Assigné 
 Affichage de base     BON            Manque V3         François
 Sauvegarde            RIEN                             François
-TRI                   RIEN                             François
+TRI                   OK                               François
