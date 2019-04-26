@@ -37,15 +37,16 @@ Question 10;
                      Avancement     Message                              Assigné
 Système de fichiers   OK
 Bases de l'affichage  OK
-Tri                   BASIQUE        Il manque des options de Tri        Nicolas
-Modif Notes           RIEN                                               François
-Ajout/Suppr Eleve     RIEN                                               //
-Ajout/Suppr Note      RIEN                                               //
+Tri                   OK             MERGE                               Nicolas
+Modif Notes           OK                                                 François
+Ajout/Suppr Eleve     OK                                                 //
+Ajout/Suppr Note      OK                                                 //
 
 Les deux fichiers CSV ci-dessous se trouvent dans le dossier data: 
 FICHIER 1  : Résultats élèves.csv
 FICHIER 2  : élèves.csv
 
+              >>>>>>MERGE REQUIS<<<<<
 
 ------------------- Version 3 -----------------------------
 
