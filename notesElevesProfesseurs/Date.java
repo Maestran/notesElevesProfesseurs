@@ -9,8 +9,8 @@ public class Date {
 
     public Date(){};
 
-    public Date(int anneee, int mois, int jour){
-        this.annee = anneee;
+    public Date(int annee, int mois, int jour){
+        this.annee = annee;
         this.mois = mois;
         this.jour = jour;
     }
@@ -37,6 +37,12 @@ public class Date {
 
     public void setMois(int mois) {
         this.mois = mois;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return String.format("%d/%d/%d",getJour(),getMois(),getAnnee());
     }
 }
 

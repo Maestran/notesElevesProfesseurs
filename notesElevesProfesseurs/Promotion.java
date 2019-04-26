@@ -6,7 +6,16 @@ import java.util.Comparator;
 
 public class Promotion {
 
-    public static Eleve rechercherElevePartout(int identifiant) {
+
+    private String nom;
+    private ArrayList<Eleve> eleves= new ArrayList<>();
+    private static ArrayList<Promotion> listePromos = new ArrayList<>();
+    public Promotion(String nom)
+    {
+       this.nom = nom;
+    }
+    
+        public static Eleve rechercherElevePartout(int identifiant) {
         
         Eleve e;
          for(Promotion promoActuelle : Promotion.getListePromos() )
@@ -18,13 +27,6 @@ public class Promotion {
     }
 
         
-    private String nom;
-    private ArrayList<Eleve> eleves= new ArrayList<>();
-    private static ArrayList<Promotion> listePromos = new ArrayList<>();
-    public Promotion(String nom)
-    {
-       this.nom = nom;
-    }
     
     public void ajouterEleve(Eleve e) {
         eleves.add(e);

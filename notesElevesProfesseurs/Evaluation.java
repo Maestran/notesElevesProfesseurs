@@ -38,7 +38,7 @@ public class Evaluation implements Comparable<Evaluation>{
 
     @Override
     public String toString() {
-        return "(("+eleve.toString()+" "+prof.toString()+" "+mat.getNom()+" "+note+")";
+        return "(("+eleve.getNom() +" Professeur: "+prof.toString()+" Matière : "+mat.getNom()+" "+note+"/20)";
     }
 
     public Eleve getEleve() {
