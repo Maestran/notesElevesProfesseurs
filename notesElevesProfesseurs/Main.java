@@ -10,10 +10,9 @@ public class Main {
     public static void main(String[] args) {
        
         try {
-            CSV_Loader.chargerFichierEleves("Data\\élèves.csv");   
-         
-            CSV_Loader.chargerEvaluations("Data\\Résultats élèves.csv");
+            CSV_Loader.start("Data\\élèves.csv", "Data\\Résultats élèves.csv");
             
+
                for(Promotion p : Promotion.getListePromos())
                 p.listerEleves(true);
      

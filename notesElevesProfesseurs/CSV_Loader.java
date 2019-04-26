@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -23,6 +22,13 @@ import java.util.logging.Logger;
  */
 public class CSV_Loader 
 {    
+    
+    public static void start(String pathEleves, String pathEvaluations) throws FileNotFoundException
+    {
+            CSV_Loader.chargerFichierEleves(pathEleves);   
+            CSV_Loader.chargerEvaluations(pathEvaluations);
+    }
+    
     //Charge les élèves dans leurs promotions respectives, indiquées dans le fichier en format CSV
     public static void chargerFichierEleves(String chemin) throws FileNotFoundException
     {
