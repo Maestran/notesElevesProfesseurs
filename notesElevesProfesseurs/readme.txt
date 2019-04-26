@@ -66,8 +66,8 @@ PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
 
-                    Avancement      Message           Assigné 
-Affichage de base     BON            Manque V3         François
-Sauvegarde            RIEN                             François
-TRI                   OK                               François
-Design                MOYEN                            François, Nicolas, Tristan
+                    Avancement      Message                                           Assigné 
+Affichage de base     BON            Manque V3                                         François
+Sauvegarde            MOYEN          Manque temps réel,manque modications              François
+TRI                   OK                                                               François
+Design                MOYEN                                                            François, Nicolas, Tristan
