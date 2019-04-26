@@ -68,6 +68,15 @@ PDF                  OK          Tristan
 
                     Avancement      Message                                           Assigné 
 Affichage de base     BON            Manque V3                                         François
-Sauvegarde            MOYEN          Manque temps réel,manque modications              François
+Sauvegarde            MOYEN          Manque temps réel,manque modications              François, besoin d'aide
 TRI                   OK                                                               François
 Design                MOYEN                                                            François, Nicolas, Tristan
+
+------------------- Rapport ---------------------------------
+                    Avancement   Assigné 
+3 Diagrammes         OK          Nicolas
+Introduction         RIEN        ?
+Conclusion           RIEN        ?
+Fonctionnement       RIEN        ?, François (partie CSV)
+
+
