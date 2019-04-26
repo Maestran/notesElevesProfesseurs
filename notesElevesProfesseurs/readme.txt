@@ -70,3 +70,4 @@ PDF                  OK          Tristan
 Affichage de base     BON            Manque V3         François
 Sauvegarde            RIEN                             François
 TRI                   OK                               François
+Design                MOYEN                            François, Nicolas, Tristan
