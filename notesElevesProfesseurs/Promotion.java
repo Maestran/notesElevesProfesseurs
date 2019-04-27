@@ -183,7 +183,5 @@ public class Promotion {
                 return p;
         return null;
     }
-    
-    
-    
+        
 }

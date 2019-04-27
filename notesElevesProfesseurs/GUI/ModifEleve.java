@@ -5,6 +5,8 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +14,8 @@ import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Promotion;
+
+import java.awt.*;
 
 /**
  *
@@ -129,7 +133,7 @@ public class ModifEleve extends javax.swing.JFrame {
         jLabel5.setText("Promotion");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel6.setText("Modification d'un nouvel élève");
+        jLabel6.setText("Modification d'un élève");
 
         ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : 0) ");
         ouvrirGenEvalsB.addActionListener(new java.awt.event.ActionListener() {
@@ -169,7 +173,7 @@ public class ModifEleve extends javax.swing.JFrame {
                                 .addComponent(nomTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(promoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel6))
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ajouterEleveB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -260,13 +264,19 @@ public class ModifEleve extends javax.swing.JFrame {
 
     private void majEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
-        majEleveRapide();
-        Promotion promo = Promotion.trouverPromotion(Globals.eleveSelectionne.getPromotion().getNom());
-        if(!promo.getEleves().contains(Globals.eleveSelectionne))promo.ajouterEleve(Globals.eleveSelectionne);
-        CSV_Loader.majEleve(Globals.eleveSelectionne, CSV_Loader.ELEVES_PATH);
-        GestionnairePromos gestionnairePromo = new GestionnairePromos();
-        gestionnairePromo.setVisible(true);
-        dispose();
+
+        if (dateTF.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{4}$")){
+            majEleveRapide();
+            Promotion promo = Promotion.trouverPromotion(Globals.eleveSelectionne.getPromotion().getNom());
+            if(!promo.getEleves().contains(Globals.eleveSelectionne))promo.ajouterEleve(Globals.eleveSelectionne);
+            CSV_Loader.majEleve(Globals.eleveSelectionne, CSV_Loader.ELEVES_PATH);
+            GestionnairePromos gestionnairePromo = new GestionnairePromos();
+            gestionnairePromo.setVisible(true);
+            dispose();
+        } else {
+            dateTF.setBorder(new LineBorder(Color.red, 1));
+            JOptionPane.showMessageDialog(null, "Format de la date de naissance incorrecte\nLe format demandé est jj/mm/aaaa");
+        }
 
 
     }//GEN-LAST:event_ajouterEleveBActionPerformed

@@ -28,7 +28,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             CSV_Loader.start("Data\\élèves.csv", "Data\\Résultats élèves.csv");
             System.out.println("Chargement réussi !");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(gestionnairePromos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GestionnairePromos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -132,7 +132,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void consulterPromotionsMenu(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consulterPromotionsMenu
         // TODO add your handling code here:
-        new gestionnairePromos().setVisible(true);
+        new GestionnairePromos().setVisible(true);
     }//GEN-LAST:event_consulterPromotionsMenu
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

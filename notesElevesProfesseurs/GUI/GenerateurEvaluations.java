@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JTable;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -26,6 +28,7 @@ import notesElevesProfesseurs.Promotion;
 
 
 
+import java.awt.*;
 
 /**
  *
@@ -318,28 +321,49 @@ public class GenerateurEvaluations extends javax.swing.JFrame
 
     private void ajouterEvalBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEvalBActionPerformed
         // TODO add your handling code here:
-        Matiere mat =Matiere.trouverMatiere(matTF.getText());
-        if(mat==null)
-        {
-             mat = new Matiere(matTF.getText());
-            Matiere.listeMatieres.add(mat);
+        try{
+            Float.parseFloat(noteTF.getText());
+            if (Float.parseFloat(noteTF.getText())<=20 && Float.parseFloat(noteTF.getText())>=0 ){
+                Matiere mat =Matiere.trouverMatiere(matTF.getText());
+                if(mat==null)
+                {
+                    mat = new Matiere(matTF.getText());
+                    Matiere.listeMatieres.add(mat);
+                }
+
+                String[] nomPrenom = correcteurTF.getText().split(" ");
+                Professeur prof = Professeur.trouverProfesseur(nomPrenom[0], nomPrenom[1]);
+                if(prof==null)
+                {
+                    prof = new Professeur(nomPrenom[0],nomPrenom[1]);
+                    Professeur.getListeProfesseurs().add(prof);
+                }
+
+                Evaluation eval = new Evaluation(Float.parseFloat(noteTF.getText().replace(',', '.')), mat,Globals.eleveSelectionne, prof);
+                Globals.eleveSelectionne.getEvaluations().add(eval);
+                eval.setEvalType(typeTF.getText());
+                ((DefaultTableModel) evalsTable.getModel()).addRow(new Object[]{eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom(),eval.getEvalType()});
+                CSV_Loader.ajouterEvaluationDansFichier(eval,CSV_Loader.EVALUATIONS_PATH);
+                System.out.println("Evaluation ajoutée dans la JTABLE !");
+            } else {
+                noteTF.setText("");
+                noteTF.setBorder(new LineBorder(Color.red, 1));
+                JOptionPane.showMessageDialog(null, "Note invalide");
+            }
+
+        } catch (Exception ex){
+            noteTF.setText("");
+            noteTF.setBorder(new LineBorder(Color.red, 1));
+            JOptionPane.showMessageDialog(null, "Format de la note incorrecte");
         }
         
-        String[] nomPrenom = correcteurTF.getText().split(" ");
-        Professeur prof = Professeur.trouverProfesseur(nomPrenom[0], nomPrenom[1]);
-        if(prof==null)
-        {
-          prof = new Professeur(nomPrenom[0],nomPrenom[1]);
-          Professeur.getListeProfesseurs().add(prof);
-        }
-        
-        Evaluation eval = new Evaluation(Float.parseFloat(noteTF.getText().replace(',', '.')), mat,Globals.eleveSelectionne, prof);
-        Globals.eleveSelectionne.getEvaluations().add(eval);
-        eval.setEvalType(typeTF.getText());
-        ((DefaultTableModel) evalsTable.getModel()).addRow(new Object[]{eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom(),eval.getEvalType()});
-        CSV_Loader.ajouterEvaluationDansFichier(eval,CSV_Loader.EVALUATIONS_PATH);
-        System.out.println("Evaluation ajoutée dans la JTABLE !");        
-        Globals.evaluationSelectionnee = eval;
+//        Globals.eleveSelectionne.getEvaluations().add(eval);
+//        eval.setEvalType(typeTF.getText());
+//        ((DefaultTableModel) evalsTable.getModel()).addRow(new Object[]{eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom(),eval.getEvalType()});
+//        CSV_Loader.ajouterEvaluationDansFichier(eval,CSV_Loader.EVALUATIONS_PATH);
+//        System.out.println("Evaluation ajoutée dans la JTABLE !");        
+//        Globals.evaluationSelectionnee = eval;
+
     }//GEN-LAST:event_ajouterEvalBActionPerformed
 
     private void modifEvalBClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifEvalBClick
