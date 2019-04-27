@@ -91,7 +91,7 @@ public class gestionnairePromos extends javax.swing.JFrame {
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
+            public boolean isCellEdiatble(int row, int column){return false;}
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
@@ -121,7 +121,8 @@ public class gestionnairePromos extends javax.swing.JFrame {
         retourB.setText("Retour");
         retourB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                retourBActionPerformed(evt);
+                //retourBActionPerformed(evt);
+                majEleveActionPerformed(evt); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Bouton retour de TEST!!!!!!!!!!!!!!!
             }
         });
 
@@ -239,6 +240,7 @@ public class gestionnairePromos extends javax.swing.JFrame {
             GenerateurEleve generateurEleve = new GenerateurEleve();
             generateurEleve.promoTF.setText(Globals.promoActuelle.getNom());
             generateurEleve.setVisible(true);
+            dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_creerEleveActionPerformed
 
@@ -266,6 +268,24 @@ public class gestionnairePromos extends javax.swing.JFrame {
          CSV_Loader.supprimerEleveDansFichier(e, CSV_Loader.ELEVES_PATH);
         ((DefaultTableModel)elevesTable.getModel()).removeRow(elevesTable.getSelectedRow());
     }//GEN-LAST:event_supprEleveBActionPerformed
+
+    private void montrerEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprEleveBActionPerformed
+        // TODO add your handling code here:
+        int id = (Integer)elevesTable.getValueAt(elevesTable.getSelectedRow(), 0);
+        Eleve e = Globals.promoActuelle.rechercherEleve(id);
+        eleveFrame eleveWindow = new eleveFrame(e);
+        eleveWindow.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_supprEleveBActionPerformed
+
+    private void majEleveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creerEleveActionPerformed
+        int id = (Integer)elevesTable.getValueAt(elevesTable.getSelectedRow(), 0);
+        Eleve e = Globals.promoActuelle.rechercherEleve(id);
+        majEleve upEleve = new majEleve(e);
+        upEleve.setVisible(true);
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_creerEleveActionPerformed
 
 
     

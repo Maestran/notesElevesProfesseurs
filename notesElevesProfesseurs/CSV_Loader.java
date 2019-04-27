@@ -339,7 +339,7 @@ public class CSV_Loader
     }
 
     // Met à jour toutes les caracteristiques de l'élève sauf les évaluations
-    static void majEleve(Eleve e, String chemin) 
+    public static void majEleve(Eleve e, String chemin)
     {
         File f = new File(chemin);
         if(e!=null)

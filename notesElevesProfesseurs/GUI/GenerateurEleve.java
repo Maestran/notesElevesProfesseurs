@@ -255,7 +255,10 @@ public class GenerateurEleve extends javax.swing.JFrame {
         Promotion promo = Promotion.trouverPromotion(eleveEnCreation.getPromotion().getNom());
         if(!promo.getEleves().contains(eleveEnCreation))promo.ajouterEleve(eleveEnCreation);
         CSV_Loader.ajouterEleveDansFichier(eleveEnCreation, CSV_Loader.ELEVES_PATH);
+        gestionnairePromos gestionnairePromo = new gestionnairePromos();
+        gestionnairePromo.setVisible(true);
         dispose();
+
         
     }//GEN-LAST:event_ajouterEleveBActionPerformed
 

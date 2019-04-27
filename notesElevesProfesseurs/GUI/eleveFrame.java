@@ -5,6 +5,10 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import notesElevesProfesseurs.Eleve;
+import notesElevesProfesseurs.Promotion;
+import notesElevesProfesseurs.notesElevesProfesseurs.GUI.EleveOperation;
+
 /**
  *
  * @author franc
@@ -14,9 +18,23 @@ public class eleveFrame extends javax.swing.JFrame {
     /**
      * Creates new form eleveFrame
      */
-    public eleveFrame() {
+    public eleveFrame(Eleve e) {
         initComponents();
-        
+        if(e == null)
+            e = Globals.eleveSelectionne;
+
+        if(e!=null)
+        {
+        EleveOperation operations = new EleveOperation();
+        operations.afficherElevesEvals(e,jTable1);
+        }
+        jLabel1.setText(jLabel1.getText() + " " + e.getPrenom());//prénom
+        jLabel2.setText(jLabel2.getText() + " " + e.getId());//id
+        jLabel3.setText(jLabel3.getText() + " " + e.getNom());//nom
+        jLabel4.setText(jLabel4.getText() + " " + e.getDateNaissance());//date de naissance
+        jLabel6.setText(jLabel6.getText() + " " + e.getPromotion().getNom());//Promotion
+
+
     }
 
     /**
@@ -167,11 +185,23 @@ public class eleveFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        gestionnairePromos gestionnairePromo = new gestionnairePromos();
+        gestionnairePromo.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        updateEvaluation majEval = new updateEvaluation(Globals.evaluationSelectionnee);
+        majEval.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    // Ouvre le générateur/gestionnaire d'évaluations pour l'élève en cours de création
+    private void ouvrirGenEvalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouvrirGenEvalsBActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_ouvrirGenEvalsBActionPerformed
     
     /**
      * @param args the command line arguments
@@ -204,7 +234,7 @@ public class eleveFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new eleveFrame().setVisible(true);
+                //new eleveFrame().setVisible(true);
             }
         });
     }

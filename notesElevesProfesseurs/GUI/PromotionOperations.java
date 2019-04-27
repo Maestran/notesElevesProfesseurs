@@ -25,7 +25,7 @@ public class PromotionOperations
 {
     //Modèle sauvegardé pour la recherche de données
     
-    private void viderTable(JTable table)
+    public void viderTable(JTable table)
     {
                 DefaultTableModel model = ((DefaultTableModel) table.getModel());
                 int rowCount = model.getRowCount();

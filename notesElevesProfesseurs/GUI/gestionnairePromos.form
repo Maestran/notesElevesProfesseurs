@@ -248,7 +248,7 @@
         <Property name="text" type="java.lang.String" value="Supprimer un &#xe9;l&#xe8;ve"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supprEleveBActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateEleveBActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
