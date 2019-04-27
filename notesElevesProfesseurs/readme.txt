@@ -68,9 +68,11 @@ PDF                  OK          Tristan
 
                     Avancement      Message                                           Assigné 
 Affichage de base     BON            Manque V3                                         François
-Sauvegarde            MOYEN          Manque temps réel,manque modications              François, besoin d'aide
+Sauvegarde            BON            Manque juste modications evaluations              François, Nicolas
 TRI                   OK                                                               François
-Design                MOYEN                                                            François, Nicolas, Tristan
+Design                CORRECT                                                          François, Nicolas, Tristan
+Ergonomie             MOYEN          Manque double clic JTable, regex date de naissance      François
+                                     suggestion auto matieres, jtable à rendre non éditable 
 
 ------------------- Rapport ---------------------------------
                     Avancement   Assigné 
