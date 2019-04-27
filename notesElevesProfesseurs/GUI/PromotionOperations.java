@@ -3,15 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notesElevesProfesseurs.GUI;
+package notesElevesProfesseurs.GUI; 
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Promotion;
@@ -24,7 +31,6 @@ import notesElevesProfesseurs.TriEleves;
 public class PromotionOperations 
 {
     //Modèle sauvegardé pour la recherche de données
-    
     public void viderTable(JTable table)
     {
                 DefaultTableModel model = ((DefaultTableModel) table.getModel());
@@ -175,5 +181,40 @@ public class PromotionOperations
                     trierAfficherPromotionActuelle(elevesTable);
                 }
             });    }
+
+    //Permet d'activer ou désactiver automatiquement le bouton modifier si une ligne de la jtable est sélectionnée ou non
+    void relierBoutonModifierTable(JButton modifEleveB, JTable elevesTable) 
+    {
+        elevesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                System.out.println("Séléction changée dans la table");
+                if(!modifEleveB.isEnabled())
+                modifEleveB.setEnabled(true);
+            }
+        });
+    }
+
+    //Lorsqu'un double clic est effectué sur une ligne, les détails de l'élève vont s'afficher (non modifiables)
+    void montrerInfosEleveSurDoubleClick(JTable elevesTable) 
+    {
+        System.out.println("Ajout du Listener de double clic");
+        elevesTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent event)
+            {
+                Point point = event.getPoint(); // Coordonnées x et y de là où on a cliqué
+                int row = elevesTable.rowAtPoint(point);
+                if(event.getClickCount() == 2 && elevesTable.getSelectedRow() != - 1 && row != -1) // On vérifie que l'on a bien cliqué sur une ligne et pas dans un autre endroit de la table
+                {
+                    System.out.println("Double click ligne");
+                    Globals.eleveSelectionne = Globals.promoActuelle.rechercherEleve((Integer)elevesTable.getModel().getValueAt(elevesTable.getSelectedRow(), 0));
+                    EleveInfos eleveInfos = new EleveInfos(Globals.eleveSelectionne);
+                    eleveInfos.setVisible(true);
+                }
+            }
+            
+        });
+    }
     
 }
