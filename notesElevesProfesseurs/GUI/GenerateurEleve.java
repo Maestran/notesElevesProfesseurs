@@ -5,6 +5,8 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +14,8 @@ import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Promotion;
+
+import java.awt.*;
 
 /**
  *
@@ -232,7 +236,7 @@ public class GenerateurEleve extends javax.swing.JFrame {
            int jour = Integer.parseInt(dateParts[0]);
            int mois = Integer.parseInt(dateParts[1]);
            int annee = Integer.parseInt(dateParts[2]);
-            eleveEnCreation.setDateNaissance(new Date(annee,mois, jour));
+           eleveEnCreation.setDateNaissance(new Date(annee,mois,jour));
         }catch(Exception ex)
         {
             System.out.println(ex);
@@ -251,15 +255,19 @@ public class GenerateurEleve extends javax.swing.JFrame {
 
     private void ajouterEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
-        majEleveRapide();
-        Promotion promo = Promotion.trouverPromotion(eleveEnCreation.getPromotion().getNom());
-        if(!promo.getEleves().contains(eleveEnCreation))promo.ajouterEleve(eleveEnCreation);
-        CSV_Loader.ajouterEleveDansFichier(eleveEnCreation, CSV_Loader.ELEVES_PATH);
-        gestionnairePromos gestionnairePromo = new gestionnairePromos();
-        gestionnairePromo.setVisible(true);
-        dispose();
-
-        
+        if (dateTF.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{4}$")){
+            majEleveRapide();
+            Promotion promo = Promotion.trouverPromotion(eleveEnCreation.getPromotion().getNom());
+            if(!promo.getEleves().contains(eleveEnCreation))promo.ajouterEleve(eleveEnCreation);
+            CSV_Loader.ajouterEleveDansFichier(eleveEnCreation, CSV_Loader.ELEVES_PATH);
+            gestionnairePromos gestionnairePromo = new gestionnairePromos();
+            gestionnairePromo.setVisible(true);
+            dispose();
+        } else {
+            dateTF.setText("");
+            dateTF.setBorder(new LineBorder(Color.red, 1));
+            JOptionPane.showMessageDialog(null, "Format de la date de naissance incorrecte\nLe format demandé est jj/mm/aaaa");
+        }
     }//GEN-LAST:event_ajouterEleveBActionPerformed
 
     /**

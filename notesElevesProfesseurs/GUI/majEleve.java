@@ -5,6 +5,8 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +14,8 @@ import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Promotion;
+
+import java.awt.*;
 
 /**
  *
@@ -257,13 +261,19 @@ public class majEleve extends javax.swing.JFrame {
 
     private void majEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
-        majEleveRapide();
-        Promotion promo = Promotion.trouverPromotion(e.getPromotion().getNom());
-        if(!promo.getEleves().contains(e))promo.ajouterEleve(e);
-        CSV_Loader.majEleve(e, CSV_Loader.ELEVES_PATH);
-        gestionnairePromos gestionnairePromo = new gestionnairePromos();
-        gestionnairePromo.setVisible(true);
-        dispose();
+        if (dateTF.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{4}$")){
+            majEleveRapide();
+            Promotion promo = Promotion.trouverPromotion(e.getPromotion().getNom());
+            if(!promo.getEleves().contains(e))promo.ajouterEleve(e);
+            CSV_Loader.majEleve(e, CSV_Loader.ELEVES_PATH);
+            gestionnairePromos gestionnairePromo = new gestionnairePromos();
+            gestionnairePromo.setVisible(true);
+            dispose();
+        } else {
+            dateTF.setBorder(new LineBorder(Color.red, 1));
+            JOptionPane.showMessageDialog(null, "Format de la date de naissance incorrecte\nLe format demandé est jj/mm/aaaa");
+        }
+
 
 
     }//GEN-LAST:event_ajouterEleveBActionPerformed
