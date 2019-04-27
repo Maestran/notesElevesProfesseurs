@@ -5,9 +5,18 @@ Sur le projet.
 
 -------------------- INSTALLATION --------------------
 INSTALLATION : 
+
+Pour générer des bulletin en PDF : 
+1) Il faut créér un projet de type "Maven"
+2) Le groupe ID doit etre : "com.itextpdf"
+3) Il faut ensuite modifier le fichier pom.xml comme dans les sources.
+
+
+Pour lire les données :
 1) créer un dossier "data" dans le dossier principal 
 2) déplacer les deux fichiers csv (Resultat Eleves/Eleves) dedans
 3) lancer le programme, il va automatiquement charger les fichiers (voir Main)
+
 
 -------------------- Version 1 ------------------------
 
@@ -51,12 +60,25 @@ FICHIER 2  : élèves.csv
 ------------------- Version 3 -----------------------------
 
                     Avancement   Assigné 
-Bulletin             RIEN         Tristan
-JFreeCharts          RIEN         Tristan
-PDF                  RIEN         Tristan
+Bulletin             OK          Tristan
+JFreeCharts          RIEN        En commencement
+PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
 
+                    Avancement      Message                                           Assigné 
+Affichage de base     BON            Manque V3                                         François
+Sauvegarde            BON            Manque juste modications evaluations              François, Nicolas
+TRI                   OK                                                               François
+Design                CORRECT                                                          François, Nicolas, Tristan
+Ergonomie             MOYEN          Manque double clic JTable, regex date de naissance      François
+                                     suggestion auto matieres, jtable à rendre non éditable 
+
+------------------- Rapport ---------------------------------
                     Avancement   Assigné 
-Affichage de base    RIEN         François
+3 Diagrammes         OK          Nicolas
+Introduction         RIEN        ?
+Conclusion           RIEN        ?
+Fonctionnement       RIEN        ?, François (partie CSV)
+
 
