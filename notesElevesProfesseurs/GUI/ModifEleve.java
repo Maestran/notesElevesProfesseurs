@@ -17,22 +17,22 @@ import notesElevesProfesseurs.Promotion;
  *
  * @author franc
  */
-public class majEleve extends javax.swing.JFrame {
+public class ModifEleve extends javax.swing.JFrame {
 
 
-    Eleve e = null;
     /**
      * Creates new form GenerateurEleve
+     * @param elev
      */
-    public majEleve(Eleve elev) {
+    public ModifEleve(Eleve elev) {
 
-        e = elev;
-        setTitle(e.getNom() + " " + e.getPrenom());
+        Globals.eleveSelectionne = elev;
+        setTitle(Globals.eleveSelectionne.getNom() + " " + Globals.eleveSelectionne.getPrenom());
         initComponents();
-        nomTF.setText(e.getNom());
-        prenomTF.setText(e.getPrenom());
-        dateTF.setText(e.getDateNaissance().toString());
-        promoTF.setText(e.getPromotion().getNom());
+        nomTF.setText(Globals.eleveSelectionne.getNom());
+        prenomTF.setText(Globals.eleveSelectionne.getPrenom());
+        dateTF.setText(Globals.eleveSelectionne.getDateNaissance().toString());
+        promoTF.setText(Globals.eleveSelectionne.getPromotion().getNom());
         DocumentListener listener = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent ev) {
@@ -53,6 +53,9 @@ public class majEleve extends javax.swing.JFrame {
         prenomTF.getDocument().addDocumentListener(listener);
         promoTF.getDocument().addDocumentListener(listener);
         dateTF.getDocument().addDocumentListener(listener);
+        
+        ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : "+Globals.eleveSelectionne.getEvaluations().size()+") ");
+
     }
 
     // Vérifie si les boutons grisés peuvent être activés, cela se fait en vérifiant si les champs ne sont pas vides
@@ -126,10 +129,9 @@ public class majEleve extends javax.swing.JFrame {
         jLabel5.setText("Promotion");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel6.setText("Modifier l'élève");
+        jLabel6.setText("Modification d'un nouvel élève");
 
-        ouvrirGenEvalsB.setText("Ajouter des évaluations");
-        //ouvrirGenEvalsB.setEnabled(false);
+        ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : 0) ");
         ouvrirGenEvalsB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ouvrirGenEvalsBActionPerformed(evt);
@@ -137,7 +139,7 @@ public class majEleve extends javax.swing.JFrame {
         });
 
         ajouterEleveB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        ajouterEleveB.setText("Valider les modifications");
+        ajouterEleveB.setText("Modifier");
         ajouterEleveB.setEnabled(false);
         ajouterEleveB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,56 +150,56 @@ public class majEleve extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(89, 89, 89)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(ouvrirGenEvalsB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                .addComponent(dateTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(prenomTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(nomTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(promoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addComponent(jLabel6))
-                                .addContainerGap(244, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(ajouterEleveB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ouvrirGenEvalsB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(dateTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(prenomTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nomTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(promoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel6))
+                .addContainerGap(170, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ajouterEleveB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel6)
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(nomTF, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(prenomTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(promoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(ouvrirGenEvalsB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(ajouterEleveB, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel6)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nomTF, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(prenomTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(promoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(ouvrirGenEvalsB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(ajouterEleveB, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -223,22 +225,22 @@ public class majEleve extends javax.swing.JFrame {
     // A FAIRE : RAJOUTER LA MAJ CSV, permet d'enregistrer les TextFields dans la variable eleveEnCreation
     private void majEleveRapide()
     {
-        e.setNom(nomTF.getText());
-        e.setPrenom(prenomTF.getText());
+        Globals.eleveSelectionne.setNom(nomTF.getText());
+        Globals.eleveSelectionne.setPrenom(prenomTF.getText());
         Promotion p =Promotion.trouverPromotion(promoTF.getText());
         if(p==null)
         {
             p = new Promotion(promoTF.getText());
             Promotion.getListePromos().add(p);
         }
-        e.setPromotion(p);
+        Globals.eleveSelectionne.setPromotion(p);
         try
         {
             String[] dateParts=  dateTF.getText().split("/");
             int jour = Integer.parseInt(dateParts[0]);
             int mois = Integer.parseInt(dateParts[1]);
             int annee = Integer.parseInt(dateParts[2]);
-            e.setDateNaissance(new Date(annee,mois, jour));
+            Globals.eleveSelectionne.setDateNaissance(new Date(annee,mois, jour));
         }catch(Exception ex)
         {
             System.out.println(ex);
@@ -250,7 +252,8 @@ public class majEleve extends javax.swing.JFrame {
     private void ouvrirGenEvalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouvrirGenEvalsBActionPerformed
         GenerateurEvaluations gen = new GenerateurEvaluations();
         majEleveRapide();
-        gen.init(e);
+        gen.init(Globals.eleveSelectionne);
+        ajouterEleveB.setEnabled(true);
         gen.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_ouvrirGenEvalsBActionPerformed
@@ -258,10 +261,10 @@ public class majEleve extends javax.swing.JFrame {
     private void majEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
         majEleveRapide();
-        Promotion promo = Promotion.trouverPromotion(e.getPromotion().getNom());
-        if(!promo.getEleves().contains(e))promo.ajouterEleve(e);
-        CSV_Loader.majEleve(e, CSV_Loader.ELEVES_PATH);
-        gestionnairePromos gestionnairePromo = new gestionnairePromos();
+        Promotion promo = Promotion.trouverPromotion(Globals.eleveSelectionne.getPromotion().getNom());
+        if(!promo.getEleves().contains(Globals.eleveSelectionne))promo.ajouterEleve(Globals.eleveSelectionne);
+        CSV_Loader.majEleve(Globals.eleveSelectionne, CSV_Loader.ELEVES_PATH);
+        GestionnairePromos gestionnairePromo = new GestionnairePromos();
         gestionnairePromo.setVisible(true);
         dispose();
 
@@ -285,14 +288,17 @@ public class majEleve extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(majEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(majEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(majEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(majEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -304,7 +310,7 @@ public class majEleve extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ajouterEleveB;
+    public javax.swing.JButton ajouterEleveB;
     private javax.swing.JTextField dateTF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -312,7 +318,7 @@ public class majEleve extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField nomTF;
-    private javax.swing.JButton ouvrirGenEvalsB;
+    public javax.swing.JButton ouvrirGenEvalsB;
     private javax.swing.JTextField prenomTF;
     public javax.swing.JTextField promoTF;
     // End of variables declaration//GEN-END:variables

@@ -5,12 +5,16 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
+import notesElevesProfesseurs.Evaluation;
 import notesElevesProfesseurs.Promotion;
 
 /**
@@ -18,6 +22,8 @@ import notesElevesProfesseurs.Promotion;
  * @author franc
  */
 public class GenerateurEleve extends javax.swing.JFrame {
+
+
 
     
     Eleve eleveEnCreation = null;
@@ -47,6 +53,7 @@ public class GenerateurEleve extends javax.swing.JFrame {
         prenomTF.getDocument().addDocumentListener(listener);
         promoTF.getDocument().addDocumentListener(listener);
         dateTF.getDocument().addDocumentListener(listener);
+        ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : 0 ");
     }
 
     // Vérifie si les boutons grisés peuvent être activés, cela se fait en vérifiant si les champs ne sont pas vides
@@ -242,7 +249,7 @@ public class GenerateurEleve extends javax.swing.JFrame {
     
     // Ouvre le générateur/gestionnaire d'évaluations pour l'élève en cours de création
     private void ouvrirGenEvalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouvrirGenEvalsBActionPerformed
-        GenerateurEvaluations gen = new GenerateurEvaluations();   
+        GenerateurEvaluations gen = new GenerateurEvaluations(this);   
         majEleveRapide();
         gen.init(eleveEnCreation);
         gen.setVisible(true);
@@ -255,7 +262,7 @@ public class GenerateurEleve extends javax.swing.JFrame {
         Promotion promo = Promotion.trouverPromotion(eleveEnCreation.getPromotion().getNom());
         if(!promo.getEleves().contains(eleveEnCreation))promo.ajouterEleve(eleveEnCreation);
         CSV_Loader.ajouterEleveDansFichier(eleveEnCreation, CSV_Loader.ELEVES_PATH);
-        gestionnairePromos gestionnairePromo = new gestionnairePromos();
+        GestionnairePromos gestionnairePromo = new GestionnairePromos();
         gestionnairePromo.setVisible(true);
         dispose();
 
@@ -306,8 +313,10 @@ public class GenerateurEleve extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField nomTF;
-    private javax.swing.JButton ouvrirGenEvalsB;
+    public javax.swing.JButton ouvrirGenEvalsB;
     private javax.swing.JTextField prenomTF;
     public javax.swing.JTextField promoTF;
     // End of variables declaration//GEN-END:variables
+
+   
 }

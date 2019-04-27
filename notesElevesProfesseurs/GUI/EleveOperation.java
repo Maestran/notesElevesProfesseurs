@@ -1,4 +1,4 @@
-package notesElevesProfesseurs.notesElevesProfesseurs.GUI;
+package notesElevesProfesseurs.GUI;
 
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Evaluation;

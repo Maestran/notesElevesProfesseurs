@@ -5,6 +5,11 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -12,11 +17,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
+import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Evaluation;
 import notesElevesProfesseurs.Matiere;
 import notesElevesProfesseurs.Professeur;
 import notesElevesProfesseurs.Promotion;
+
+
+
 
 /**
  *
@@ -24,6 +33,9 @@ import notesElevesProfesseurs.Promotion;
  */
 public class GenerateurEvaluations extends javax.swing.JFrame 
 {
+    
+    // Sert de marque page pour savoir où modifier dans le fichier CSV l'évaluation
+    public static Evaluation evalEnCours = null;
     /**
      * Creates new form GenerateurEvaluations
      */
@@ -31,6 +43,11 @@ public class GenerateurEvaluations extends javax.swing.JFrame
     {
         initComponents();
     }
+
+    GenerateurEvaluations(GenerateurEleve genEleve) {
+        initComponents();
+    }
+    
     
     public void verifActivationBouton()
     {
@@ -39,17 +56,16 @@ public class GenerateurEvaluations extends javax.swing.JFrame
         else 
             ajouterEvalB.setEnabled(false);
     }
+    
+    
    
     public void init(Eleve e)
     {
         Globals.eleveSelectionne=  e;
-        afficherEvaluationsEleve(e, evalsTable);
-        evalsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                suppEvalB.setEnabled(true);
-            }
-        });
+        GenerateurEvaluationsOperations operations = new GenerateurEvaluationsOperations();
+        operations.afficherEvaluationsEleve(e, evalsTable, mainLabel);
+        operations.ajouterDetectionClicLigne(evalsTable, suppEvalB, modifEvalB);
+        operations.activerRemplissageChampsEval(evalsTable,noteTF,correcteurTF,matTF,typeTF);
         
         DocumentListener tfListener = new DocumentListener() {
             @Override
@@ -72,33 +88,38 @@ public class GenerateurEvaluations extends javax.swing.JFrame
         correcteurTF.getDocument().addDocumentListener(tfListener);
         typeTF.getDocument().addDocumentListener(tfListener);
         noteTF.getDocument().addDocumentListener(tfListener);
+        
+     
+       
+        addWindowListener(new WindowAdapter() {
+                        @Override
+            public void windowClosing(WindowEvent e)
+            {
+                majTexteBouton(Globals.eleveSelectionne);
+            }});
+    }
+ 
+    
+     public void majTexteBouton(Eleve eleveSelectionne) 
+    {
+        System.out.println("Maj Texte Bouton...");
+        Frame[] frames = Frame.getFrames();
+        for(Frame f : frames)
+        {
+            System.out.println("Fenetre : " +f.getTitle() + "Type : " + f.getClass());
+            if(f.getClass() == ModifEleve.class || f.getClass() == GenerateurEleve.class)
+            {
+                System.out.println("INSTANCE TROUVEE !"); 
+                if(f.getClass() == ModifEleve.class)
+             ((ModifEleve) f).ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : "+ eleveSelectionne.getEvaluations().size() +") ");   
+                else 
+             ((GenerateurEleve) f).ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : "+ eleveSelectionne.getEvaluations().size() +") ");   
+            }
+        }
+        System.out.println("FIN");
     }
     
-    private void afficherEvaluationsEleve(Eleve e, JTable evaluationsTable)
-    {
-        
-        System.out.println("Début d'affichage des évaluations");
-        DefaultTableModel model = new DefaultTableModel();
-        
-        Object[] columns = {"Note","Matière","Correcteur","Type"};
-        model.setColumnIdentifiers(columns);
-        Object[] rows = new Object[evaluationsTable.getColumnCount()]; // par défaut 4 colonnes   
-        System.out.println(System.lineSeparator()+rows.length +" évaluations trouvées");
-        for(Evaluation eval : e.getEvaluations())
-        {
-                    rows[0] = eval.getNote();                                                                    // NOTE
-                    rows[1] = eval.getMat().getNom();                                                            // MATIERE
-                    rows[2] = eval.getProf().getPrenom() + " " + eval.getProf().getNom();                      // CORRECTEUR
-                    rows[3] = eval.getEvalType();                                                              // TYPE
-                            model.addRow(rows);
-                            System.out.println("Ajout de " + eval);
-        }
-        evaluationsTable.setModel(model);
-        evaluationsTable.repaint();
-        mainLabel.setText("Liste des évaluations pour l'élève : "+ e.getNom().toUpperCase() + " " + e.getPrenom());
-        System.out.println("Terminé!"); 
-    }
-          
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,6 +143,7 @@ public class GenerateurEvaluations extends javax.swing.JFrame
         typeTF = new javax.swing.JTextField();
         correcteurTF = new javax.swing.JTextField();
         matTF = new javax.swing.JTextField();
+        modifEvalB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -137,13 +159,14 @@ public class GenerateurEvaluations extends javax.swing.JFrame
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+                java.lang.Float.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        evalsTable.setRowHeight(30);
         jScrollPane1.setViewportView(evalsTable);
 
         ajouterEvalB.setText("Ajouter une évaluation");
@@ -177,93 +200,115 @@ public class GenerateurEvaluations extends javax.swing.JFrame
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel5.setText("Type");
 
+        noteTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noteTFActionPerformed(evt);
+            }
+        });
+
+        modifEvalB.setText("Modifier");
+        modifEvalB.setEnabled(false);
+        modifEvalB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifEvalBClick(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(suppEvalB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ajouterEvalB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(modifEvalB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(suppEvalB)
-                        .addGap(157, 157, 157)
-                        .addComponent(noteTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ajouterEvalB, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(matTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(79, 79, 79)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(correcteurTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(94, Short.MAX_VALUE))
+                    .addComponent(noteTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(matTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(74, 74, 74)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(correcteurTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(117, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(89, 89, 89)
                     .addComponent(mainLabel)
-                    .addContainerGap(530, Short.MAX_VALUE))
+                    .addContainerGap(541, Short.MAX_VALUE))
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jScrollPane1)
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(268, 268, 268)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(676, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(457, 457, 457)
+                .addGap(448, 448, 448)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(suppEvalB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(noteTF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(suppEvalB, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(ajouterEvalB, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(matTF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(modifEvalB, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(ajouterEvalB, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(correcteurTF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)))
-                .addContainerGap())
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(noteTF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(correcteurTF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(40, 40, 40)
+                                        .addComponent(typeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(matTF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(56, 56, 56))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(mainLabel)
                     .addGap(18, 18, 18)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(188, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(482, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(99, 99, 99)))
+                    .addContainerGap(224, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void suppEvalBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suppEvalBActionPerformed
+       if(Globals.evaluationSelectionnee == null)
+       {
+           System.out.println("Impossible de supprimer l'évaluation car aucune n'est selectionnée");
+                      return;
+       }
+        
         suppEvalB.setEnabled(false);
         ((DefaultTableModel) evalsTable.getModel()).removeRow(evalsTable.getSelectedRow());
         evalsTable.clearSelection();
-        for(Evaluation eval : Globals.eleveSelectionne.getEvaluations())
+        for(Evaluation eval : Globals.eleveSelectionne.getEvaluations().toArray(new Evaluation[Globals.eleveSelectionne.getEvaluations().size()]))
             if(eval == Globals.evaluationSelectionnee)
                 Globals.eleveSelectionne.getEvaluations().remove(eval);
                 
@@ -293,8 +338,25 @@ public class GenerateurEvaluations extends javax.swing.JFrame
         eval.setEvalType(typeTF.getText());
         ((DefaultTableModel) evalsTable.getModel()).addRow(new Object[]{eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom(),eval.getEvalType()});
         CSV_Loader.ajouterEvaluationDansFichier(eval,CSV_Loader.EVALUATIONS_PATH);
-        System.out.println("Evaluation ajoutée dans la JTABLE !");
+        System.out.println("Evaluation ajoutée dans la JTABLE !");        
+        Globals.evaluationSelectionnee = eval;
     }//GEN-LAST:event_ajouterEvalBActionPerformed
+
+    private void modifEvalBClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifEvalBClick
+        // TODO add your handling code here:
+        if(Globals.evaluationSelectionnee == null)
+            System.out.println("(!) Impossible de mettre à jour l'évaluation car NullReferenceException");
+        Globals.eleveSelectionne.getEvaluations().remove(Globals.evaluationSelectionnee);
+        majRapideEvaluation();
+        CSV_Loader.majEvaluations(evalEnCours, Globals.evaluationSelectionnee, CSV_Loader.EVALUATIONS_PATH);
+        Globals.eleveSelectionne.add(Globals.evaluationSelectionnee);
+         GenerateurEvaluationsOperations operations = new GenerateurEvaluationsOperations();
+         operations.afficherEvaluationsEleve(Globals.eleveSelectionne, evalsTable, mainLabel);
+    }//GEN-LAST:event_modifEvalBClick
+
+    private void noteTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noteTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noteTFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,8 +404,27 @@ public class GenerateurEvaluations extends javax.swing.JFrame
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JTextField matTF;
+    private javax.swing.JButton modifEvalB;
     private javax.swing.JTextField noteTF;
     private javax.swing.JButton suppEvalB;
     private javax.swing.JTextField typeTF;
     // End of variables declaration//GEN-END:variables
+
+    private void majRapideEvaluation() 
+    {
+        Evaluation eval = new Evaluation();
+        String[] prenomNom =  correcteurTF.getText().split(" ");
+        Professeur p = Professeur.trouverProfesseur(prenomNom[1], prenomNom[0]);
+        if(p == null) p = new Professeur(prenomNom[1], prenomNom[0]);
+        float note = Float.parseFloat(noteTF.getText().replace(',', '.'));
+        Matiere mat = Matiere.trouverMatiere(matTF.getText());
+        if(mat == null) mat = new Matiere(matTF.getText());
+        String typeNote  =  typeTF.getText();
+        eval.setEleve(Globals.eleveSelectionne);
+        eval.setEvalType(typeNote);
+        eval.setMat(mat);
+        eval.setNote(note);
+        eval.setProf(p);
+        Globals.evaluationSelectionnee = eval;
+    }
 }
