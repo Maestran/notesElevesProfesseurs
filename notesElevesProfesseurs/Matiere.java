@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Matiere {
     private String nom;
+    private String promo; // La promotion suivant cette matière
+    
     public static HashSet<Matiere> listeMatieres = new HashSet<>();
     
     public float moyenne = 0;
@@ -18,24 +20,36 @@ public class Matiere {
     
     
     public Matiere(){};
-    public Matiere(String n){
+    public Matiere(String n, String p){
         this.nom = n;
+        this.promo = p;
     }
 
-    public void setNom(String nom) {
+    public void setNom(String nom, String p) {
         this.nom = nom;
+        this.promo = p;
     }
 
     public String getNom() {
         return nom;
     }
     
-    public static Matiere trouverMatiere(String nomMatiere)
+    public String getNomPromo()
+    {
+        return promo;
+    }
+    
+    public static Matiere trouverMatiere(String nomMatiere, String nomPromo)
     {
         for(Matiere m : listeMatieres)
         {
            if( m.getNom().equals(nomMatiere))
-               return m;
+           {
+               if(nomPromo.equals(m.getNomPromo()))
+                {
+                    return m;
+                }
+           }
         }
         return null;
     }
@@ -74,6 +88,4 @@ public class Matiere {
         
         moyenne = sum / (float) allNote.size();
     }
-
-
 }

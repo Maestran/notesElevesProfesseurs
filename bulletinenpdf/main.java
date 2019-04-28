@@ -25,14 +25,8 @@ public class main {
             Eleve a = Promotion.rechercherElevePartout(1);
             Bulletin bul = new Bulletin(a);
             bul.creerBulletin();
+                
             
-            for(Promotion p : Promotion.getListePromos())
-            p.listerEleves(true);
-     
-            Menu m = new Menu();
-            m.afficherAccueil();
-            
-            //System.out.println(e2.getCorrecteurs());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

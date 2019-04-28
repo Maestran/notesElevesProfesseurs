@@ -7,12 +7,12 @@ Sur le projet.
 -------------------- INSTALLATION --------------------
 INSTALLATION : 
 
-Pour générer des bulletin en PDF : 
+Pour générer des bulletin en PDF et les graphiques : 
 1) Il faut créér un projet de type "Maven"
 2) Le groupe ID doit etre : "com.itextpdf"
 3) Il faut ensuite modifier le fichier pom.xml comme dans les sources.
 
-Pour obtenir les graphismes : 
+Pour obtenir les graphiques si l'installation en Maven pause problème : 
 
 1) Il faut deplacer les .jar jcommon et jfreechart dans un fichier lib de votre racine
 2) Il faut ensuite ajouter les libraries dans les paramètres de votre projet

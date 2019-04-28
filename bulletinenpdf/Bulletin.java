@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bulletinenpdf;
 
 import notesElevesProfesseurs.*;
@@ -21,6 +16,11 @@ import java.io.File;
 import java.io.IOException;
 
 
+/*
+Cette classe permet de generer le bulletin en PDF d'un élève
+Le bulletin sera stocké dans le dossier resultats/
+
+*/
 public class Bulletin {
     
     private Eleve eleve;
@@ -34,9 +34,13 @@ public class Bulletin {
     Bulletin(Eleve a)
     {
         eleve = a;
-        DEST = "resultats/" + eleve.getPromotion().getNom() + "/" + eleve.getId() + ".pdf";
+        DEST = "resultats/" + eleve.getPromotion().getNom() + "/" + eleve.getId() + ".pdf"; 
+        // On choisi ici l'endroit ou sera stocké le bulletin en fonction du nom de la promo et de l'ID de l'élève
     }
     
+    /*
+    On crée d'abord le bulletin ici
+    */
     public void creerBulletin() throws IOException
     {
         File file = new File(DEST);
@@ -44,7 +48,9 @@ public class Bulletin {
         this.createPdf(DEST);
     }
        
-    
+    /*
+    Puis, on crée le fichier en PDF
+    */
     public void createPdf(String DEST)throws IOException {
     
     PdfDocument pdf = new PdfDocument(new PdfWriter(DEST));
@@ -55,6 +61,9 @@ public class Bulletin {
     
     }
     
+    /*
+    On remplit ici la structure du bulletin
+    */
     private void creationStructureBulletin(Document document)
     {
         document.add(new Paragraph(eleve.getPrenom() + "\n"));
@@ -88,6 +97,9 @@ public class Bulletin {
         ajoutLigneFinal(document);
     }
     
+    /*
+    Ici, on ajoute le tableau avec toutes les notes
+    */
     private void ajoutNoteMatière(Table table)
     {
         for(Evaluation a : eleve.getEvaluations())
@@ -102,6 +114,9 @@ public class Bulletin {
         }
     }
     
+    /*
+    Dernière ligne du bulletin, pour la moyenne générale, et 
+    */
     private void ajoutLigneFinal(Document doc)
     {
         float value = eleve.calculMoyenne();
