@@ -44,35 +44,40 @@ public class TestEleves
         Professeur p3 = new Professeur("Historien","");
         Professeur p4 = new Professeur("Victor","Hugo");
         
-        Matiere math = new Matiere("maths");
-        Matiere francais = new Matiere("français");
-        Matiere histoire = new Matiere("histoire");
-        Matiere geo = new Matiere("geographie");
+        Matiere math2021 = new Matiere("maths","2021");
+        Matiere francais2021 = new Matiere("français","2021");
+        Matiere histoire2021 = new Matiere("histoire","2021");
+        Matiere geo2021 = new Matiere("geographie","2021");
+        
+        Matiere math2023 = new Matiere("maths","2021");
+        Matiere francais2023 = new Matiere("français","2021");
+        Matiere histoire2023 = new Matiere("histoire","2021");
+        Matiere geo2023 = new Matiere("geographie","2021");
         
         
         // Mettre des notes aux élèves et attribution des correcteurs
-        Evaluation eval = new Evaluation(9,math,francis,p);
-        Evaluation eval2 = new Evaluation(11,math,francis,p);
+        Evaluation eval = new Evaluation(9,math2021,francis,p);
+        Evaluation eval2 = new Evaluation(11,math2021,francis,p);
         francis.add(eval);
         francis.add(eval2);
         
-        Evaluation eval3 = new Evaluation(16,math,tristan,p);
-        Evaluation eval4 = new Evaluation(13,francais,tristan,p4);
+        Evaluation eval3 = new Evaluation(16,math2021,tristan,p);
+        Evaluation eval4 = new Evaluation(13,francais2021,tristan,p4);
         tristan.add(eval3);
         tristan.add(eval4);
-        Evaluation eval5 = new Evaluation(16,math,tristan,p);
-        Evaluation eval6 = new Evaluation(13,histoire,tristan,p3);
-        Evaluation eval7 = new Evaluation(13,histoire,tristan,p3);
-        Evaluation eval8 = new Evaluation(10,geo,tristan,p2);
-        Evaluation eval9 = new Evaluation(14,geo,tristan,p2);
+        Evaluation eval5 = new Evaluation(16,math2021,tristan,p);
+        Evaluation eval6 = new Evaluation(13,histoire2021,tristan,p3);
+        Evaluation eval7 = new Evaluation(13,histoire2021,tristan,p3);
+        Evaluation eval8 = new Evaluation(10,geo2021,tristan,p2);
+        Evaluation eval9 = new Evaluation(14,geo2021,tristan,p2);
         tristan.add(eval5);
         tristan.add(eval6);
         tristan.add(eval7);
         tristan.add(eval8);
         tristan.add(eval9);
         
-        Evaluation eval10 = new Evaluation(20,math,nico,p);
-        Evaluation eval11 = new Evaluation(19,histoire,nico,p3);
+        Evaluation eval10 = new Evaluation(20,math2021,nico,p);
+        Evaluation eval11 = new Evaluation(19,histoire2021,nico,p3);
         nico.add(eval10);
         nico.add(eval11);
         

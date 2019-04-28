@@ -7,6 +7,7 @@ package noteselevesprofesseurs.bulletinenpdf;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import notesElevesProfesseurs.*;
@@ -21,14 +22,28 @@ public class bulletinTest {
        
  
         try {
-            CSV_Loader.chargerFichierEleves("Data\\eleves.csv");   
+            CSV_Loader.chargerFichierEleves("Data\\élèves.csv");    // On charge les données
          
-            CSV_Loader.chargerEvaluations("Data\\Résultats_eleves.csv");
+            CSV_Loader.chargerEvaluations("Data\\Résultats élèves.csv"); 
             
-            Eleve a = Promotion.rechercherElevePartout(1);
-            Bulletin bul = new Bulletin(a);
-            bul.creerBulletin();
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Veuiller saisir un id d'élève");
+            
+            int val = scan.nextInt();
+            if(Promotion.rechercherElevePartout(val) != null)
+            {
+                Eleve a = Promotion.rechercherElevePartout(val);
+                Bulletin bul = new Bulletin(a);
+                bul.creerBulletin();
+                System.out.println("Le bulletin a été généré dans le fichier resultat");
                 
+            }
+            else
+            {
+                System.out.println("Erreur, l'élève n'existe pas ... END");
+            }
+            
+            
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
