@@ -10,14 +10,14 @@ public class Main {
     public static void main(String[] args) {
        
         try {
+            
+            // Chargement des données du programme via les fichiers CSV
             CSV_Loader.start("Data\\élèves.csv", "Data\\Résultats élèves.csv");
 
-               for(Promotion p : Promotion.getListePromos())
-                p.listerEleves(true);
+            // Affiche le menu principal en interface console (VERSION 2 du rendu)
             Menu m = new Menu();
             m.afficherAccueil();
                         
-            //System.out.println(e2.getCorrecteurs());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

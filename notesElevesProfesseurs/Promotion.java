@@ -8,15 +8,25 @@ import java.util.Comparator;
 
 public class Promotion {
 
-
+  // Les variables sont privées car accessibles avec des getters/setters
     private String nom;
     private ArrayList<Eleve> eleves= new ArrayList<>();
     private static ArrayList<Promotion> listePromos = new ArrayList<>();
+    
+    /**
+     * La promotion nécéssite un nom pour être créee
+     * @param nom 
+     */
     public Promotion(String nom)
     {
        this.nom = nom;
     }
     
+    /**
+     * Recherche un élève par identifiant dans toutes les promotions connues par le logiciel
+     * @param identifiant identifiant de l'élève recherché
+     * @return l'élève recherché
+     */
         public static Eleve rechercherElevePartout(int identifiant) {
         
         Eleve e;
@@ -29,13 +39,20 @@ public class Promotion {
     }
 
         
-    
+    /**
+     * Permet d'ajouter un élève à cette promotion
+     * @param e l'élève à ajouter
+     */
     public void ajouterEleve(Eleve e) {
         eleves.add(e);
         e.setPromotion(this);
     }
 
-    
+    /**
+     * Recherche un élève par identifiant dans cette promotion 
+     * @param identifiant l'identifiant de l'élève
+     * @return l'élève trouvé
+     */
     Eleve RechercherEleve(int identifiant)
     {
         for(Eleve e : eleves)
@@ -60,12 +77,16 @@ public class Promotion {
     }
 
     /**
-     * @return the eleves
+     * @return l'ensemble des élèves de cette promotion
      */
     public ArrayList<Eleve> getEleves() {
         return eleves;
     }
     
+    /**
+     * Liste l'ensemble des élèves d'une promotion en indiquant au moins leur identifiant, leur nom et leur prénom
+     * @param detailler si à Vrai, on liste les élèves avec davantage d'informations comme leur date de naissance
+     */
     public void listerEleves(boolean detailler)
     {
         System.out.println("Affichage des élèves pour la promotion : " + getNom());   
@@ -100,7 +121,9 @@ public class Promotion {
             if(e.getId()==searchId) return e;
         return null;
     }
-    
+
+    // Ici nous avons l'ensemble des classes de comparaisons qui peuvent être utilisées dans la méthode Collection.sort()
+    // afin de pouvoir trier nos élèves    
     public class MoyenneComparator implements Comparator<Eleve>
     {
         @Override
@@ -135,7 +158,10 @@ public class Promotion {
         public int compare(Eleve e1, Eleve e2) { return e1.getPrenom().compareTo(e2.getPrenom());}
     }
 
-    // Classer les élèves par le prénom
+    /**
+     * Classe les élèves de la promotion par le prénom
+     * @param croissant si à Vrai, les élèves seront triés dans un ordre croissant
+     **/
     public void triPrenom(boolean croissant)
     {
         Collections.sort(getEleves(),new prenomComparator());
@@ -143,7 +169,10 @@ public class Promotion {
             Collections.reverse(getEleves());
     }
 
-    // Classer les élèves par le nom
+    /**
+     * Classe les élèves de la promotion par le nom
+     * @param croissant si à Vrai, les élèves seront triés dans un ordre croissant
+     **/
     public void triNom(boolean croissant)
     {
         Collections.sort(getEleves(),new nomComparator());
@@ -151,7 +180,10 @@ public class Promotion {
             Collections.reverse(getEleves());
     }
 
-    // Classer les élèves par la id
+    /**
+     * Classe les élèves de la promotion par leur identifiant
+     * @param croissant si à Vrai, les élèves seront triés dans un ordre croissant
+     **/
     public void triId(boolean croissant)
     {
         Collections.sort(getEleves(),new idComparator());
@@ -159,7 +191,10 @@ public class Promotion {
             Collections.reverse(getEleves());
     }
     
-    // Classer les élèves par la médiane
+    /**
+     * Classe les élèves de la promotion par leur médiane
+     * @param croissant si à Vrai, les élèves seront triés dans un ordre croissant
+     **/
     public void triMediane(boolean croissant)
     {
         Collections.sort(getEleves(),new MedianeComparator());
@@ -167,7 +202,10 @@ public class Promotion {
             Collections.reverse(getEleves());
     }
 
-    // Classer les élèves par la moyenne
+    /**
+     * Classe les élèves de la promotion par leur moyenne
+     * @param croissant si à Vrai, les élèves seront triés dans un ordre croissant
+     **/
     public void triMoyenne(boolean croissant)
     {   
         Collections.sort(getEleves(),new MoyenneComparator());
@@ -175,7 +213,11 @@ public class Promotion {
             Collections.reverse(getEleves());
     }
 
-    
+    /**
+     * Recherche une promotion par nom et retourne null si rien est trouvé
+     * @param nom le nom de la promotion à chercher
+     * @return l'objet Promotion
+     */
     public static Promotion trouverPromotion(String nom)
     {
         nom = nom.toLowerCase();
@@ -185,6 +227,10 @@ public class Promotion {
         return null;
     }
     
+    /**
+     * Retourne la moyenne générale de la promotion
+     * @return la moyenne générale de la promotion
+     */
     public float obtenirMoyennePromotion()
     {
         float moy = 0;
@@ -199,7 +245,11 @@ public class Promotion {
         
         return (float)(moy/this.getEleves().size());
     }
-        
+     
+    /**
+     * Retourne la moyenne minimale de la promotion
+     * @return la moyenne minimale de la promotion
+     */
     public float obtenirMinimumPromotion()
     {
         float value = 21;
@@ -218,7 +268,10 @@ public class Promotion {
         return value;
     }
     
-            
+     /**
+     * Retourne la moyenne maximale de la promotion
+     * @return la moyenne maximale de la promotion
+     */        
     public float obtenirMaximumPromotion()
     {
         float value = 0;

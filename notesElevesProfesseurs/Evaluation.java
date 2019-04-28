@@ -26,16 +26,18 @@ public class Evaluation implements Comparable<Evaluation>{
     
     //Options bonus
     private String evalType = "CE"; 
+    //Le coefficient pourra être utilisé dans une possible mise à jour
     private int coeff = 1;
 
     public Evaluation(){};
 
-    public Evaluation(float n, Matiere m, Eleve e, Professeur p){
-        this.note = n;
-        this.mat = m;
-        this.eleve = e;
-        this.prof = p;
-        m.updateData(note);
+    
+    public Evaluation(float note, Matiere mat, Eleve eleve, Professeur prof){
+        this.note = note;
+        this.mat = mat;
+        this.eleve = eleve;
+        this.prof = prof;
+        mat.updateData(note);
     }
 
     @Override

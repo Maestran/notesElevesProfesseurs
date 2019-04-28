@@ -53,26 +53,29 @@ public class CSV_Loader
             ELEVES_PATH = chemin;
             Scanner scanner = new Scanner(new File(chemin));
             boolean firstLineDone = false;
-            while(scanner.hasNext())
+            while(scanner.hasNext()) // tant que le scanner parvient à lire des lignes
             {
                 if(!firstLineDone)
                 {
                     // La première ligne est purement décorative donc on la saute
                    firstLineDone = true;   
-                   scanner.nextLine();
+                   scanner.nextLine(); 
                 }
                 else
                 {
-                    String line = scanner.nextLine();
-                    if(!"".equals(line.trim()))
+                    String line = scanner.nextLine(); // On récupère la ligne suivante dans le scanner
+                    if(!"".equals(line.trim())) // on vérifie si la ligne n'est pas vide, sinon on la saute
                     {
-                             String[] lineStrings = line.split(";");
+                    
+                    // On récupère l'ensemble des données de la ligne en obtenant toutes les données séparées par des points virgule
+                    String[] lineStrings = line.split(";");
                     Eleve e = new Eleve();
                     e.setNom(lineStrings[1]);
                     e.setPrenom(lineStrings[2]);
                     
                      if(lineStrings[4] != null)
                     {
+                        // On sépare la date de naissance en 3 parties afin de pouvoir créer un objet
                         String[] dateString = lineStrings[4].split("/");
                         e.setDateNaissance(new Date(Integer.parseInt(dateString[2]),Integer.parseInt(dateString[1]), Integer.parseInt(dateString[0])));
                     }
@@ -84,6 +87,7 @@ public class CSV_Loader
                     }
                     else 
                     {
+                        // Si la promotion lue dans la case n'existe pas, on la crée 
                         Promotion nouvellePromo = new Promotion(lineStrings[3]);
                         nouvellePromo.ajouterEleve(e);
                         Promotion.getListePromos().add(nouvellePromo);
@@ -122,13 +126,13 @@ public class CSV_Loader
      */
     public static void chargerEvaluations(String chemin) throws FileNotFoundException
     {
-        // Nécéssite au préalable d'avoir chargé les élèves, sinon erreur et arrêt du programme
+        // Sécurité, nécéssite au préalable d'avoir chargé les élèves, sinon erreur et arrêt du programme
         if(Promotion.getListePromos() == null || Promotion.getListePromos().isEmpty())
         {
             System.out.println("(!) Erreur, il faut avoir chargé le fichier des élèves avant de charger le fichier des évaluations." + System.lineSeparator() +" fin du programme... ");
             System.exit(-1);
         }
-         if(!new File(chemin).exists())
+         if(!new File(chemin).exists()) // Sécurité
         {
             System.out.println("Le fichier demandé n'existe pas");
         }
@@ -142,7 +146,7 @@ public class CSV_Loader
             boolean firstLineChecked= false;
             while(scanner.hasNext())
             {
-                // Idée : Possibilité de mettre en place facilement une gestion des élèves peu importe la position de la colonne via la lecture de la premiere ligne
+                // Idée algorithmique : Possibilité de mettre en place facilement une gestion des élèves peu importe la position de la colonne via la lecture de la premiere ligne
                 if(!firstLineChecked)
                 {
                     firstLineChecked=true;
@@ -192,7 +196,7 @@ public class CSV_Loader
     {
           File f = new File(chemin);
         if(e!=null)
-        if(!f.exists())
+        if(!f.exists()) // Sécurité
         {
             System.out.println("Impossible d'ajouter l'élève, le fichier n'existe pas au chemin : " + chemin);
         }
@@ -242,6 +246,7 @@ public class CSV_Loader
                   for(String line : lines)
                       linesNew.add(line);
                   
+                  
                   for(String line : lines)
                   {
                       if(line == lines.get(0)) continue;
@@ -254,6 +259,7 @@ public class CSV_Loader
                       }
                       System.out.println(System.lineSeparator()+ eval.getEleve().getId()+";" +eval.getNote()+";"+eval.getMat().getNom()+";"+eval.getProf().getPrenom() +";"+ eval.getProf().getNom() );
                       System.out.println("");
+                      // on compare à un à un les caractéristiques des 2 évaluations pour voir si il faut la supprimer
                       if(lineParts[0].equals(String.valueOf(eval.getEleve().getId())) && eval.getNote() == Float.parseFloat(lineParts[1].replace(',', '.')) && lineParts[2].equals(eval.getMat().getNom()) && lineParts[3].equals(eval.getProf().getPrenom() + " " + eval.getProf().getNom() ) )
                       {
                           linesNew.remove(line);
@@ -287,7 +293,9 @@ public class CSV_Loader
                 Date d = e.getDateNaissance();
                 List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
                 String csvEleveFormat = String.format("%d;%s;%s;%s;%d/%d/%d",lines.size()-1,e.getNom(),e.getPrenom(),e.getPromotion().getNom(),d.getJour(),d.getMois(),d.getAnnee());
+                // On ajoute une nouvelle ligne à la liste des lignes
                 lines.add(lines.size()-1, csvEleveFormat);
+                // Puis on écrit cela dans le fichier CSV
                 Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
                 System.out.println("(!) Erreur ajout élève, vérifiez que le fichier n'est pas déjà ouvert");
@@ -306,7 +314,7 @@ public class CSV_Loader
     }
     
     /**
-     * Ajoute un élève dans le fichier des élèves indiqué
+     * Ajoute un élève dans le fichier des élèves indiqué à la position indiquée
      * @param e L'élève à ajouter
      * @param path chemin du fichier CSV des élèves
      * @param pos
@@ -325,6 +333,7 @@ public class CSV_Loader
                 Date d = e.getDateNaissance();
                 List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
                 String csvEleveFormat = String.format("%d;%s;%s;%s;%d/%d/%d",lines.size()-1,e.getNom(),e.getPrenom(),e.getPromotion().getNom(),d.getJour(),d.getMois(),d.getAnnee());
+                // On remplace la ligne 
                 lines.set(pos, csvEleveFormat);
                 Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
             } catch (IOException ex) {
@@ -403,8 +412,8 @@ public class CSV_Loader
 
     /**
      * Met à jour toutes les caracteristiques de l'élève sauf les évaluations
-     * @param e
-     * @param chemin
+     * @param e élève à mettre à jour
+     * @param chemin chemin du fichier CSV des évaluations
      */
 
     public static void majEleve(Eleve e, String chemin)
@@ -422,8 +431,9 @@ public class CSV_Loader
     }
     
     /**
-     *Met à jour toutes les évaluations d'un élève, utilisé pour la version console uniquement
-     * @param chemin
+     *Met à jour une évaluation particulière, utilisé pour la version console uniquement
+     * @param eval l'évaluation à mettre à jour
+     * @param chemin chemin du fichier CSV des évaluations
      */
     public static void majEvaluations(Evaluation eval, String chemin) 
     {
@@ -520,7 +530,7 @@ public class CSV_Loader
                         System.exit(0);
                 } catch (Exception exception) {
                     System.out.println(" (!) Erreur de modification de l'évaluation de l'élève : " );
-                    exception.printStackTrace();
+                    System.out.println(ex);
                 }
             }
         }

@@ -1,5 +1,9 @@
 package notesElevesProfesseurs;
 
+/**
+ * La classe personne est la classe dont hérite la classe Professeur et Eleve, elle permet de leur fournir un nom et un prénom
+ * @author franc
+ */
 public class Personne {
     private String nom = "";
     private String prenom = "";

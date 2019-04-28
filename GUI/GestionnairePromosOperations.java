@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package noteselevesprofesseurs.GUI; 
+package GUI; 
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -30,7 +30,7 @@ public class GestionnairePromosOperations
     //Modèle sauvegardé pour la recherche de données
 
     /**
-     *
+     * Vide une JTable de toutes ses lignes 
      * @param table
      */
     public void viderTable(JTable table)
@@ -45,9 +45,9 @@ public class GestionnairePromosOperations
     }
     
     /**
-     *
-     * @param promo
-     * @param elevesTable
+     * Affiche tous les élèves d'une promotion dans la JTable fournie
+     * @param promo Promotion à afficher
+     * @param elevesTable table dans laquelle afficher la promotion
      */
     public void afficherElevesPromo(Promotion promo, JTable elevesTable)
     {
@@ -76,9 +76,9 @@ public class GestionnairePromosOperations
     }
      
     /**
-     *
-     * @param barreDeRecherche
-     * @param tableAChercher
+     * Active la barre de recherche
+     * @param barreDeRecherche zone de texte qui va servir de barre de recherche
+     * @param tableAChercher table à chercher (recherche par identifiant pour la première colonne)
      */
     public void activerLaBarreDeRecherche(JTextField barreDeRecherche, JTable tableAChercher)
      {
@@ -101,6 +101,7 @@ public class GestionnairePromosOperations
          });
      }
      
+    // Recherche par identifiant pour la première colonne un élève et affiche uniquement cet élève
      private void rechercheEleve(JTextField barreDeRecherche ,JTable tableAChercher )
      {
          try {
@@ -119,9 +120,9 @@ public class GestionnairePromosOperations
      }
      
     /**
-     *
-     * @param box
-     * @param elevesTable
+     * Génère la liste déroulante qui permet d'afficher une promotion pour cette fenêtre
+     * @param box la liste déroulante
+     * @param elevesTable la table à actualiser
      */
     public void genererComboboxPromotions(JComboBox box,JTable elevesTable)
      {
@@ -134,6 +135,11 @@ public class GestionnairePromosOperations
          assignerEventComboBoxPromotions(box, elevesTable);
      }
      
+    /**
+     * Affiche la promotion à chaque fois que nous sélectionnons une nouvelle promo de la liste déroulante
+     * @param box
+     * @param elevesTable 
+     */
      private void assignerEventComboBoxPromotions(final JComboBox box, JTable elevesTable)
      {
           box.addActionListener((ActionEvent e) -> {
@@ -142,9 +148,11 @@ public class GestionnairePromosOperations
           });
      }
 
+     /*
+     Recharge la table mais pour la promotion actuelle
+     */
     private void remontrerLaTable(JTable table) 
     {
-         System.out.println(">>>>Rechargé");
          afficherElevesPromo(Globals.promoActuelle, table);
     }
 

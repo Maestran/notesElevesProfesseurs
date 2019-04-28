@@ -1,6 +1,6 @@
 
 
-package noteselevesprofesseurs.GUI;
+package GUI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

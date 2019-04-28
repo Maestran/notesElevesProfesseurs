@@ -9,13 +9,19 @@ public class Matiere {
     private String nom;
     private String promo; // La promotion suivant cette matière
     
+    /**
+     * Représente l'ensemble des matières que le programme a trouvé
+     */
     public static HashSet<Matiere> listeMatieres = new HashSet<>();
     
     public float moyenne = 0;
     public float mediane = 0;
-    public float noteMin = 20;
-    public float noteMax = 0;
+    public float noteMin = 20; // La note minimale va constamment diminuer lors des comparaisons
+    public float noteMax = 0;  // La note maximale va constamment augmenter lors des comparaisons
     
+    /*
+    Représente l'ensemble des notes pour cette matière
+    */
     public List<Float> allNote = new ArrayList();
     
     
@@ -41,23 +47,25 @@ public class Matiere {
     
     public static Matiere trouverMatiere(String nomMatiere, String nomPromo)
     {
+        // On parcourt l'ensemble des matières
         for(Matiere m : listeMatieres)
         {
-           if( m.getNom().equals(nomMatiere))
+            // On compare le nom et la promotion associée
+           if( m.getNom().equals(nomMatiere) && nomPromo.equals(m.getNomPromo()))
            {
-               if(nomPromo.equals(m.getNomPromo()))
-                {
                     return m;
-                }
            }
         }
         return null;
     }
-                            
+           
+    /**
+     * Met à jour les données mediane,noteMax,noteMin et moyenne grâce à la note entrée
+     * @param note 
+     */
      public void updateData(float note)
     {
         float sum = 0;
-        int indiceMediane = 0;
         int i = 0;
         
         allNote.add(note);

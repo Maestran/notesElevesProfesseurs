@@ -1,6 +1,6 @@
 
 
-package noteselevesprofesseurs.GUI;
+package GUI;
 
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -333,7 +333,6 @@ public class GenerateurEvaluations extends javax.swing.JFrame
      * @param evt 
      */
     private void ajouterEvalBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEvalBActionPerformed
-        // TODO add your handling code here:
         try{
             Float.parseFloat(noteTF.getText());
             
@@ -390,7 +389,6 @@ public class GenerateurEvaluations extends javax.swing.JFrame
      * @param evt 
      */
     private void modifEvalBClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifEvalBClick
-        // TODO add your handling code here:
         if(Globals.evaluationSelectionnee == null)
             System.out.println("(!) Impossible de mettre à jour l'évaluation car NullReferenceException");
         Globals.eleveSelectionne.getEvaluations().remove(Globals.evaluationSelectionnee);
@@ -402,7 +400,6 @@ public class GenerateurEvaluations extends javax.swing.JFrame
     }//GEN-LAST:event_modifEvalBClick
 
     private void noteTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noteTFActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_noteTFActionPerformed
 
     /**

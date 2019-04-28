@@ -1,4 +1,4 @@
-package noteselevesprofesseurs.bulletinenpdf;
+package bulletinenpdf;
 import notesElevesProfesseurs.*;
 
 import com.itextpdf.kernel.pdf.PdfDocument;

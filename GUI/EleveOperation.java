@@ -1,5 +1,5 @@
 
-package noteselevesprofesseurs.GUI;
+package GUI;
 
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Evaluation;

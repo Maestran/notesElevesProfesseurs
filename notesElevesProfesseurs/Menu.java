@@ -12,7 +12,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- *
+ * Représente le système de gestionnaires via le mode console (VERSION 2 du Rendu)
  * @author franc
  */
 public final class Menu {
@@ -33,7 +33,9 @@ public final class Menu {
         System.exit(0);
     }
     
-    
+    /**
+     * Méthode de base pour afficher le menu principal de la console graphique en 2D
+     */
     public void afficherAccueil()
     {
        
@@ -65,6 +67,10 @@ public final class Menu {
        if(choixMenu>4 || choixMenu < 1) afficherAccueil();
     }
     
+    /**
+     * Propose différents tris et demande une saisie utilisateur( via un nombre ) pour les changer
+     * La fonction se relance en cas de bugs
+     */
     private void choisirModeDeTri()
     {
         System.out.println("1 ) identifiant"); 
@@ -106,7 +112,10 @@ public final class Menu {
     
     Scanner choiceScanner ;
     
-    //Saisie sécurisée d'un entier
+    /**
+     * Fonction très importante, car elle permet la saisie sécurisée d'un entier en console
+     * @return 
+     */
     int secureIntInput()
     {
                 choiceScanner = new Scanner(System.in);
@@ -117,12 +126,16 @@ public final class Menu {
             }
             catch( InputMismatchException ex)
             {
-                System.out.println("(!) Veuillez entrer un nombre");;
+                System.out.println("(!) Veuillez entrer un nombre");
+                // Si la saisie échoue, on relance la saisie sécurisée
                 secureIntInput(); 
             }
          return choice;
     }
     
+    /**
+     * Propose de chercher un élève par identifiant, si l'élève n'est pas trouvé, on redemande la saisie à l'utilisateur
+     */
     void chercherEleveParticulier()
     {
         System.out.println("------------------ Recherche d'un élève -----------------");
@@ -140,12 +153,15 @@ public final class Menu {
                 proposerOptionsEleveSeletionne();
     }
     
+    /**
+     * On propose l'option d'éditer un élève, modifier ses notes, supprimer l'élève ou de revenir au menu
+     */
     private void proposerOptionsEleveSeletionne()
     {
         if(eleveSelectionne!=null)
         {
           System.out.println("Nom : "+ eleveSelectionne.getNom().toUpperCase() + " Prenom : " + eleveSelectionne.getPrenom());
-
+          // On utilise un format particulier grâce à String.format
           System.out.println(String.format("Que souhaitez-vous faire ? %1$s%1$s ► Editer l'élève (1) %1$s ► Modifier ses notes (2) %1$s ► Supprimer l'élève (3) %1$s ► Retour (4)",System.lineSeparator()));   
           int choixPostAffichage = secureIntInput();
         switch(choixPostAffichage)
@@ -173,6 +189,9 @@ public final class Menu {
 
     }
     
+    /**
+     * Affiche un menu qui permet de changer de promotion, changer de mode de tri, ajouter un nouvel élève ou retourner au menu principal
+     */
     private void proposerOptionsConsultationEleves()
     {
         System.out.println(String.format("Que souhaitez-vous faire ? %1$s ► Changer de promotion (1) ► Changer le mode de Tri (2) ► Ajouter un nouvel élève (3) ► Retour (4)",System.lineSeparator()));   
@@ -196,26 +215,48 @@ public final class Menu {
         }
     }
 
+    /**
+     * On demande de choisir la promotion via console puis on affiche tous les élèves de la promotion selon le mode de tri actuellement choisi
+     * @param modeDeTri
+     * @param croissant 
+     */
     public void consulterEleves(TriEleves modeDeTri, boolean croissant)
     {
     
         promoActuelle = choisirPromo();
         
-        if(modeDeTri==TriEleves.moyenne)
-            promoActuelle.triMoyenne(croissant);
-        else if (modeDeTri==TriEleves.mediane)
-            promoActuelle.triMediane(croissant);
-        else if (modeDeTri==TriEleves.identifiant)
-            promoActuelle.triId(croissant);
-        else if (modeDeTri==TriEleves.nom)
-            promoActuelle.triNom(croissant);
-        else if (modeDeTri==TriEleves.prenom)
-            promoActuelle.triPrenom(croissant);
+        if(null!=modeDeTri)
+            switch (modeDeTri) {
+            case moyenne:
+                promoActuelle.triMoyenne(croissant);
+                break;
+            case mediane:
+                promoActuelle.triMediane(croissant);
+                break;
+            case identifiant:
+                promoActuelle.triId(croissant);
+                break;
+            case nom:
+                promoActuelle.triNom(croissant);
+                break;
+            case prenom:
+                promoActuelle.triPrenom(croissant);
+                break;
+            default:
+                break;
+        }
         
         promoActuelle.listerEleves(croissant);
+        
+        
+        // Une fois que l'affichage est terminé, on propose les options pour l'ensemble des élèves
         proposerOptionsConsultationEleves();
         }
 
+    /**
+     * Liste les promotions en affichant pour chacune leur nombre d'élèves 
+     * @return 
+     */
     private Promotion choisirPromo() {
         System.out.println("Choississez une promotion :"+System.lineSeparator()+System.lineSeparator());
         for(int i = 0;  i < Promotion.getListePromos().size();i++)
@@ -231,6 +272,9 @@ public final class Menu {
         return p;
     }
     
+    /**
+     * Affiche l'ensemble des profs trouvés en mémoire
+     */
     public void consulterProfs()
     {
         HashSet<Professeur> profs =  Professeur.getListeProfesseurs();
@@ -254,6 +298,11 @@ public final class Menu {
         
     }
 
+    /**
+     * Propose d'éditer un élève passé en argument, cela peut être son nom, son prénom, sa date de naissnce, sa promotion
+     * On peut également revenir en arrière au menu de recherche d'un élève particulier
+     * @param eleveSelectionne eleve à éditer
+     */
     private void editerEleve(Eleve eleveSelectionne) {
         System.out.println("---------------  Edition de l'élève n°" + eleveSelectionne.getId() +" | "+  eleveSelectionne.getNom() + " " +eleveSelectionne.getPrenom()+ " ------------------");
         System.out.println("Que souhaitez vous éditer ?");
@@ -266,7 +315,7 @@ public final class Menu {
         int choix = secureIntInput();
         Scanner textScanner = new Scanner(System.in);
         switch (choix) {
-            case 1:
+            case 1: // OPTION NOM
                 System.out.println("Entrez le nouveau  nom de l'élève : ");
                 String nom = textScanner.nextLine();
                 eleveSelectionne.setNom(nom);
@@ -275,7 +324,7 @@ public final class Menu {
                 editerEleve(eleveSelectionne);
                 
                break;
-            case 2:
+            case 2: // OPTION PRENOM
                 System.out.println("Entrez le nouveau prenom de l'élève : ");
                 String prenom = textScanner.nextLine();
                 eleveSelectionne.setPrenom(prenom);
@@ -283,7 +332,7 @@ public final class Menu {
                 System.out.println("Prenom changé !");
                 editerEleve(eleveSelectionne);
                 break;
-            case 3:
+            case 3: // OPTION DATE DE NAISSANCE
                 String nomComplet = eleveSelectionne.getPrenom() + " " + eleveSelectionne.getNom();
                  System.out.println("Etape 1 : Entrez le jour de naissance de "+ nomComplet);
                  int day = secureIntInput();
@@ -297,7 +346,7 @@ public final class Menu {
                  System.out.println("Date de naissance changée !");
                  editerEleve(eleveSelectionne);
                 break;
-            case 4:
+            case 4: // OPTION PROMOTION
                 System.out.println("La promotion pour cet élève est " + eleveSelectionne.getPromotion().getNom());
                 if(promoActuelle!=null)
                     promoActuelle.getEleves().remove(eleveSelectionne);
@@ -309,14 +358,18 @@ public final class Menu {
                 editerEleve(eleveSelectionne);
                 System.out.println("La promotion de l'élève est désormais la promotion : " + p.getNom() + "( "+ p.getEleves().size() +" élèves )");
                 break;
-            case 5:
-                chercherEleveParticulier();break;
+            case 5: // OPTION RETOUR
+                chercherEleveParticulier();break; 
             default:
                 System.out.println("Choix incorrect");
                 editerEleve(eleveSelectionne);
         }
     }
 
+    /**
+     * Supprime l'élève passé en argument du fichier CSV et actualise l'application 
+     * @param eleveSelectionne 
+     */
     private void supprimerEleve(Eleve eleveSelectionne) 
     {
         System.out.println("Suppression en cours de " + eleveSelectionne.getNom() +  " " + eleveSelectionne.getPrenom() + " ...");
@@ -330,11 +383,12 @@ public final class Menu {
         chercherEleveParticulier();
     }
     
-    private void AjouterEvaluations(Eleve eleveSelectionne)
-    {
-        System.out.println("--------------- Ajout d'évaluations pour l'élève " + eleveSelectionne.getNom()  + " " + eleveSelectionne.getPrenom() + "-----------------");
-    }
 
+    /**
+     * Permet de choisir une des évaluations de l'élève
+     * @param e élève dont on choisit les évaluations
+     * @return l'évaluation choisie
+     */
     private Evaluation choisirEvaluation(Eleve e)
     {
           System.out.println("Choississez une Evaluation :"+System.lineSeparator()+System.lineSeparator());
@@ -353,6 +407,10 @@ public final class Menu {
         return eval;
     }
     
+    /**
+     * Crée un élève étape par étape pour une promotion donnée
+     * @param promoActuelle promotion dans laquelle on veut créer l'élève
+     */
     private void creerEleve(Promotion promoActuelle) 
     {
         System.out.println("----------------Création d'un élève pour la promotion '"+promoActuelle.getNom()+"'-----------------" );
@@ -370,13 +428,19 @@ public final class Menu {
         Date d = new Date(day,month,year);
         Eleve e = new Eleve(prenom, nom, d);
         
+        // Actualisation dans l'application
         promoActuelle.ajouterEleve(e);
+        // Ajout dans le fichier CSV
         CSV_Loader.ajouterEleveDansFichier(e, CSV_Loader.ELEVES_PATH);
         
         //On reprend l'affichage des fonctions
         consulterEleves(triParDefaut, ordreCroissantParDefaut);
     }
 
+    /**
+     * Propose de modifier, supprimer ou ajouter une évaluation pour un élève
+     * @param eleve eleve à traiter
+     */
     private void proposerModificationsNotes(Eleve eleve) 
     {
                 System.out.println("---------------  Edition de l'élève n°" + eleve.getId() +" | "+  eleve.getNom() + " " +eleve.getPrenom()+ " ------------------");
@@ -438,10 +502,11 @@ public final class Menu {
                 String nomProf = s.nextLine();
                 String[] nomPrenom = nomProf.split(" ");
                 Professeur prof = Professeur.trouverProfesseur(nomPrenom[0], nomPrenom[1]);
-                if(prof == null)
+                if(prof == null) // Si le prof n'existe pas on le crée
                 {
                     System.out.println("Pas de prof trouvé, création...");
                  prof = new Professeur(nomPrenom[0], nomPrenom[1]);
+                 // On ajoute directement le professeur à l'application
                  Professeur.getListeProfesseurs().add(prof);
                     System.out.println("OK");
                 }
@@ -456,15 +521,16 @@ public final class Menu {
                 proposerModificationsNotes(eleve);
                 break;
             case 4 :  proposerOptionsEleveSeletionne(); break;
-                
-                
+  
         }
-     
-        
-        
-
     }
 
+    /**
+     * Demande de choisir une évaluation puis permet de modifier soit la note, soit le correcteur de la note, soit le type de la note, soit la matière
+     * soit de retourner au menu précédent (menu de modification d'une évaluation en particulier)
+     * @param evaluationSelectionnee
+     * @param e 
+     */
     private void proposerModificationEvalParticuliere(Evaluation evaluationSelectionnee, Eleve e) 
     {
             evaluationSelectionnee = choisirEvaluation(e);
@@ -523,7 +589,7 @@ public final class Menu {
                         }
                      
                     break;
-                case 3: // MODIFIER Type de note
+                case 3: // MODIFIER le Type de note
                     System.out.println(String.format("Entrez le type de note (type actuel :  %s)",evaluationSelectionnee.getEvalType()));
 
                     String nouveauType = textScanner.nextLine();
@@ -544,12 +610,12 @@ public final class Menu {
 
                      Matiere matiere = Matiere.trouverMatiere(nomMatiere,e.getPromotion().getNom());
                     if(matiere==null){
+                        // Si la matière n'existe pas on la créee
                         System.out.println("Matière non trouvée, création...");
                         matiere = new Matiere(nomMatiere,e.getPromotion().getNom());
                         Matiere.listeMatieres.add(matiere);
                         System.out.println("OK");
                     }
-                    proposerModificationEvalParticuliere(evaluationSelectionnee, e);
                     break;
                 case 5:
                     System.out.println("Modification des notes choisi");
@@ -557,6 +623,7 @@ public final class Menu {
                 default: proposerModificationEvalParticuliere(evaluationSelectionnee,e);
             }
            CSV_Loader.majEvaluations(evaluationSelectionnee, CSV_Loader.EVALUATIONS_PATH);
+           // On remontre ce menu en utilisant la récursivité
            proposerModificationEvalParticuliere(evaluationSelectionnee, e);
     }
 }

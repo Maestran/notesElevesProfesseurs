@@ -1,4 +1,4 @@
-package noteselevesprofesseurs.graphique;
+package graphique;
 
 
 import java.io.FileNotFoundException;
