@@ -51,7 +51,6 @@ public class camembertAppreciation extends JFrame {
             if(a.calculMoyenne() < 18) appreciation[4]++;
         }
       
-        System.out.println("TEST");
         DefaultPieDataset pie = new DefaultPieDataset();
         
         

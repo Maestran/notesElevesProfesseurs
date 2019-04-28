@@ -421,10 +421,10 @@ public final class Menu {
                 Scanner s = new Scanner(System.in);
                 System.out.println("ETAPE 2 : Entrez le nom de la matière");
                 String nomMatiere = s.nextLine();
-                Matiere matiere = Matiere.trouverMatiere(nomMatiere);
+                Matiere matiere = Matiere.trouverMatiere(nomMatiere,eleve.getPromotion().getNom());
                 if(matiere==null){
                     System.out.println("Matière non trouvée, création...");
-                    matiere = new Matiere(nomMatiere);
+                    matiere = new Matiere(nomMatiere,eleve.getPromotion().getNom());
                     Matiere.listeMatieres.add(matiere);
                     System.out.println("OK");
                     
@@ -542,10 +542,10 @@ public final class Menu {
                     System.out.println(String.format("Entrez le nom de la matière de la note (Matiere actuelle : %s)",evaluationSelectionnee.getMat().getNom()));
                     String nomMatiere = textScanner.nextLine();
 
-                     Matiere matiere = Matiere.trouverMatiere(nomMatiere);
+                     Matiere matiere = Matiere.trouverMatiere(nomMatiere,e.getPromotion().getNom());
                     if(matiere==null){
                         System.out.println("Matière non trouvée, création...");
-                        matiere = new Matiere(nomMatiere);
+                        matiere = new Matiere(nomMatiere,e.getPromotion().getNom());
                         Matiere.listeMatieres.add(matiere);
                         System.out.println("OK");
                     }

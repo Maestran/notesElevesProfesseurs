@@ -47,7 +47,6 @@ public class diagrammeBatonStatPromotion extends JFrame {
         
         for(Promotion p : listePromos)
         {
-            
             dataset.addValue(p.obtenirMinimumPromotion(), "Minimum", "Promo "+p.getNom());
             dataset.addValue(p.obtenirMoyennePromotion(), "Moyenne", "Promo "+p.getNom());
             dataset.addValue(p.obtenirMaximumPromotion(), "Maximum", "Promo "+p.getNom());

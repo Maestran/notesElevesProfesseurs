@@ -52,7 +52,7 @@ public class diagrammeBatonResulatEleve extends JFrame{
             dataset.addValue(e.getMat().noteMax,"Maximum", e.getMat().getNom());
         }
         
-        JFreeChart res = ChartFactory.createBarChart("Resultat de " + a.getNom() + " " + a.getPrenom() + " comparé aux autres : " 
+        JFreeChart res = ChartFactory.createBarChart("Resultat de " + a.getNom() + " " + a.getPrenom() + " comparé aux autres de la promotion  " + a.getPromotion().getNom()
         , "Matières", "Note", dataset, PlotOrientation.VERTICAL, true, true, false);
         
         CategoryPlot plot = (CategoryPlot) res.getPlot();

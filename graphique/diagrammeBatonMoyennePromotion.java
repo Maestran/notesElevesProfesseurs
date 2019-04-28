@@ -48,7 +48,7 @@ public class diagrammeBatonMoyennePromotion extends JFrame {
         
         for(Promotion p : listePromos)
         {
-            dataset.addValue(p.obtenirMoyennePromotion(), "Note", "Promo "+p.getNom());
+            dataset.addValue(p.obtenirMoyennePromotion(), "Note moyenne", "Promo "+p.getNom());
         }
         
         

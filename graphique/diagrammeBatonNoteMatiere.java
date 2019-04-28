@@ -54,10 +54,10 @@ public class diagrammeBatonNoteMatiere extends JFrame {
         
         for(int i = 0; i <= 20; i++)
         {
-            dataset.addValue(val[i],"", ""+i);
+            dataset.addValue(val[i],"Nombre d'élève", ""+i);
         }
         
-        JFreeChart res = ChartFactory.createBarChart("Note pour la matière : " + m.getNom(), "Note Obtenue",
+        JFreeChart res = ChartFactory.createBarChart("Note pour la matière : " + m.getNom() + " de la promotion" + m.getNomPromo(), "Note Obtenue",
         "Nombre d'élève", dataset, PlotOrientation.VERTICAL, true, true, false);
         
         CategoryPlot plot = (CategoryPlot) res.getPlot();

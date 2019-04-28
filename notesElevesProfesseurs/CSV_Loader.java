@@ -122,9 +122,9 @@ public class CSV_Loader
                 System.out.println("Traitement : " + line);
                 String[] lineStrings = line.split(";");
                 Eleve eleveNote = Promotion.rechercherElevePartout( Integer.parseInt(lineStrings[COL_IDENTIFIANT]));
-                if(Matiere.trouverMatiere(lineStrings[COL_MATIERE]) == null && !"".equals(lineStrings[COL_MATIERE].trim())) // Si la matière cherchée n'est pas trouvée, on la créee
+                if(Matiere.trouverMatiere(lineStrings[COL_MATIERE],eleveNote.getPromotion().getNom()) == null && !"".equals(lineStrings[COL_MATIERE].trim())) // Si la matière cherchée n'est pas trouvée, on la créee
                 {
-                    Matiere.listeMatieres.add(new Matiere(lineStrings[COL_MATIERE]));
+                    Matiere.listeMatieres.add(new Matiere(lineStrings[COL_MATIERE],eleveNote.getPromotion().getNom()));
                 }
                 
                 if(lineStrings[COL_CORRECTEUR] != null && !"".equals(lineStrings[COL_CORRECTEUR].trim()) )
@@ -137,7 +137,7 @@ public class CSV_Loader
 
             
                 float note = Float.parseFloat(lineStrings[COL_NOTES].replace(',','.'));
-                Matiere mat = Matiere.trouverMatiere(lineStrings[COL_MATIERE]);
+                Matiere mat = Matiere.trouverMatiere(lineStrings[COL_MATIERE],eleveNote.getPromotion().getNom());
                 Evaluation e = new Evaluation(note,mat,eleveNote ,nouveauProf);
                 
                 if(lineStrings[COL_TYPE]!=null && !"".equals(lineStrings[COL_TYPE].trim())) // Type de note (optionnel)

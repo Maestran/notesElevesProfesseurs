@@ -112,10 +112,10 @@ public class GenerateurEvaluationsOperations
         String correctString = (String)evalsTable.getModel().getValueAt(evalsTable.getSelectedRow(), 2);
         String typeString = (String)evalsTable.getModel().getValueAt(evalsTable.getSelectedRow(), 3);
 
-         Matiere mat =Matiere.trouverMatiere(matString);
+         Matiere mat =Matiere.trouverMatiere(matString,Globals.promoActuelle.getNom());
         if(mat==null)
         {
-             mat = new Matiere(matString);
+             mat = new Matiere(matString,Globals.promoActuelle.getNom());
             Matiere.listeMatieres.add(mat);
         }
         

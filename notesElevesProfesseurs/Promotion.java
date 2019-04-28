@@ -185,7 +185,7 @@ public class Promotion {
         return null;
     }
     
-         public float obtenirMoyennePromotion()
+    public float obtenirMoyennePromotion()
     {
         float moy = 0;
         for(int i = 0; i < this.getEleves().size();i++)
@@ -212,6 +212,7 @@ public class Promotion {
             
         }
         
+        System.out.println("Valeur : " + value);
         if(value == 21) value = 0;
         
         return value;
