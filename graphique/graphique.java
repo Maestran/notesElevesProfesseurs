@@ -34,7 +34,7 @@ public class graphique {
             
             
            
-            diagrammeBatonNoteMatiere d = new diagrammeBatonNoteMatiere(Promotion.rechercherElevePartout(2).getEvaluations().get(0).getMat());
+            diagrammeBatonNoteMatiere d = new diagrammeBatonNoteMatiere(Promotion.rechercherElevePartout(2).getEvaluations().get(1).getMat());
             
             diagrammeBatonResulatEleve res = new diagrammeBatonResulatEleve(Promotion.rechercherElevePartout(1));
             diagrammeBatonMoyennePromotion prom = new diagrammeBatonMoyennePromotion(Promotion.getListePromos());

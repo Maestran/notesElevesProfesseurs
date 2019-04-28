@@ -190,7 +190,11 @@ public class Promotion {
         float moy = 0;
         for(int i = 0; i < this.getEleves().size();i++)
         {
-            moy += this.getEleves().get(i).calculMoyenne();
+            if(!Float.isNaN(this.getEleves().get(i).calculMoyenne()))
+            {
+                moy += this.getEleves().get(i).calculMoyenne();
+            }
+            
         }
         
         return (float)(moy/this.getEleves().size());
@@ -198,15 +202,17 @@ public class Promotion {
         
     public float obtenirMinimumPromotion()
     {
-        float value = 20;
+        float value = 21;
         for(Eleve a : this.getEleves())
         {
-            if(a.calculMoyenne() < value && !Float.isNaN(value) )
+            if(a.calculMoyenne() < value && !Float.isNaN(a.calculMoyenne()) )
             {
                 value = a.calculMoyenne();
             }
             
         }
+        
+        if(value == 21) value = 0;
         
         return value;
     }
@@ -217,7 +223,7 @@ public class Promotion {
         float value = 0;
         for(Eleve a : this.getEleves())
         {
-            if(a.calculMoyenne() > value)
+            if(a.calculMoyenne() > value && !Float.isNaN(a.calculMoyenne()))
             {
                 value = a.calculMoyenne();
             }
