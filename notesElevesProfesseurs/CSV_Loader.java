@@ -17,19 +17,30 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Permet de gérer l'ensemble des opérations en CSV qu'il s'agisse de chargement ou sauvegarde de données et qu'il s'agisse pour des versions consoles ou graphiques (méthodes universelles)
  * @author franc
  */
 public class CSV_Loader 
 {    
     
+    /**
+     * Charge toutes les données lues dans les fichiers CSV passés en argument de cette fonction, le logiciel aura alors toutes ses données créees (matieres, eleves, profs...)
+     * @param pathEleves Chemin du fichier contenant tous les élèves
+     * @param pathEvaluations Chemin du fichier contenant toutes les évaluations
+     * @throws FileNotFoundException
+     */
     public static void start(String pathEleves, String pathEvaluations) throws FileNotFoundException
     {
             CSV_Loader.chargerFichierEleves(pathEleves);   
             CSV_Loader.chargerEvaluations(pathEvaluations);
     }
     
-    //Charge les élèves dans leurs promotions respectives, indiquées dans le fichier en format CSV
+
+    /**
+     *Charge les élèves dans leurs promotions respectives, indiquées dans le fichier en format CSV
+     * @param chemin chemin du fichier élèves
+     * @throws FileNotFoundException Si le fichier élèves n'existe pas
+     */
     public static void chargerFichierEleves(String chemin) throws FileNotFoundException
     {
         if(!new File(chemin).exists())
@@ -38,6 +49,7 @@ public class CSV_Loader
         }
         else 
         {
+            // Le chemin qui est validé car il existe dans l'ordinateur, devient accessible depuis n'importe quel fichier
             ELEVES_PATH = chemin;
             Scanner scanner = new Scanner(new File(chemin));
             boolean firstLineDone = false;
@@ -85,24 +97,44 @@ public class CSV_Loader
         }
     }
     
+    // Index des différentes colonnes du fichier contenant les évaluations
     final static int COL_IDENTIFIANT = 0;
     final static int COL_NOTES = 1;    
     final static int COL_MATIERE = 2;
     final static int COL_CORRECTEUR = 3;
     final static int COL_TYPE = 4;
     
+    /**
+     * Chemin Global accessible depuis n'importe quel autre fichier du fichier élève
+     */
     public static String ELEVES_PATH;
+
+    /**
+     *Chemin Global accessible depuis n'importe quel autre fichier du fichier évaluations
+     */
     public static String EVALUATIONS_PATH;
     
-    // Nécéssite au préalable d'avoir chargé les élèves
+
+    /**
+     * Charge l'ensemble des notes/evaluations dans le logiciel
+     * @param chemin
+     * @throws FileNotFoundException
+     */
     public static void chargerEvaluations(String chemin) throws FileNotFoundException
     {
+        // Nécéssite au préalable d'avoir chargé les élèves, sinon erreur et arrêt du programme
+        if(Promotion.getListePromos() == null || Promotion.getListePromos().isEmpty())
+        {
+            System.out.println("(!) Erreur, il faut avoir chargé le fichier des élèves avant de charger le fichier des évaluations." + System.lineSeparator() +" fin du programme... ");
+            System.exit(-1);
+        }
          if(!new File(chemin).exists())
         {
             System.out.println("Le fichier demandé n'existe pas");
         }
         else 
         {
+            // Le chemin qui est validé car il existe dans l'ordinateur, devient accessible depuis n'importe quel fichier
             EVALUATIONS_PATH = chemin;
             Scanner scanner = new Scanner(new File(chemin));
             ArrayList<Evaluation> evals = new ArrayList<>();
@@ -151,6 +183,11 @@ public class CSV_Loader
         }
     }
     
+    /**
+     * Supprime un élève dans le fichier CSV indiqué
+     * @param e Eleve à supprimer
+     * @param chemin Chemin du fichier CSV élève
+     */
     public static void supprimerEleveDansFichier(Eleve e, String chemin) 
     {
           File f = new File(chemin);
@@ -163,7 +200,7 @@ public class CSV_Loader
         {
               try {
                   List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
-                  ArrayList<String> linesNew = new ArrayList<String>();
+                  ArrayList<String> linesNew = new ArrayList<>();
                   for(String line : lines)
                       linesNew.add(line);
                   
@@ -184,7 +221,12 @@ public class CSV_Loader
         }
     }
     
-      public static void supprimerEvaluationDansFichier(Evaluation eval, String chemin) 
+    /**
+     * Supprime une évaluation/note dans le fichier des évaluations
+     * @param eval Evaluation à supprimer
+     * @param chemin Chemin du fichier CSV des évaluations
+     */
+    public static void supprimerEvaluationDansFichier(Evaluation eval, String chemin) 
     {
           File f = new File(chemin);
         if(eval!=null)
@@ -226,6 +268,11 @@ public class CSV_Loader
         }
     }
     
+    /**
+     * Ajoute une évaluation/note dans le fichier des évaluations
+     * @param e Eleve à ajouter
+     * @param path Chemin du fichier CSV des évaluations
+     */
     public static void ajouterEleveDansFichier(Eleve e,String path)
     {
         File f = new File(path);
@@ -258,6 +305,12 @@ public class CSV_Loader
         }
     }
     
+    /**
+     * Ajoute un élève dans le fichier des élèves indiqué
+     * @param e L'élève à ajouter
+     * @param path chemin du fichier CSV des élèves
+     * @param pos
+     */
     public static void ajouterEleveDansFichier(Eleve e,String path, int pos)
     {
         File f = new File(path);
@@ -290,6 +343,11 @@ public class CSV_Loader
         }
     }
     
+    /**
+     * Ajoute une évaluation dans le fichier des évaluations indiqué
+     * @param eval L'évaluation à ajouter
+     * @param path Chemin du fichier des évaluations
+     */
     public static void ajouterEvaluationDansFichier(Evaluation eval,String path)
     {
         File f = new File(path);
@@ -321,9 +379,14 @@ public class CSV_Loader
             }
         }
     }
-    
+   
+    /**
+     * Permet d'ajouter des évaluations fournies aux évaluations pour chaque élève de l'ensemble des promotions, si l'évaluation leur appartient
+     * @param evals  Liste des évaluations à attribuer aux élèves existants 
+     */
     private static void attribuerEvaluationsAuxEleves(ArrayList<Evaluation> evals)
     {
+        // On parcourt toutes les promotions
         for(Promotion p : Promotion.getListePromos())
         {
             for(Eleve e: p.getEleves())
@@ -337,7 +400,12 @@ public class CSV_Loader
         }
     }
 
-    // Met à jour toutes les caracteristiques de l'élève sauf les évaluations
+
+    /**
+     * Met à jour toutes les caracteristiques de l'élève sauf les évaluations
+     * @param e
+     * @param chemin
+     */
 
     public static void majEleve(Eleve e, String chemin)
     {
@@ -353,7 +421,10 @@ public class CSV_Loader
         }
     }
     
-    // Met à jour toutes les caracteristiques de l'élève sauf les évaluations
+    /**
+     *Met à jour toutes les évaluations d'un élève, utilisé pour la version console uniquement
+     * @param chemin
+     */
     public static void majEvaluations(Evaluation eval, String chemin) 
     {
         File f = new File(chemin);
@@ -401,6 +472,12 @@ public class CSV_Loader
         }
     }
 
+    /**
+     * Met à jour une évaluation en passant en argument l'ancienne évaluation puis la nouvelle
+     * @param evalMarquePage Ancienne évaluation, elle sert d'index pour repérer celle à remplacer le fichier (le fichier ne possédant pas d'index lui même)
+     * @param nouvelleEvaluation  l'évaluation qui va remplacer l'évaluation index dans le fichier indiqué
+     * @param chemin chemin du fichier CSV des évaluations
+     */
     public static void majEvaluations(Evaluation evalMarquePage, Evaluation nouvelleEvaluation, String chemin) 
     { File f = new File(chemin);
         if(nouvelleEvaluation!=null && evalMarquePage!=null)

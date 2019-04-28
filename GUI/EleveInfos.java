@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notesElevesProfesseurs.GUI;
+package GUI;
 
+import javax.swing.JLabel;
 import notesElevesProfesseurs.Eleve;
 
 /**
@@ -14,7 +15,7 @@ import notesElevesProfesseurs.Eleve;
 public class EleveInfos extends javax.swing.JFrame {
 
     /**
-     * Creates new form eleveFrame
+     * Création d'une form Swing qui affiche des informations non modifiables sur l'élève
      * @param e
      */
     public EleveInfos(Eleve e) {
@@ -25,7 +26,7 @@ public class EleveInfos extends javax.swing.JFrame {
         if(e!=null)
         {
         EleveOperation operations = new EleveOperation();
-        operations.afficherElevesEvals(e,jTable1);
+        operations.afficherElevesEvals(e,evalsTable);
         }
         jLabel1.setText(jLabel1.getText() + " " + e.getPrenom());//prénom
         jLabel2.setText(jLabel2.getText() + " " + e.getId());//id
@@ -33,7 +34,7 @@ public class EleveInfos extends javax.swing.JFrame {
         jLabel4.setText(jLabel4.getText() + " " + e.getDateNaissance());//date de naissance
         jLabel6.setText(jLabel6.getText() + " " + e.getPromotion().getNom());//Promotion
         
-
+        
     }
 
     /**
@@ -46,7 +47,7 @@ public class EleveInfos extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        evalsTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -58,7 +59,7 @@ public class EleveInfos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        evalsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -77,8 +78,8 @@ public class EleveInfos extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTable1.setRowHeight(30);
-        jScrollPane1.setViewportView(jTable1);
+        evalsTable.setRowHeight(50);
+        jScrollPane1.setViewportView(evalsTable);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Prénom : ");
@@ -243,6 +244,7 @@ public class EleveInfos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable evalsTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -252,6 +254,5 @@ public class EleveInfos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

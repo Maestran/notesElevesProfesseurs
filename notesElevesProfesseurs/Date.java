@@ -1,6 +1,6 @@
 package notesElevesProfesseurs;
 /*
-    Classe pour les dates avec l'année, le mois et le jour
+    Classe pour les dates avec l'année, le mois et le jour, utilisé pour notamment la date de naissance d'un élève
  */
 public class Date {
     private int annee;

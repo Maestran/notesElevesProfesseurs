@@ -1,4 +1,4 @@
-package notesElevesProfesseurs.GUI;
+package GUI;
 
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Evaluation;
@@ -7,6 +7,10 @@ import notesElevesProfesseurs.Promotion;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author franc
+ */
 public class EleveOperation {
 
     private void viderTable(JTable table)
@@ -20,6 +24,11 @@ public class EleveOperation {
         }
     }
 
+    /**
+     * 
+     * @param e
+     * @param evalTable
+     */
     public void afficherElevesEvals(Eleve e, JTable evalTable)
     {
         viderTable(evalTable);

@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notesElevesProfesseurs.GUI;
+package GUI;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
@@ -25,7 +24,7 @@ public class ModifEleve extends javax.swing.JFrame {
 
 
     /**
-     * Creates new form GenerateurEleve
+     * Constructeur de la fenêtre graphique de modification d'un élève
      * @param elev
      */
     public ModifEleve(Eleve elev) {
@@ -33,6 +32,8 @@ public class ModifEleve extends javax.swing.JFrame {
         Globals.eleveSelectionne = elev;
         setTitle(Globals.eleveSelectionne.getNom() + " " + Globals.eleveSelectionne.getPrenom());
         initComponents();
+        
+        // on charge directement les données de l'élève dans les zones de texte
         nomTF.setText(Globals.eleveSelectionne.getNom());
         prenomTF.setText(Globals.eleveSelectionne.getPrenom());
         dateTF.setText(Globals.eleveSelectionne.getDateNaissance().toString());
@@ -62,7 +63,10 @@ public class ModifEleve extends javax.swing.JFrame {
 
     }
 
-    // Vérifie si les boutons grisés peuvent être activés, cela se fait en vérifiant si les champs ne sont pas vides
+
+    /**
+     * On vérifie si les champs ne sont pas vides afin de pouvoir activer les boutons d'ajout d'un élève et de gestionnaire des évaluations
+     */
     public void verifActivationBoutonsEleve()
     {
         if(!nomTF.getText().isEmpty() && !prenomTF.getText().isEmpty()  && !promoTF.getText().isEmpty()  && !dateTF.getText().isEmpty() )
@@ -225,8 +229,9 @@ public class ModifEleve extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_promoTFActionPerformed
 
-
-    // A FAIRE : RAJOUTER LA MAJ CSV, permet d'enregistrer les TextFields dans la variable eleveEnCreation
+    /*
+     * Met à jour la variable eleveEnCreation en récupérant ce qu'il y'a pour l'instant dans les zones de texte de création de l'élève
+    */
     private void majEleveRapide()
     {
         Globals.eleveSelectionne.setNom(nomTF.getText());
@@ -234,6 +239,7 @@ public class ModifEleve extends javax.swing.JFrame {
         Promotion p =Promotion.trouverPromotion(promoTF.getText());
         if(p==null)
         {
+            // Si la promotion est introuvable, on la créee et on l'ajoute à notre liste des promotions
             p = new Promotion(promoTF.getText());
             Promotion.getListePromos().add(p);
         }
@@ -245,7 +251,7 @@ public class ModifEleve extends javax.swing.JFrame {
             int mois = Integer.parseInt(dateParts[1]);
             int annee = Integer.parseInt(dateParts[2]);
             Globals.eleveSelectionne.setDateNaissance(new Date(annee,mois, jour));
-        }catch(Exception ex)
+        }catch(NumberFormatException ex)
         {
             System.out.println(ex);
             System.out.println("Erreur enregistrement date de naissance, vérifiez le format");
@@ -262,6 +268,10 @@ public class ModifEleve extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ouvrirGenEvalsBActionPerformed
 
+    /**
+     * Gestion du code lorsque l'on clique sur le bouton de mise à jour d'un élève
+     * @param evt 
+     */
     private void majEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
 
@@ -312,10 +322,8 @@ public class ModifEleve extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                //new updateEleve().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            //new updateEleve().setVisible(true);
         });
     }
 
