@@ -9,24 +9,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import notesElevesProfesseurs.CSV_Loader;
-import notesElevesProfesseurs.Eleve;
-import notesElevesProfesseurs.Menu;
-import notesElevesProfesseurs.Promotion;
+import notesElevesProfesseurs.*;
 
-/**
- *
- * @author Tristan
- */
-public class Main {
+
+public class main {
 
     public static void main(String[] args) {
        
  
         try {
-            CSV_Loader.chargerFichierEleves("Data\\élèves.csv");   
+            CSV_Loader.chargerFichierEleves("Data\\eleves.csv");   
          
-            CSV_Loader.chargerEvaluations("Data\\Résultats élèves.csv");
+            CSV_Loader.chargerEvaluations("Data\\Résultats_eleves.csv");
             
             Eleve a = Promotion.rechercherElevePartout(1);
             Bulletin bul = new Bulletin(a);

@@ -39,7 +39,7 @@ public class Matiere {
         }
         return null;
     }
-    
+                            
      public void updateData(float note)
     {
         float sum = 0;

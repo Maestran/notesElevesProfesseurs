@@ -5,6 +5,7 @@
  */
 package bulletinenpdf;
 
+import notesElevesProfesseurs.*;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -19,10 +20,7 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import java.io.File;
 import java.io.IOException;
 
-/**
- *
- * @author Tristan
- */
+
 public class Bulletin {
     
     private Eleve eleve;

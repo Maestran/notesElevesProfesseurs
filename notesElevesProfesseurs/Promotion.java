@@ -11,6 +11,7 @@ public class Promotion {
     private String nom;
     private ArrayList<Eleve> eleves= new ArrayList<>();
     private static ArrayList<Promotion> listePromos = new ArrayList<>();
+    
     public Promotion(String nom)
     {
        this.nom = nom;

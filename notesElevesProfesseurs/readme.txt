@@ -61,7 +61,7 @@ FICHIER 2  : élèves.csv
 
                     Avancement   Assigné 
 Bulletin             OK          Tristan
-JFreeCharts          RIEN        En commencement
+JFreeCharts          Commencé (Possibilité de générer 4 diagrammes)  En avancement
 PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
