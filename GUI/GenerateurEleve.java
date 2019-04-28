@@ -65,7 +65,6 @@ public class GenerateurEleve extends javax.swing.JFrame {
         ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : 0 ");
     }
 
-
     /**
      * Vérifie si les boutons grisés peuvent être activés, cela se fait en vérifiant si les champs ne sont pas vides
      */
@@ -73,11 +72,13 @@ public class GenerateurEleve extends javax.swing.JFrame {
     {
        if(!nomTF.getText().isEmpty() && !prenomTF.getText().isEmpty()  && !promoTF.getText().isEmpty()  && !dateTF.getText().isEmpty() )
        {
+           // Activation
             ouvrirGenEvalsB.setEnabled(true);
             ajouterEleveB.setEnabled(true);
        }
         else 
        {
+           //Désactivation
            ouvrirGenEvalsB.setEnabled(false);
            ajouterEleveB.setEnabled(false);
        }
@@ -243,6 +244,7 @@ public class GenerateurEleve extends javax.swing.JFrame {
         Promotion p =Promotion.trouverPromotion(promoTF.getText());
         if(p==null)
         {
+            // Si la promotion n'existe pas, on la crée
           p = new Promotion(promoTF.getText());
           Promotion.getListePromos().add(p);
         }
