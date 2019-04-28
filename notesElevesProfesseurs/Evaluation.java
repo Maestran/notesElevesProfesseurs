@@ -35,6 +35,7 @@ public class Evaluation implements Comparable<Evaluation>{
         this.mat = m;
         this.eleve = e;
         this.prof = p;
+        m.updateData(note);
     }
 
     @Override
@@ -64,6 +65,7 @@ public class Evaluation implements Comparable<Evaluation>{
 
     public void setNote(float note) {
         this.note = note;
+        this.mat.updateData(note);
     }
 
     public void setMat(Matiere mat) {

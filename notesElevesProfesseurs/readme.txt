@@ -12,6 +12,11 @@ Pour générer des bulletin en PDF :
 2) Le groupe ID doit etre : "com.itextpdf"
 3) Il faut ensuite modifier le fichier pom.xml comme dans les sources.
 
+Pour obtenir les graphismes : 
+
+1) Il faut deplacer les .jar jcommon et jfreechart dans un fichier lib de votre racine
+2) Il faut ensuite ajouter les libraries dans les paramètres de votre projet
+
 
 Pour lire les données :
 1) créer un dossier "data" dans le dossier principal 
@@ -62,18 +67,19 @@ FICHIER 2  : élèves.csv
 
                     Avancement   Assigné 
 Bulletin             OK          Tristan
-JFreeCharts          OK          Tristan
+JFreeCharts          Commencé (Possibilité de générer 4 diagrammes)  En avancement
 PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
 
                     Avancement      Message                                           Assigné 
+
 Affichage de base     OK                                                               François
 Sauvegarde            OK                                                               François, Nicolas
 TRI                   OK                                                               François
 Design                MOYEN          Nécéssite vérif                                   François, Nicolas, Tristan
 Stabilité             CORRECTE   
-Merge                 RIEN           Merger la V3 de Tristan                           Tristan
+Merge                 EN COURS
 
 ------------------- Rapport ---------------------------------
                     Avancement   Assigné 

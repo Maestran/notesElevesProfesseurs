@@ -1,4 +1,5 @@
 
+
 package notesElevesProfesseurs;
 
 import java.util.ArrayList;
@@ -183,5 +184,46 @@ public class Promotion {
                 return p;
         return null;
     }
+    
+         public float obtenirMoyennePromotion()
+    {
+        float moy = 0;
+        for(int i = 0; i < this.getEleves().size();i++)
+        {
+            moy += this.getEleves().get(i).calculMoyenne();
+        }
         
+        return (float)(moy/this.getEleves().size());
+    }
+        
+    public float obtenirMinimumPromotion()
+    {
+        float value = 20;
+        for(Eleve a : this.getEleves())
+        {
+            if(a.calculMoyenne() < value && !Float.isNaN(value) )
+            {
+                value = a.calculMoyenne();
+            }
+            
+        }
+        
+        return value;
+    }
+    
+            
+    public float obtenirMaximumPromotion()
+    {
+        float value = 0;
+        for(Eleve a : this.getEleves())
+        {
+            if(a.calculMoyenne() > value)
+            {
+                value = a.calculMoyenne();
+            }
+        }
+        
+        return value;
+    }
 }
+        
