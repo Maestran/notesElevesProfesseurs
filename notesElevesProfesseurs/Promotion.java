@@ -190,11 +190,9 @@ public class Promotion {
         float moy = 0;
         for(int i = 0; i < this.getEleves().size();i++)
         {
-            System.out.println(i + "  "  + moy);
             moy += this.getEleves().get(i).calculMoyenne();
         }
         
-        System.out.println("TESSSSSTTTTTT : " + moy);
         return (float)(moy/this.getEleves().size());
     }
         
@@ -203,10 +201,11 @@ public class Promotion {
         float value = 20;
         for(Eleve a : this.getEleves())
         {
-            if(a.calculMoyenne() < value)
+            if(a.calculMoyenne() < value && !Float.isNaN(value) )
             {
                 value = a.calculMoyenne();
             }
+            
         }
         
         return value;
