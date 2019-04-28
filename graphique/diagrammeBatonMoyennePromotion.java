@@ -23,14 +23,15 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
- * @author Tristan
+ * Cette classe va créer un diagramme en baton, 
+ * avec la moyenne de toute les promotions
  */
 public class diagrammeBatonMoyennePromotion extends JFrame {
     
      private JPanel pan;
     
     
-    diagrammeBatonMoyennePromotion(ArrayList<Promotion> listePromos)
+    diagrammeBatonMoyennePromotion(ArrayList<Promotion> listePromos) // Le constructeur prends donc en paramètre toutes les promotions
     {
          addWindowListener(new WindowAdapter(){
            
@@ -48,7 +49,7 @@ public class diagrammeBatonMoyennePromotion extends JFrame {
         
         for(Promotion p : listePromos)
         {
-            dataset.addValue(p.obtenirMoyennePromotion(), "Note moyenne", "Promo "+p.getNom());
+            dataset.addValue(p.obtenirMoyennePromotion(), "Note moyenne", "Promo "+p.getNom()); // On ajoute la moyenne a chaque set de données
         }
         
         
@@ -58,7 +59,7 @@ public class diagrammeBatonMoyennePromotion extends JFrame {
         CategoryPlot plot = (CategoryPlot) res.getPlot();
 
         org.jfree.chart.axis.ValueAxis rageAxis = plot.getRangeAxis();
-        rageAxis.setRange(new Range(0, 20));
+        rageAxis.setRange(new Range(0, 20)); // On s'assure que on est bien entre 0 et 20
         
          ChartPanel cPan = new ChartPanel(res);
     

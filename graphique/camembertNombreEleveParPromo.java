@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package noteselevesprofesseurs.graphique;
 
 import java.awt.BorderLayout;
@@ -20,13 +15,13 @@ import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
- * @author Tristan
+ * Cette classe va créer un camembert avec le nombre d'élève par promotion
  */
 public class camembertNombreEleveParPromo extends JFrame {
      
      private JPanel pan;
     
-    public camembertNombreEleveParPromo(ArrayList<Promotion> listePromos)
+    public camembertNombreEleveParPromo(ArrayList<Promotion> listePromos)// On doit appeler la classe avec toutes les promotions en paramètre, et elle crée automatiquement une fenetre avec le camembert
     {    
         
         addWindowListener(new WindowAdapter(){

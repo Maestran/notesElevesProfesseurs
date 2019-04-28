@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bulletinenpdf;
+package noteselevesprofesseurs.bulletinenpdf;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,7 +12,10 @@ import java.util.logging.Logger;
 import notesElevesProfesseurs.*;
 
 
-public class main {
+/*
+
+*/
+public class bulletinTest {
 
     public static void main(String[] args) {
        
