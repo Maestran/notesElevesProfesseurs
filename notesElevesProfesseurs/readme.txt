@@ -1,3 +1,4 @@
+
 ﻿Projet de Java par Gilioen Francois, Guibert Nicolas, Gorlin Tristan
 
 Ce fichier détaille les différentes manipulations à effectuer et notre avancement
@@ -61,18 +62,18 @@ FICHIER 2  : élèves.csv
 
                     Avancement   Assigné 
 Bulletin             OK          Tristan
-JFreeCharts          RIEN        En commencement
+JFreeCharts          OK          Tristan
 PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
 
                     Avancement      Message                                           Assigné 
-Affichage de base     BON            Manque V3                                         François
-Sauvegarde            BON            Manque juste modications evaluations              François, Nicolas
+Affichage de base     OK                                                               François
+Sauvegarde            OK                                                               François, Nicolas
 TRI                   OK                                                               François
-Design                CORRECT                                                          François, Nicolas, Tristan
-Ergonomie             MOYEN          Manque double clic JTable, regex date de naissance      François
-                                     suggestion auto matieres, jtable à rendre non éditable 
+Design                MOYEN          Nécéssite vérif                                   François, Nicolas, Tristan
+Stabilité             CORRECTE   
+Merge                 RIEN           Merger la V3 de Tristan                           Tristan
 
 ------------------- Rapport ---------------------------------
                     Avancement   Assigné 

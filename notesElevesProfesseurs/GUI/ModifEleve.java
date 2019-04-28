@@ -5,7 +5,6 @@
  */
 package notesElevesProfesseurs.GUI;
 
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
-import notesElevesProfesseurs.Evaluation;
 import notesElevesProfesseurs.Promotion;
 
 import java.awt.*;
@@ -23,31 +21,35 @@ import java.awt.*;
  *
  * @author franc
  */
-public class GenerateurEleve extends javax.swing.JFrame {
+public class ModifEleve extends javax.swing.JFrame {
 
 
-
-    
-    Eleve eleveEnCreation = null;
     /**
      * Creates new form GenerateurEleve
+     * @param elev
      */
-    public GenerateurEleve() {
+    public ModifEleve(Eleve elev) {
+
+        Globals.eleveSelectionne = elev;
+        setTitle(Globals.eleveSelectionne.getNom() + " " + Globals.eleveSelectionne.getPrenom());
         initComponents();
-        eleveEnCreation = new Eleve();
+        nomTF.setText(Globals.eleveSelectionne.getNom());
+        prenomTF.setText(Globals.eleveSelectionne.getPrenom());
+        dateTF.setText(Globals.eleveSelectionne.getDateNaissance().toString());
+        promoTF.setText(Globals.eleveSelectionne.getPromotion().getNom());
         DocumentListener listener = new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) {
+            public void insertUpdate(DocumentEvent ev) {
                 verifActivationBoutonsEleve();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
+            public void removeUpdate(DocumentEvent ev) {
                 verifActivationBoutonsEleve();
             }
 
             @Override
-            public void changedUpdate(DocumentEvent e) {
+            public void changedUpdate(DocumentEvent ev) {
                 verifActivationBoutonsEleve();
             }
         };
@@ -55,24 +57,26 @@ public class GenerateurEleve extends javax.swing.JFrame {
         prenomTF.getDocument().addDocumentListener(listener);
         promoTF.getDocument().addDocumentListener(listener);
         dateTF.getDocument().addDocumentListener(listener);
-        ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : 0 ");
+        
+        ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : "+Globals.eleveSelectionne.getEvaluations().size()+") ");
+
     }
 
     // Vérifie si les boutons grisés peuvent être activés, cela se fait en vérifiant si les champs ne sont pas vides
     public void verifActivationBoutonsEleve()
     {
-       if(!nomTF.getText().isEmpty() && !prenomTF.getText().isEmpty()  && !promoTF.getText().isEmpty()  && !dateTF.getText().isEmpty() )
-       {
+        if(!nomTF.getText().isEmpty() && !prenomTF.getText().isEmpty()  && !promoTF.getText().isEmpty()  && !dateTF.getText().isEmpty() )
+        {
             ouvrirGenEvalsB.setEnabled(true);
             ajouterEleveB.setEnabled(true);
-       }
-        else 
-       {
-           ouvrirGenEvalsB.setEnabled(false);
-           ajouterEleveB.setEnabled(false);
-       }
+        }
+        else
+        {
+            ouvrirGenEvalsB.setEnabled(false);
+            ajouterEleveB.setEnabled(false);
+        }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,10 +133,9 @@ public class GenerateurEleve extends javax.swing.JFrame {
         jLabel5.setText("Promotion");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel6.setText("Ajout d'un nouvel élève");
+        jLabel6.setText("Modification d'un élève");
 
         ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : 0) ");
-        ouvrirGenEvalsB.setEnabled(false);
         ouvrirGenEvalsB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ouvrirGenEvalsBActionPerformed(evt);
@@ -140,11 +143,11 @@ public class GenerateurEleve extends javax.swing.JFrame {
         });
 
         ajouterEleveB.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        ajouterEleveB.setText("Ajout");
+        ajouterEleveB.setText("Modifier");
         ajouterEleveB.setEnabled(false);
         ajouterEleveB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouterEleveBActionPerformed(evt);
+                majEleveBActionPerformed(evt);
             }
         });
 
@@ -222,58 +225,60 @@ public class GenerateurEleve extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_promoTFActionPerformed
 
-    
+
     // A FAIRE : RAJOUTER LA MAJ CSV, permet d'enregistrer les TextFields dans la variable eleveEnCreation
     private void majEleveRapide()
     {
-        eleveEnCreation.setNom(nomTF.getText());
-        eleveEnCreation.setPrenom(prenomTF.getText());
+        Globals.eleveSelectionne.setNom(nomTF.getText());
+        Globals.eleveSelectionne.setPrenom(prenomTF.getText());
         Promotion p =Promotion.trouverPromotion(promoTF.getText());
         if(p==null)
         {
-          p = new Promotion(promoTF.getText());
-          Promotion.getListePromos().add(p);
+            p = new Promotion(promoTF.getText());
+            Promotion.getListePromos().add(p);
         }
-        eleveEnCreation.setPromotion(p);
-        try 
+        Globals.eleveSelectionne.setPromotion(p);
+        try
         {
-           String[] dateParts=  dateTF.getText().split("/");
-           int jour = Integer.parseInt(dateParts[0]);
-           int mois = Integer.parseInt(dateParts[1]);
-           int annee = Integer.parseInt(dateParts[2]);
-           eleveEnCreation.setDateNaissance(new Date(annee,mois,jour));
+            String[] dateParts=  dateTF.getText().split("/");
+            int jour = Integer.parseInt(dateParts[0]);
+            int mois = Integer.parseInt(dateParts[1]);
+            int annee = Integer.parseInt(dateParts[2]);
+            Globals.eleveSelectionne.setDateNaissance(new Date(annee,mois, jour));
         }catch(Exception ex)
         {
             System.out.println(ex);
             System.out.println("Erreur enregistrement date de naissance, vérifiez le format");
         }
     }
-    
+
     // Ouvre le générateur/gestionnaire d'évaluations pour l'élève en cours de création
     private void ouvrirGenEvalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouvrirGenEvalsBActionPerformed
-        GenerateurEvaluations gen = new GenerateurEvaluations(this);   
+        GenerateurEvaluations gen = new GenerateurEvaluations();
         majEleveRapide();
-        gen.init(eleveEnCreation);
+        gen.init(Globals.eleveSelectionne);
+        ajouterEleveB.setEnabled(true);
         gen.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_ouvrirGenEvalsBActionPerformed
 
-    private void ajouterEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
+    private void majEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
 
         if (dateTF.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{4}$")){
             majEleveRapide();
-            Promotion promo = Promotion.trouverPromotion(eleveEnCreation.getPromotion().getNom());
-            if(!promo.getEleves().contains(eleveEnCreation))promo.ajouterEleve(eleveEnCreation);
-            CSV_Loader.ajouterEleveDansFichier(eleveEnCreation, CSV_Loader.ELEVES_PATH);
+            Promotion promo = Promotion.trouverPromotion(Globals.eleveSelectionne.getPromotion().getNom());
+            if(!promo.getEleves().contains(Globals.eleveSelectionne))promo.ajouterEleve(Globals.eleveSelectionne);
+            CSV_Loader.majEleve(Globals.eleveSelectionne, CSV_Loader.ELEVES_PATH);
             GestionnairePromos gestionnairePromo = new GestionnairePromos();
             gestionnairePromo.setVisible(true);
             dispose();
         } else {
-            dateTF.setText("");
             dateTF.setBorder(new LineBorder(Color.red, 1));
             JOptionPane.showMessageDialog(null, "Format de la date de naissance incorrecte\nLe format demandé est jj/mm/aaaa");
         }
+
+
     }//GEN-LAST:event_ajouterEleveBActionPerformed
 
     /**
@@ -283,7 +288,7 @@ public class GenerateurEleve extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -293,26 +298,29 @@ public class GenerateurEleve extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GenerateurEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GenerateurEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GenerateurEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GenerateurEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModifEleve.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GenerateurEleve().setVisible(true);
+                //new updateEleve().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ajouterEleveB;
+    public javax.swing.JButton ajouterEleveB;
     private javax.swing.JTextField dateTF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -324,6 +332,4 @@ public class GenerateurEleve extends javax.swing.JFrame {
     private javax.swing.JTextField prenomTF;
     public javax.swing.JTextField promoTF;
     // End of variables declaration//GEN-END:variables
-
-   
 }

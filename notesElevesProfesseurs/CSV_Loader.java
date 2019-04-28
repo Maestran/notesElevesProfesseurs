@@ -67,7 +67,9 @@ public class CSV_Loader
                      
                     Promotion recherchePromo = Promotion.trouverPromotion(lineStrings[3]);
                     if( recherchePromo !=null)
-                        Promotion.trouverPromotion(lineStrings[3]).ajouterEleve(e);
+                    {
+                       Promotion.trouverPromotion(lineStrings[3]).ajouterEleve(e);
+                    }
                     else 
                     {
                         Promotion nouvellePromo = new Promotion(lineStrings[3]);
@@ -119,7 +121,7 @@ public class CSV_Loader
                 String line = scanner.nextLine();
                 System.out.println("Traitement : " + line);
                 String[] lineStrings = line.split(";");
-                    
+                Eleve eleveNote = Promotion.rechercherElevePartout( Integer.parseInt(lineStrings[COL_IDENTIFIANT]));
                 if(Matiere.trouverMatiere(lineStrings[COL_MATIERE]) == null && !"".equals(lineStrings[COL_MATIERE].trim())) // Si la matière cherchée n'est pas trouvée, on la créee
                 {
                     Matiere.listeMatieres.add(new Matiere(lineStrings[COL_MATIERE]));
@@ -136,7 +138,6 @@ public class CSV_Loader
             
                 float note = Float.parseFloat(lineStrings[COL_NOTES].replace(',','.'));
                 Matiere mat = Matiere.trouverMatiere(lineStrings[COL_MATIERE]);
-                Eleve eleveNote = Promotion.rechercherElevePartout( Integer.parseInt(lineStrings[COL_IDENTIFIANT]));
                 Evaluation e = new Evaluation(note,mat,eleveNote ,nouveauProf);
                 
                 if(lineStrings[COL_TYPE]!=null && !"".equals(lineStrings[COL_TYPE].trim())) // Type de note (optionnel)
@@ -337,7 +338,8 @@ public class CSV_Loader
     }
 
     // Met à jour toutes les caracteristiques de l'élève sauf les évaluations
-    static void majEleve(Eleve e, String chemin) 
+
+    public static void majEleve(Eleve e, String chemin)
     {
         File f = new File(chemin);
         if(e!=null)
@@ -352,17 +354,18 @@ public class CSV_Loader
     }
     
     // Met à jour toutes les caracteristiques de l'élève sauf les évaluations
-    static void majEvaluations(Evaluation eval, String chemin) 
+    public static void majEvaluations(Evaluation eval, String chemin) 
     {
         File f = new File(chemin);
         if(eval!=null)
         if(!f.exists())
         {
-            System.out.println("Impossible de mettre à jour l'évaluation, le fichier n'existe pas au chemin : " + chemin);
+            System.out.println("[CSV]Impossible de mettre à jour l'évaluation, le fichier n'existe pas au chemin : " + chemin);
         }
         else 
         {
                try {
+                   System.out.println("[CSV]Début mise à jour de l'évaluation " + eval);
                 List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
                 String csvEvalFormat = String.format("%d;%.1f;%s;%s;%s",eval.getEleve().getId(),eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom() + " " + eval.getProf().getNom(), eval.getEvalType());
                 csvEvalFormat = csvEvalFormat.replace(',', '.');
@@ -372,12 +375,14 @@ public class CSV_Loader
                     String[] lineParts = lines.get(i).split(";");
                     if(lineParts[0].equals(String.valueOf(eval.getEleve().getId())) && Float.parseFloat(lineParts[1].replace(',', '.')) == eval.getNote() && lineParts[2].equals(eval.getMat().getNom()) && lineParts[3].equals(eval.getProf().getPrenom() + " " + eval.getProf().getNom()) )
                     {
+                        System.out.println("[CSV]Ligne changée! "+ System.lineSeparator() +" Ligne initiale : " + lines.get(i) );
                         lines.set(i, csvEvalFormat);
-                        System.out.println("Ligne changée!");
+                        System.out.println("[CSV] Ligne maj : " + lines.get(i) );
                         break;
                     }
                 }
                 Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
+                   System.out.println("Modification écrite dans le fichier CSV");
             } catch (IOException ex) {
                 System.out.println("(!) Erreur modif élève, vérifiez que le fichier n'est pas déjà ouvert");
                 System.out.println(System.lineSeparator()+"Que souhaitez vous faire ?");
@@ -389,14 +394,58 @@ public class CSV_Loader
                     if(choixErreur != 1 )
                         System.exit(0);
                 } catch (Exception exception) {
-                    System.out.println(" (!) Erreur");
-                    majEvaluations(eval, chemin);
+                    System.out.println(" (!) Erreur de modification de l'évaluation de l'élève : " );
+                    exception.printStackTrace();
                 }
             }
         }
     }
-    
-    
-    
-    
+
+    public static void majEvaluations(Evaluation evalMarquePage, Evaluation nouvelleEvaluation, String chemin) 
+    { File f = new File(chemin);
+        if(nouvelleEvaluation!=null && evalMarquePage!=null)
+        if(!f.exists())
+        {
+            System.out.println("[CSV]Impossible de mettre à jour l'évaluation, le fichier n'existe pas au chemin : " + chemin);
+        }
+        else 
+        {
+               try {
+                   System.out.println("[CSV]Début mise à jour de l'évaluation " + evalMarquePage);
+                List<String> lines = Files.readAllLines(f.toPath(), StandardCharsets.UTF_8);
+                String oldEvalFormat = String.format("%d;%.1f;%s;%s;%s",evalMarquePage.getEleve().getId(),evalMarquePage.getNote(),evalMarquePage.getMat().getNom(),evalMarquePage.getProf().getPrenom() + " " + evalMarquePage.getProf().getNom(), evalMarquePage.getEvalType());
+                String newEvalFormat = String.format("%d;%.1f;%s;%s;%s",nouvelleEvaluation.getEleve().getId(),nouvelleEvaluation.getNote(),nouvelleEvaluation.getMat().getNom(),nouvelleEvaluation.getProf().getPrenom() + " " + nouvelleEvaluation.getProf().getNom(), nouvelleEvaluation.getEvalType());
+                oldEvalFormat = oldEvalFormat.replace(',', '.');
+                newEvalFormat = newEvalFormat.replace(',', '.');
+                System.out.println(oldEvalFormat);
+                for(int i = 0; i < lines.size() ; i++ )
+                {
+                    String[] lineParts = lines.get(i).split(";");
+                    if(lineParts[0].equals(String.valueOf(evalMarquePage.getEleve().getId())) && Float.parseFloat(lineParts[1].replace(',', '.')) == evalMarquePage.getNote() && lineParts[2].equals(evalMarquePage.getMat().getNom()) && lineParts[3].equals(evalMarquePage.getProf().getPrenom() + " " + evalMarquePage.getProf().getNom()) )
+                    {
+                        System.out.println("[CSV]Ligne changée! "+ System.lineSeparator() +" Ligne initiale : " + lines.get(i) );
+                        lines.set(i, newEvalFormat);
+                        System.out.println("[CSV] Ligne maj : " + lines.get(i) );
+                        break;
+                    }
+                }
+                Files.write(f.toPath(), lines, StandardCharsets.UTF_8);
+                   System.out.println("Modification écrite dans le fichier CSV");
+            } catch (IOException ex) {
+                System.out.println("(!) Erreur modif élève, vérifiez que le fichier n'est pas déjà ouvert");
+                System.out.println(System.lineSeparator()+"Que souhaitez vous faire ?");
+                System.out.println(" - Réessayer (1)");
+                System.out.println(" - Quitter (2)");
+                Scanner s = new Scanner(System.in);
+                try {
+                    int choixErreur =  s.nextInt();
+                    if(choixErreur != 1 )
+                        System.exit(0);
+                } catch (Exception exception) {
+                    System.out.println(" (!) Erreur de modification de l'évaluation de l'élève : " );
+                    exception.printStackTrace();
+                }
+            }
+        }
+    }
 }

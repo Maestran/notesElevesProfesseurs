@@ -77,7 +77,6 @@ public class Eleve extends Personne implements Iterable<Evaluation>, Comparable<
             result += evaluations.get(i).getNote();
         }
         return  result / evaluations.size();
-
     }
 
     public float calculMedianne() {

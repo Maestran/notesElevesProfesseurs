@@ -6,13 +6,20 @@
 package notesElevesProfesseurs.GUI;
 
 import notesElevesProfesseurs.Eleve;
+import notesElevesProfesseurs.Evaluation;
 import notesElevesProfesseurs.Promotion;
+import notesElevesProfesseurs.TriEleves;
 
 /**
  *
  * @author franc
  */
 public class Globals {
+    
+    // Ce fichier représente les variables globales
     public static  Promotion promoActuelle = null;
     public static Eleve eleveSelectionne = null;
+    public static boolean triCroissant = true;
+    public static TriEleves modeTriParDefaut = TriEleves.identifiant;
+    public static Evaluation evaluationSelectionnee = null;
 }

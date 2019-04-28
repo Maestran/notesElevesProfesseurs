@@ -5,18 +5,35 @@
  */
 package notesElevesProfesseurs.GUI;
 
+import notesElevesProfesseurs.Eleve;
+
 /**
  *
  * @author franc
  */
-public class eleveFrame extends javax.swing.JFrame {
+public class EleveInfos extends javax.swing.JFrame {
 
     /**
      * Creates new form eleveFrame
+     * @param e
      */
-    public eleveFrame() {
+    public EleveInfos(Eleve e) {
         initComponents();
+        if(e == null)
+            e = Globals.eleveSelectionne;
+
+        if(e!=null)
+        {
+        EleveOperation operations = new EleveOperation();
+        operations.afficherElevesEvals(e,jTable1);
+        }
+        jLabel1.setText(jLabel1.getText() + " " + e.getPrenom());//prénom
+        jLabel2.setText(jLabel2.getText() + " " + e.getId());//id
+        jLabel3.setText(jLabel3.getText() + " " + e.getNom());//nom
+        jLabel4.setText(jLabel4.getText() + " " + e.getDateNaissance());//date de naissance
+        jLabel6.setText(jLabel6.getText() + " " + e.getPromotion().getNom());//Promotion
         
+
     }
 
     /**
@@ -39,7 +56,7 @@ public class eleveFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -60,6 +77,7 @@ public class eleveFrame extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -90,7 +108,7 @@ public class eleveFrame extends javax.swing.JFrame {
         jButton2.setText("Télécharger le bulletin en PDF");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                telechargerBullBClick(evt);
             }
         });
 
@@ -167,11 +185,23 @@ public class eleveFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        GestionnairePromos gestionnairePromo = new GestionnairePromos();
+        gestionnairePromo.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void telechargerBullBClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telechargerBullBClick
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+       // ModifEvaluation majEval = new ModifEvaluation(Globals.evaluationSelectionnee);
+        //majEval.setVisible(true);
+        //dispose();
+    }//GEN-LAST:event_telechargerBullBClick
+
+    // Ouvre le générateur/gestionnaire d'évaluations pour l'élève en cours de création
+    private void ouvrirGenEvalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouvrirGenEvalsBActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_ouvrirGenEvalsBActionPerformed
     
     /**
      * @param args the command line arguments
@@ -190,21 +220,24 @@ public class eleveFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(eleveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EleveInfos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(eleveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EleveInfos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(eleveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EleveInfos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(eleveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EleveInfos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new eleveFrame().setVisible(true);
+                //new EleveInfos().setVisible(true);
             }
         });
     }

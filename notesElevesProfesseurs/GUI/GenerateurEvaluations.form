@@ -25,48 +25,50 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="suppEvalB" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ajouterEvalB" alignment="0" max="32767" attributes="0"/>
+                  <Component id="modifEvalB" alignment="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace pref="64" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="suppEvalB" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="157" max="-2" attributes="0"/>
-                      <Component id="noteTF" min="-2" pref="176" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jLabel3" min="-2" pref="61" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="ajouterEvalB" min="-2" pref="179" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
                       <Component id="jLabel1" min="-2" pref="88" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="matTF" min="-2" pref="176" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel5" min="-2" pref="88" max="-2" attributes="0"/>
-                  <Component id="jLabel2" min="-2" pref="120" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="typeTF" min="-2" pref="176" max="-2" attributes="0"/>
-                  <Component id="correcteurTF" min="-2" pref="176" max="-2" attributes="0"/>
+                  <Component id="noteTF" alignment="0" min="-2" pref="176" max="-2" attributes="0"/>
+                  <Component id="matTF" alignment="0" min="-2" pref="176" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="94" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel5" min="-2" pref="88" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="typeTF" min="-2" pref="176" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel2" min="-2" pref="120" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="correcteurTF" min="-2" pref="176" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="117" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
                   <Component id="mainLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="530" max="32767" attributes="0"/>
+                  <EmptySpace pref="541" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-          <Group type="103" rootIndex="2" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" pref="61" max="-2" attributes="0"/>
-                  <EmptySpace pref="676" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -74,36 +76,44 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="457" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="448" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="suppEvalB" alignment="1" min="-2" pref="70" max="-2" attributes="0"/>
-                          <Component id="noteTF" min="-2" pref="51" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="suppEvalB" min="-2" pref="51" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="ajouterEvalB" alignment="3" min="-2" pref="70" max="-2" attributes="0"/>
-                              <Component id="jLabel1" alignment="3" min="-2" pref="47" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="matTF" min="-2" pref="50" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="modifEvalB" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="ajouterEvalB" min="-2" pref="49" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="correcteurTF" alignment="1" min="-2" pref="51" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="1" min="-2" pref="38" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="typeTF" min="-2" pref="50" max="-2" attributes="0"/>
                           <Component id="jLabel5" min="-2" pref="47" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel3" min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="noteTF" min="-2" pref="51" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" pref="38" max="-2" attributes="0"/>
+                                  <Component id="correcteurTF" alignment="1" min="-2" pref="51" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="typeTF" min="-2" pref="50" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="matTF" alignment="1" min="-2" pref="50" max="-2" attributes="0"/>
+                                          <Component id="jLabel1" alignment="1" min="-2" pref="47" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
@@ -111,14 +121,7 @@
                   <Component id="mainLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="380" max="-2" attributes="0"/>
-                  <EmptySpace pref="188" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-          <Group type="103" rootIndex="2" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="482" max="32767" attributes="0"/>
-                  <Component id="jLabel3" min="-2" pref="47" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                  <EmptySpace pref="224" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -136,7 +139,7 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="Note" type="java.lang.Integer"/>
+                <Column editable="true" title="Note" type="java.lang.Float"/>
                 <Column editable="true" title="Mati&#xe8;re" type="java.lang.Object"/>
                 <Column editable="true" title="Correcteur" type="java.lang.Object"/>
                 <Column editable="true" title="Type" type="java.lang.String"/>
@@ -166,6 +169,7 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="rowHeight" type="int" value="30"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -232,12 +236,24 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="noteTF">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="noteTFActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="typeTF">
     </Component>
     <Component class="javax.swing.JTextField" name="correcteurTF">
     </Component>
     <Component class="javax.swing.JTextField" name="matTF">
+    </Component>
+    <Component class="javax.swing.JButton" name="modifEvalB">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modifier"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifEvalBClick"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
