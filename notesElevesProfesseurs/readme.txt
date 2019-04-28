@@ -61,16 +61,18 @@ FICHIER 2  : élèves.csv
 
                     Avancement   Assigné 
 Bulletin             OK          Tristan
-JFreeCharts          RIEN        En commencement
+JFreeCharts          OK          Tristan
 PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
 
                     Avancement      Message                                           Assigné 
-Affichage de base     BON            Manque V3                                         François
-Sauvegarde            MOYEN          Manque temps réel,manque modications              François, besoin d'aide
+Affichage de base     OK                                                               François
+Sauvegarde            OK                                                               François, Nicolas
 TRI                   OK                                                               François
-Design                MOYEN                                                            François, Nicolas, Tristan
+Design                MOYEN          Nécéssite vérif                                   François, Nicolas, Tristan
+Stabilité             CORRECTE   
+Merge                 RIEN           Merger la V3 de Tristan                           Tristan
 
 ------------------- Rapport ---------------------------------
                     Avancement   Assigné 
