@@ -21,8 +21,7 @@ import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- *
- * @author Tristan
+ * Cette classe va calculer le nombre de personne ayant obtenue une note dans une des matières
  */
 public class diagrammeBatonNoteMatiere extends JFrame {
     
@@ -30,7 +29,7 @@ public class diagrammeBatonNoteMatiere extends JFrame {
     private JPanel pan;
     int[] val = new int[21];
     
-    diagrammeBatonNoteMatiere(Matiere m)
+    diagrammeBatonNoteMatiere(Matiere m) // On doit donc passer la matière en paramètre
     {
          addWindowListener(new WindowAdapter(){
            
@@ -49,15 +48,15 @@ public class diagrammeBatonNoteMatiere extends JFrame {
         
         for(int i = 0; i < m.allNote.size(); i++)
         {
-            val[ Math.round(m.allNote.get(i)) ]++;
+            val[ Math.round(m.allNote.get(i)) ]++;  // On vérifie la note obtenue par chacun des élèves, puis l'on incrémente un tableau
         }
         
         for(int i = 0; i <= 20; i++)
         {
-            dataset.addValue(val[i],"Nombre d'élève", ""+i);
+            dataset.addValue(val[i],"Nombre d'élève", ""+i); // On ajoute les data
         }
         
-        JFreeChart res = ChartFactory.createBarChart("Note pour la matière : " + m.getNom() + " de la promotion" + m.getNomPromo(), "Note Obtenue",
+        JFreeChart res = ChartFactory.createBarChart("Note pour la matière : " + m.getNom() + "  (Promotion " + m.getNomPromo() + " )", "Note Obtenue",
         "Nombre d'élève", dataset, PlotOrientation.VERTICAL, true, true, false);
         
         CategoryPlot plot = (CategoryPlot) res.getPlot();

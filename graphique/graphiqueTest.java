@@ -6,7 +6,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import notesElevesProfesseurs.*;
 
-public class graphiqueTest {
+/*
+* Cette classe génère plein de graphique, surtout utile pour les test de la V3
+*/
+public class graphiqueTest { 
 
     public static void main(String[] args) {
      
@@ -20,8 +23,6 @@ public class graphiqueTest {
             }
             
             camembertNombreEleveParPromo c = new camembertNombreEleveParPromo(Promotion.getListePromos());
-            
-            
            
             diagrammeBatonNoteMatiere d = new diagrammeBatonNoteMatiere(Promotion.rechercherElevePartout(2).getEvaluations().get(1).getMat());
             

@@ -11,6 +11,7 @@ Pour générer des bulletin en PDF et les graphiques :
 1) Il faut créér un projet de type "Maven"
 2) Le groupe ID doit etre : "com.itextpdf"
 3) Il faut ensuite modifier le fichier pom.xml comme dans les sources.
+4) Il faut build une fois le projet avant de le run
 
 Pour obtenir les graphiques si l'installation en Maven pause problème : 
 
@@ -67,7 +68,7 @@ FICHIER 2  : élèves.csv
 
                     Avancement   Assigné 
 Bulletin             OK          Tristan
-JFreeCharts          Commencé (Possibilité de générer 4 diagrammes)  En avancement
+JFreeCharts          OK          Tristan
 PDF                  OK          Tristan
 
 ------------------- Version 4 ----------------------------
@@ -79,7 +80,7 @@ Sauvegarde            OK                                                        
 TRI                   OK                                                               François
 Design                MOYEN          Nécéssite vérif                                   François, Nicolas, Tristan
 Stabilité             CORRECTE   
-Merge                 EN COURS
+Merge                 Effectué
 
 ------------------- Rapport ---------------------------------
                     Avancement   Assigné 

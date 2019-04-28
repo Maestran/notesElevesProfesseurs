@@ -21,7 +21,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
- * @author Tristan
+ * Ce diagramme en baton compare les resultats d'un élève comparé à sa promotion
  */
 public class diagrammeBatonResulatEleve extends JFrame{
     

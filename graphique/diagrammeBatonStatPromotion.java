@@ -21,15 +21,14 @@ import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- *
- * @author Tristan
+ * Cette classe génére un diagramme baton avec les différentes statistiques des promotions
  */
 public class diagrammeBatonStatPromotion extends JFrame {
     
          private JPanel pan;
     
     
-    diagrammeBatonStatPromotion(ArrayList<Promotion> listePromos)
+    diagrammeBatonStatPromotion(ArrayList<Promotion> listePromos) // On envoie toutes les promotions en paramètre
     {
          addWindowListener(new WindowAdapter(){
            
@@ -53,7 +52,7 @@ public class diagrammeBatonStatPromotion extends JFrame {
         }
         
         
-        JFreeChart res = ChartFactory.createBarChart("Moyenne des promotions : ", "",
+        JFreeChart res = ChartFactory.createBarChart("Statistiques des promotions : ", "",
         "Note Obtenue", dataset, PlotOrientation.VERTICAL, true, true, false);
         
         CategoryPlot plot = (CategoryPlot) res.getPlot();

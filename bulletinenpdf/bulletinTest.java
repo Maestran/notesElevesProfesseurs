@@ -13,11 +13,11 @@ import notesElevesProfesseurs.*;
 
 
 /*
-
+Cette classe est une classe de test pour la V3
 */
 public class bulletinTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { 
        
  
         try {
