@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 ﻿Projet de Java par Gilioen Francois, Guibert Nicolas, Gorlin Tristan
 

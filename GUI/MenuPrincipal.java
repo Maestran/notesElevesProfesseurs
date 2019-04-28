@@ -3,23 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notesElevesProfesseurs.GUI;
+package noteselevesprofesseurs.GUI;
 
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import notesElevesProfesseurs.CSV_Loader;
 
 /**
- *
+ * Le menu principal est le point de départ de l'interface graphique, il faut lancer depuis ce fichier le programme
  * @author franc
  */
 public class MenuPrincipal extends javax.swing.JFrame {
 
+    /**
+     * Permet de savoir si le menu existe ou non (cette variable est vérifiée en regardant si elle est vide ou non)
+     */
     public static MenuPrincipal menu;
     /**
-     * Creates new form menuPrincipal
+     * Constructeur
      */
     public MenuPrincipal() {
         initComponents();
@@ -125,13 +127,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Quitte le programme quand on clique sur le bouton quitter
+     * @param evt 
+     */
     private void quitterBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitterBActionPerformed
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_quitterBActionPerformed
 
+    
     private void consulterPromotionsMenu(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consulterPromotionsMenu
-        // TODO add your handling code here:
+      // Ouverture du gestionnaire de promotions
         new GestionnairePromos().setVisible(true);
     }//GEN-LAST:event_consulterPromotionsMenu
 
@@ -168,10 +175,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuPrincipal().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuPrincipal().setVisible(true);
         });
         
     }

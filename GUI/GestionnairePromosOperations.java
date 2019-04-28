@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notesElevesProfesseurs.GUI; 
+package noteselevesprofesseurs.GUI; 
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -18,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Promotion;
@@ -28,9 +25,14 @@ import notesElevesProfesseurs.TriEleves;
  *
  * @author franc
  */
-public class PromotionOperations 
+public class GestionnairePromosOperations 
 {
     //Modèle sauvegardé pour la recherche de données
+
+    /**
+     *
+     * @param table
+     */
     public void viderTable(JTable table)
     {
                 DefaultTableModel model = ((DefaultTableModel) table.getModel());
@@ -42,7 +44,12 @@ public class PromotionOperations
             }
     }
     
-     public void afficherElevesPromo(Promotion promo, JTable elevesTable)
+    /**
+     *
+     * @param promo
+     * @param elevesTable
+     */
+    public void afficherElevesPromo(Promotion promo, JTable elevesTable)
     {
         viderTable(elevesTable);
         System.out.println("Début d'affichage des élèves");
@@ -68,7 +75,12 @@ public class PromotionOperations
         System.out.println("Terminé!");
     }
      
-     public void activerLaBarreDeRecherche(JTextField barreDeRecherche, JTable tableAChercher)
+    /**
+     *
+     * @param barreDeRecherche
+     * @param tableAChercher
+     */
+    public void activerLaBarreDeRecherche(JTextField barreDeRecherche, JTable tableAChercher)
      {
          barreDeRecherche.setEnabled(true);
          barreDeRecherche.getDocument().addDocumentListener(new DocumentListener() {
@@ -94,10 +106,11 @@ public class PromotionOperations
          try {
        int id = Integer.parseInt(barreDeRecherche.getText());
               Eleve eleve = Globals.promoActuelle.rechercherEleve(id);
+              Globals.eleveSelectionne = eleve;
              viderTable(tableAChercher);
         if(eleve!=null)
             ((DefaultTableModel) tableAChercher.getModel()).addRow(new Object[]{eleve.getId(),eleve.getNom(),eleve.getPrenom(),eleve.getPromotion().getNom(),eleve.getEvaluations().size(),eleve.getCorrecteurs().size()});
-         } catch (Exception e) 
+         } catch (NumberFormatException e) 
          {
              System.out.println("Erreur conversion entier");
                          remontrerLaTable(tableAChercher);
@@ -105,7 +118,12 @@ public class PromotionOperations
        
      }
      
-     public void genererComboboxPromotions(JComboBox box,JTable elevesTable)
+    /**
+     *
+     * @param box
+     * @param elevesTable
+     */
+    public void genererComboboxPromotions(JComboBox box,JTable elevesTable)
      {
          box.removeAllItems();
          for(Promotion p : Promotion.getListePromos())
@@ -114,20 +132,14 @@ public class PromotionOperations
          }
          System.out.println("Items ajoutés à la combobox");
          assignerEventComboBoxPromotions(box, elevesTable);
-         
-         
-         
      }
      
      private void assignerEventComboBoxPromotions(final JComboBox box, JTable elevesTable)
      {
-          box.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Globals.promoActuelle = Promotion.trouverPromotion((String)box.getSelectedItem());
-                    afficherElevesPromo(Globals.promoActuelle, elevesTable);
-                }
-            });
+          box.addActionListener((ActionEvent e) -> {
+              Globals.promoActuelle = Promotion.trouverPromotion((String)box.getSelectedItem());
+              afficherElevesPromo(Globals.promoActuelle, elevesTable);
+          });
      }
 
     private void remontrerLaTable(JTable table) 
@@ -136,7 +148,12 @@ public class PromotionOperations
          afficherElevesPromo(Globals.promoActuelle, table);
     }
 
-    void genererComboboxTri(JComboBox triCbobox, JTable elevesTable) {
+    /**
+     *
+     * @param triCbobox
+     * @param elevesTable
+     */
+    public void genererComboboxTri(JComboBox triCbobox, JTable elevesTable) {
           triCbobox.removeAllItems();
          triCbobox.addItem(TriEleves.identifiant);
          triCbobox.addItem(TriEleves.mediane);
@@ -148,6 +165,10 @@ public class PromotionOperations
          assignerEventComboBoxTri(triCbobox, elevesTable);
     }
 
+    /**
+     * 
+     * @param table
+     */
     public void trierAfficherPromotionActuelle(JTable table)
     {
            switch(Globals.modeTriParDefaut)
@@ -173,30 +194,29 @@ public class PromotionOperations
     
     private void assignerEventComboBoxTri(JComboBox triCbobox, JTable elevesTable)
     {
- triCbobox.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Tri changé");
-                    Globals.modeTriParDefaut = (TriEleves)triCbobox.getSelectedItem();
-                    trierAfficherPromotionActuelle(elevesTable);
-                }
-            });    }
+        triCbobox.addActionListener((ActionEvent e) -> {
+            System.out.println("Tri changé");
+            Globals.modeTriParDefaut = (TriEleves)triCbobox.getSelectedItem();
+            trierAfficherPromotionActuelle(elevesTable);
+ });    }
 
     //Permet d'activer ou désactiver automatiquement le bouton modifier si une ligne de la jtable est sélectionnée ou non
     void relierBoutonModifierTable(JButton modifEleveB, JTable elevesTable) 
     {
-        elevesTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                System.out.println("Séléction changée dans la table");
-                if(!modifEleveB.isEnabled())
+        elevesTable.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            System.out.println("Séléction changée dans la table");
+            if(!modifEleveB.isEnabled())
                 modifEleveB.setEnabled(true);
-            }
         });
     }
 
     //Lorsqu'un double clic est effectué sur une ligne, les détails de l'élève vont s'afficher (non modifiables)
-    void montrerInfosEleveSurDoubleClick(JTable elevesTable) 
+
+    /**
+     *
+     * @param elevesTable
+     */
+    public void montrerInfosEleveSurDoubleClick(JTable elevesTable) 
     {
         System.out.println("Ajout du Listener de double clic");
         elevesTable.addMouseListener(new MouseAdapter() {

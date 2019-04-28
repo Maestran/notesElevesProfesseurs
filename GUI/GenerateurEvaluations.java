@@ -1,30 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package notesElevesProfesseurs.GUI;
+
+
+package noteselevesprofesseurs.GUI;
 
 import java.awt.Frame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JTable;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
-import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Evaluation;
 import notesElevesProfesseurs.Matiere;
 import notesElevesProfesseurs.Professeur;
-import notesElevesProfesseurs.Promotion;
 
 
 
@@ -38,9 +28,13 @@ public class GenerateurEvaluations extends javax.swing.JFrame
 {
     
     // Sert de marque page pour savoir où modifier dans le fichier CSV l'évaluation
+
+    /**
+     * Evaluation en cours de modification, utilisé comme index/ marque page pour la modification d'une évaluation ( voir la fonction majEvaluations() )
+     */
     public static Evaluation evalEnCours = null;
     /**
-     * Creates new form GenerateurEvaluations
+     * Constructeur de la fenêtre graphique
      */
     public GenerateurEvaluations() 
     {
@@ -51,8 +45,9 @@ public class GenerateurEvaluations extends javax.swing.JFrame
         initComponents();
     }
     
-    
-    public void verifActivationBouton()
+    /**
+     */
+    public void verifActivationBoutonAjoutEval()
     {
         if(!matTF.getText().isEmpty() && !noteTF.getText().isEmpty()  && !typeTF.getText().isEmpty()  && !correcteurTF.getText().isEmpty() )
             ajouterEvalB.setEnabled(true);
@@ -60,30 +55,39 @@ public class GenerateurEvaluations extends javax.swing.JFrame
             ajouterEvalB.setEnabled(false);
     }
     
-    
-   
+    /**
+     * A utiliser obligatoire après l'instatiation de cette classe, active les operations, scripts, événements
+     * @param e
+     */
     public void init(Eleve e)
     {
-        Globals.eleveSelectionne=  e;
+        Globals.eleveSelectionne = e;
         GenerateurEvaluationsOperations operations = new GenerateurEvaluationsOperations();
         operations.afficherEvaluationsEleve(e, evalsTable, mainLabel);
         operations.ajouterDetectionClicLigne(evalsTable, suppEvalB, modifEvalB);
+        
+        // Affiche une fenetre de selection
+        operations.activerDetectionClicMatiereTF(matTF,this);
+        operations.activerDetectionClicProfTF(correcteurTF,this);
+        
         operations.activerRemplissageChampsEval(evalsTable,noteTF,correcteurTF,matTF,typeTF);
         
+        
+        // Ajout d'un listener qui vérifie les zones de texte
         DocumentListener tfListener = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                verifActivationBouton();
+                verifActivationBoutonAjoutEval();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                verifActivationBouton();
+                verifActivationBoutonAjoutEval();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                verifActivationBouton();
+                verifActivationBoutonAjoutEval();
             }
         };
         
@@ -93,17 +97,21 @@ public class GenerateurEvaluations extends javax.swing.JFrame
         noteTF.getDocument().addDocumentListener(tfListener);
         
      
-       
+       // Au moment de la fermeture de cette fenêtre, on pourra mettre à jour le texte du bouton
         addWindowListener(new WindowAdapter() {
                         @Override
             public void windowClosing(WindowEvent e)
             {
                 majTexteBouton(Globals.eleveSelectionne);
             }});
+        
     }
  
-    
-     public void majTexteBouton(Eleve eleveSelectionne) 
+    /**
+     * Met à jour dans la fenêtre de modification ou de génération d'un élève son nombre d'évaluations
+     * @param eleveSelectionne l'élève à mettre à jour
+     */
+    public void majTexteBouton(Eleve eleveSelectionne) 
     {
         System.out.println("Maj Texte Bouton...");
         Frame[] frames = Frame.getFrames();
@@ -319,12 +327,19 @@ public class GenerateurEvaluations extends javax.swing.JFrame
                 // A TERMINER (ACTUALISATION EN TEMPS REEL)
     }//GEN-LAST:event_suppEvalBActionPerformed
 
+    
+    /**
+     * Gestion du code lorsque qu'on clique sur le bouton d'ajout d'une évaluation
+     * @param evt 
+     */
     private void ajouterEvalBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEvalBActionPerformed
         // TODO add your handling code here:
         try{
             Float.parseFloat(noteTF.getText());
+            
+            // On vérifie que la note est un entier et qu'elle est comprise dans l'intervaalle [0;20]
             if (Float.parseFloat(noteTF.getText())<=20 && Float.parseFloat(noteTF.getText())>=0 ){
-                Matiere mat = Matiere.trouverMatiere(matTF.getText(),Globals.promoActuelle.getNom());
+                Matiere mat =Matiere.trouverMatiere(matTF.getText(),Globals.promoActuelle.getNom());
                 if(mat==null)
                 {
                     mat = new Matiere(matTF.getText(),Globals.promoActuelle.getNom());
@@ -335,13 +350,16 @@ public class GenerateurEvaluations extends javax.swing.JFrame
                 Professeur prof = Professeur.trouverProfesseur(nomPrenom[0], nomPrenom[1]);
                 if(prof==null)
                 {
+                    // Si le prof n'existe pas on le crée directement
                     prof = new Professeur(nomPrenom[0],nomPrenom[1]);
                     Professeur.getListeProfesseurs().add(prof);
                 }
-
+                // Création de l'évaluation à l'aide du contenu des zones de texte
                 Evaluation eval = new Evaluation(Float.parseFloat(noteTF.getText().replace(',', '.')), mat,Globals.eleveSelectionne, prof);
                 Globals.eleveSelectionne.getEvaluations().add(eval);
                 eval.setEvalType(typeTF.getText());
+                
+                // On ajoute l'évaluation à la table 
                 ((DefaultTableModel) evalsTable.getModel()).addRow(new Object[]{eval.getNote(),eval.getMat().getNom(),eval.getProf().getPrenom(),eval.getEvalType()});
                 CSV_Loader.ajouterEvaluationDansFichier(eval,CSV_Loader.EVALUATIONS_PATH);
                 System.out.println("Evaluation ajoutée dans la JTABLE !");
@@ -351,7 +369,8 @@ public class GenerateurEvaluations extends javax.swing.JFrame
                 JOptionPane.showMessageDialog(null, "Note invalide");
             }
 
-        } catch (Exception ex){
+        } catch (HeadlessException | NumberFormatException ex){
+            // Affichage d'un message d'erreur pour la note et zone de texte mise en rouge
             noteTF.setText("");
             noteTF.setBorder(new LineBorder(Color.red, 1));
             JOptionPane.showMessageDialog(null, "Format de la note incorrecte");
@@ -366,6 +385,10 @@ public class GenerateurEvaluations extends javax.swing.JFrame
 
     }//GEN-LAST:event_ajouterEvalBActionPerformed
 
+    /**
+     * Mise à jour dans le fichier CSV des évaluations lorsque le bouton de modification de l'évaluation actuellement sélectionnée est cliqué
+     * @param evt 
+     */
     private void modifEvalBClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifEvalBClick
         // TODO add your handling code here:
         if(Globals.evaluationSelectionnee == null)
@@ -419,7 +442,7 @@ public class GenerateurEvaluations extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ajouterEvalB;
-    private javax.swing.JTextField correcteurTF;
+    public javax.swing.JTextField correcteurTF;
     private javax.swing.JTable evalsTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -427,13 +450,16 @@ public class GenerateurEvaluations extends javax.swing.JFrame
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mainLabel;
-    private javax.swing.JTextField matTF;
+    public javax.swing.JTextField matTF;
     private javax.swing.JButton modifEvalB;
     private javax.swing.JTextField noteTF;
     private javax.swing.JButton suppEvalB;
     private javax.swing.JTextField typeTF;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Permet de créer une évaluation à partir des zones de texte affichés sur la fenêtre, elle devient l'évaluation sélectionnée
+     */
     private void majRapideEvaluation() 
     {
         Evaluation eval = new Evaluation();

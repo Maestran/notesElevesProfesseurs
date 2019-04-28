@@ -3,18 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notesElevesProfesseurs.GUI;
+package noteselevesprofesseurs.GUI;
 
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
 import notesElevesProfesseurs.Date;
 import notesElevesProfesseurs.Eleve;
-import notesElevesProfesseurs.Evaluation;
 import notesElevesProfesseurs.Promotion;
 
 import java.awt.*;
@@ -27,14 +25,19 @@ public class GenerateurEleve extends javax.swing.JFrame {
 
 
 
-    
-    Eleve eleveEnCreation = null;
     /**
-     * Creates new form GenerateurEleve
+     * L'élève qui va être généré à la fin
+     */
+    Eleve eleveEnCreation = null;
+    
+    /**
+     * Affiche une fenêtre de génération des élèves
      */
     public GenerateurEleve() {
         initComponents();
         eleveEnCreation = new Eleve();
+        
+        // On créer un listener qui permet de lancer une fonction de vérification d'activation/désactivation des boutons grisés en fonction du texte entré
         DocumentListener listener = new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -51,14 +54,21 @@ public class GenerateurEleve extends javax.swing.JFrame {
                 verifActivationBoutonsEleve();
             }
         };
+        
+        // On ajoute des DocumentListener qui détectent quand du texte est tapé dans chacune de nos zones de texte
         nomTF.getDocument().addDocumentListener(listener);
         prenomTF.getDocument().addDocumentListener(listener);
         promoTF.getDocument().addDocumentListener(listener);
         dateTF.getDocument().addDocumentListener(listener);
+        
+        // Par défaut un élève a toujours 0 évaluations lorsqu'on commence à le créer, on pourra modifier ça juste après
         ouvrirGenEvalsB.setText("Ajouter des évaluations ( Nombre actuel : 0 ");
     }
 
-    // Vérifie si les boutons grisés peuvent être activés, cela se fait en vérifiant si les champs ne sont pas vides
+
+    /**
+     * Vérifie si les boutons grisés peuvent être activés, cela se fait en vérifiant si les champs ne sont pas vides
+     */
     public void verifActivationBoutonsEleve()
     {
        if(!nomTF.getText().isEmpty() && !prenomTF.getText().isEmpty()  && !promoTF.getText().isEmpty()  && !dateTF.getText().isEmpty() )
@@ -223,7 +233,9 @@ public class GenerateurEleve extends javax.swing.JFrame {
     }//GEN-LAST:event_promoTFActionPerformed
 
     
-    // A FAIRE : RAJOUTER LA MAJ CSV, permet d'enregistrer les TextFields dans la variable eleveEnCreation
+    /**
+     * Met à jour la variable eleveEnCreation en récupérant ce qu'il y'a pour l'instant dans les zones de texte de création de l'élève
+     */
     private void majEleveRapide()
     {
         eleveEnCreation.setNom(nomTF.getText());
@@ -237,19 +249,22 @@ public class GenerateurEleve extends javax.swing.JFrame {
         eleveEnCreation.setPromotion(p);
         try 
         {
+           // On décompose la date en 3 sections grâce aux '/' entrés par l'utilisateur
            String[] dateParts=  dateTF.getText().split("/");
            int jour = Integer.parseInt(dateParts[0]);
            int mois = Integer.parseInt(dateParts[1]);
            int annee = Integer.parseInt(dateParts[2]);
            eleveEnCreation.setDateNaissance(new Date(annee,mois,jour));
-        }catch(Exception ex)
+        }catch(NumberFormatException ex)
         {
             System.out.println(ex);
             System.out.println("Erreur enregistrement date de naissance, vérifiez le format");
         }
     }
     
-    // Ouvre le générateur/gestionnaire d'évaluations pour l'élève en cours de création
+    /**
+     * Ouvre le générateur/gestionnaire d'évaluations pour l'élève en cours de création
+     **/
     private void ouvrirGenEvalsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouvrirGenEvalsBActionPerformed
         GenerateurEvaluations gen = new GenerateurEvaluations(this);   
         majEleveRapide();
@@ -258,9 +273,15 @@ public class GenerateurEleve extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ouvrirGenEvalsBActionPerformed
 
+    /**
+     * Détecte quand on clique sur le bouton ajouter un élève
+     * @param evt 
+     */
     private void ajouterEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEleveBActionPerformed
         // TODO add your handling code here:
 
+        
+        // Ici on vérifie que la date de naissance entrée pour l'élève est valide en respectant le format jj/mm/aaaa
         if (dateTF.getText().matches("^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{4}$")){
             majEleveRapide();
             Promotion promo = Promotion.trouverPromotion(eleveEnCreation.getPromotion().getNom());
@@ -269,9 +290,13 @@ public class GenerateurEleve extends javax.swing.JFrame {
             GestionnairePromos gestionnairePromo = new GestionnairePromos();
             gestionnairePromo.setVisible(true);
             dispose();
-        } else {
+        } 
+        else {            // Si la date de naissance possède un format invalide
+            // On l'enlève
             dateTF.setText("");
+            // On met la zone de texte en rouge
             dateTF.setBorder(new LineBorder(Color.red, 1));
+            // On affiche un message d'erreur
             JOptionPane.showMessageDialog(null, "Format de la date de naissance incorrecte\nLe format demandé est jj/mm/aaaa");
         }
     }//GEN-LAST:event_ajouterEleveBActionPerformed

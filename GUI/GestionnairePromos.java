@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notesElevesProfesseurs.GUI;
+package noteselevesprofesseurs.GUI;
 
 import javax.swing.table.DefaultTableModel;
 import notesElevesProfesseurs.CSV_Loader;
@@ -11,13 +11,13 @@ import notesElevesProfesseurs.Eleve;
 import notesElevesProfesseurs.Promotion;
 
 /**
- *
+ * Le gestionnaire des promotions permet d'afficher des promotions, les trier et proposer des options pour des élèves (ajouter,supprimer,modifier)
  * @author franc
  */
 public class GestionnairePromos extends javax.swing.JFrame {
 
     /**
-     * Creates new form promotionFrame
+     * Constructeur qui active de nombreuses options d'analyse sur la fenêtre et aussi des événements
      */
     public GestionnairePromos() {
         initComponents();
@@ -27,7 +27,7 @@ public class GestionnairePromos extends javax.swing.JFrame {
         
         if(Globals.promoActuelle!=null)
         {
-           PromotionOperations operations = new PromotionOperations();
+           GestionnairePromosOperations operations = new GestionnairePromosOperations();
            operations.afficherElevesPromo(Globals.promoActuelle,elevesTable);
            operations.genererComboboxPromotions(promotionCombobox, elevesTable);
            operations.activerLaBarreDeRecherche(barreDeRecherche, elevesTable);
@@ -242,24 +242,37 @@ public class GestionnairePromos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_barreDeRechercheActionPerformed
 
+    /**
+     * Fermeture de cette fenêtre en cliquant sur le bouton retour
+     * @param evt 
+     */
     private void retourBClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retourBClick
-        // TODO add your handling code here:
+
         if(!MenuPrincipal.menu.isVisible())
         {
         MenuPrincipal.menu.setVisible(true);
         }
+        
+        // ferme cette fenêtre en libérant les ressources
         this.dispose();
      
     }//GEN-LAST:event_retourBClick
 
+    /**
+     * Gestion du code lorsque le bouton d'ajout d'un nouvel élève est cliqué
+     * @param evt 
+     */
     private void creerEleveActionPerformed(java.awt.event.ActionEvent evt) {                                           
             GenerateurEleve generateurEleve = new GenerateurEleve();
             generateurEleve.promoTF.setText(Globals.promoActuelle.getNom());
             generateurEleve.setVisible(true);
             dispose();
-        // TODO add your handling code here:
     }                                          
 
+    /**
+     * Détecte quand on enfonce ou non le bouton d'ordre de tri ( croissant ou décroissant)
+     * @param evt 
+     */
     private void toggleSensTriBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleSensTriBActionPerformed
         // isSelected() permet de voir si le bouton est enfoncé
         if( toggleSensTriB.isSelected() ) 
@@ -272,10 +285,14 @@ public class GestionnairePromos extends javax.swing.JFrame {
        toggleSensTriB.setText("Ordre : croissant");
         Globals.triCroissant=true;
         }
-       PromotionOperations operations = new PromotionOperations();
+       GestionnairePromosOperations operations = new GestionnairePromosOperations();
        operations.trierAfficherPromotionActuelle(elevesTable);
     }//GEN-LAST:event_toggleSensTriBActionPerformed
 
+    /**
+     *  Gestion du code lorsque l'on clique sur le bouton de suppression d'un élève
+     * @param evt 
+     */
     private void supprEleveBActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
          int id = (Integer)elevesTable.getValueAt(elevesTable.getSelectedRow(), 0);
@@ -286,6 +303,10 @@ public class GestionnairePromos extends javax.swing.JFrame {
         modifEleveB.setEnabled(false);
     }                                           
 
+    /**
+     * Affiche des informations sur l'élève sans pouvoir les modifier
+     * @param evt 
+     */
     private void montrerEleveBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprEleveBActionPerformed
         // TODO add your handling code here:
         int id = (Integer)elevesTable.getValueAt(elevesTable.getSelectedRow(), 0);
@@ -302,13 +323,22 @@ public class GestionnairePromos extends javax.swing.JFrame {
     }//GEN-LAST:event_creerEleveActionPerformed
 */
 
+    /**
+     * Gestion du code lorsque l'on clique sur le bouton de modification d'un élève
+     * @param evt 
+     */
     private void modifEleveBClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifEleveBClick
         // TODO add your handling code here:
             int id = (Integer)elevesTable.getValueAt(elevesTable.getSelectedRow(), 0);
         Eleve e = Globals.promoActuelle.rechercherEleve(id);
-        ModifEleve upEleve = new ModifEleve(e);
-        upEleve.setVisible(true);
+        if(e!=null)
+        {
+        // On ouvre une fenêtre qui gère les modifications d'un élève
+        ModifEleve modEleve = new ModifEleve(e);
+        modEleve.setVisible(true);
         dispose();
+        }
+     
     }//GEN-LAST:event_modifEleveBClick
 
 
@@ -346,10 +376,8 @@ public class GestionnairePromos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GestionnairePromos().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new GestionnairePromos().setVisible(true);
         });
     }
 

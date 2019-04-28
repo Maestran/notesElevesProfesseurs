@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package notesElevesProfesseurs.GUI;
+
+
+package noteselevesprofesseurs.GUI;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,11 +17,20 @@ import notesElevesProfesseurs.Matiere;
 import notesElevesProfesseurs.Professeur;
 
 /**
- *
+ * Fichier de gestion des événements et opérations de la fenêtre JFrame GenerateurEvaluations.java
  * @author franc
  */
 public class GenerateurEvaluationsOperations
 {
+    
+    /**
+     * Permet d'ajouter à la table fournie en argument la possibilité de détecter quand une ligne est cliquée, elle permet alors d'obtenir en mémoire l'évaluation sélectionnée
+     * Cette fonction gère également l'activation des boutons supprimer et modifier. A chaque fois qu'une ligne (et donc une évaluation) est sélectionnée dans le tableau, les boutons supprimer et modifier
+     * une évaluation vont s'activer
+     * @param evalsTable table à analyser
+     * @param buttonSupp bouton de suppression d'une évaluation
+     * @param buttonModif bouton de modification d'une évaluation
+     */
     public void ajouterDetectionClicLigne(JTable evalsTable, JButton buttonSupp, JButton buttonModif)
     {
           evalsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -69,7 +75,12 @@ public class GenerateurEvaluationsOperations
         });
     }
     
-    
+    /**
+     * Affiche les évaluations d'un élève dans la JTable indiquée
+     * @param e
+     * @param evaluationsTable
+     * @param mainLabel
+     */
     public void afficherEvaluationsEleve(Eleve e, JTable evaluationsTable, JLabel mainLabel)
     {
         
@@ -95,7 +106,15 @@ public class GenerateurEvaluationsOperations
         System.out.println("Terminé!"); 
     }
 
-    void activerRemplissageChampsEval(JTable evalsTable, JTextField champNote, JTextField champCorrecteur, JTextField champMatiere, JTextField champType) {
+    /**
+     * Détecte à chaque fois que l'on clique sur une ligne du tableau et affiche son contenu automatiquement dans les champs passés en argument
+     * @param evalsTable table des évaluations d'un élève
+     * @param champNote zone de texte de la note de la ligne sélectionné
+     * @param champCorrecteur zone du correcteur de la ligne sélectionné
+     * @param champMatiere zone de la matière de la ligne sélectionné
+     * @param champType zone du type d'évaluation de la ligne sélectionné
+     */
+    public void activerRemplissageChampsEval(JTable evalsTable, JTextField champNote, JTextField champCorrecteur, JTextField champMatiere, JTextField champType) {
   evalsTable.addMouseListener(new MouseAdapter() {
            @Override
            public void mouseClicked(MouseEvent e)
@@ -104,7 +123,15 @@ public class GenerateurEvaluationsOperations
            }
        });    }
     
-       
+    /**
+     * Remplit automatiquement les champs/zones de texte passés en argument en fonction de la ligne sélectionée dans la JTable 
+     * @param rowNumber ligne de la table
+     * @param evalsTable table des évaluations d'un élève
+     * @param champNote zone de texte de la note de la ligne sélectionné
+     * @param champCorrecteur zone du correcteur de la ligne sélectionné
+     * @param champMatiere zone de la matière de la ligne sélectionné
+     * @param champType zone du type d'évaluation de la ligne sélectionné
+     */
     public void remplirChamps(int rowNumber, JTable evalsTable, JTextField champNote, JTextField champCorrecteur, JTextField champMatiere, JTextField champType)
     {
          float note = (float)evalsTable.getModel().getValueAt(evalsTable.getSelectedRow(), 0);
@@ -133,6 +160,49 @@ public class GenerateurEvaluationsOperations
         champMatiere.setText(eval.getMat().getNom());
         champType.setText(eval.getEvalType());
         
+    }
+    
+    /**
+     *  Deteccte quand la zone de texte est cliquée et ouvre la fenêtre en fonction du type de fenêtre fourni (matière prof) puis l'initialise
+     * @param tfClique
+     * @param typeFenetre
+     * @param gen 
+     */
+    private void ouvrirFenetreClicField(JTextField tfClique, ChoixSelectionType typeFenetre, GenerateurEvaluations gen)
+    {
+        tfClique.addMouseListener(new MouseAdapter() {
+            @Override 
+            public void mousePressed(MouseEvent event)
+            {
+                System.out.println("Clic sur " + tfClique.getName());
+                ChoixProfMatiere fenetre = new ChoixProfMatiere();
+                fenetre.init(typeFenetre, gen);
+                fenetre.setVisible(true);
+            }
+
+        });
+    }
+
+    /**
+     * Permet de savoir quand la zone de texte d'une matière est cliquée et cela permet à ce moment là d'ouvrir la fenêtre de gestion des matières
+     * @param matTF zone de texte pour une matière d'une évaluation
+     * @param gen
+     */
+    public void activerDetectionClicMatiereTF(JTextField matTF, GenerateurEvaluations gen) 
+    {
+        System.out.println("activerDetectionClicMatiereTF()");
+        ouvrirFenetreClicField(matTF, ChoixSelectionType.Matiere, gen);
+    }
+
+    /**
+     * Permet de savoir quand la zone de texte d'un professeur est cliquée et cela permet à ce moment là d'ouvrir la fenêtre de gestion des professeurs
+     * @param correcteurTF
+     * @param gen
+     */
+    public void activerDetectionClicProfTF(JTextField correcteurTF, GenerateurEvaluations gen) 
+    {
+       System.out.println("activerDetectionClicProfTF()");
+        ouvrirFenetreClicField(correcteurTF, ChoixSelectionType.Professeur, gen);
     }
           
 }
